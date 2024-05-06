@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="NOTE_phone.png">
+	<!-- Created with Adobe Animate version 23.0.0.407 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="black hold end0000.png" x="0" y="0" width="50" height="64"/>
+	<SubTexture name="black hold piece0000.png" x="60" y="0" width="50" height="44"/>
+	<SubTexture name="black0000.png" x="120" y="0" width="102" height="159"/>
+	<SubTexture name="blue hold end0000.png" x="232" y="0" width="50" height="64"/>
+	<SubTexture name="blue hold piece0000.png" x="292" y="0" width="50" height="44"/>
+	<SubTexture name="blue0000.png" x="352" y="0" width="102" height="159"/>
+	<SubTexture name="dark hold end0000.png" x="464" y="0" width="50" height="64"/>
+	<SubTexture name="dark hold piece0000.png" x="524" y="0" width="50" height="44"/>
+	<SubTexture name="dark0000.png" x="584" y="0" width="102" height="159"/>
+	<SubTexture name="green hold end0000.png" x="696" y="0" width="50" height="64"/>
+	<SubTexture name="green hold piece0000.png" x="756" y="0" width="50" height="44"/>
+	<SubTexture name="green0000.png" x="816" y="0" width="102" height="159"/>
+	<SubTexture name="pruple end hold0000.png" x="928" y="0" width="50" height="64"/>
+	<SubTexture name="purple hold piece0000.png" x="0" y="169" width="50" height="44"/>
+	<SubTexture name="purple0000.png" x="60" y="169" width="102" height="159"/>
+	<SubTexture name="red hold end0000.png" x="172" y="169" width="50" height="64"/>
+	<SubTexture name="red hold piece0000.png" x="232" y="169" width="50" height="44"/>
+	<SubTexture name="red0000.png" x="292" y="169" width="102" height="159"/>
+	<SubTexture name="violet hold end0000.png" x="404" y="169" width="50" height="64"/>
+	<SubTexture name="violet hold piece0000.png" x="464" y="169" width="50" height="44"/>
+	<SubTexture name="violet0000.png" x="524" y="169" width="102" height="159"/>
+	<SubTexture name="white hold end0000.png" x="636" y="169" width="50" height="64"/>
+	<SubTexture name="white hold piece0000.png" x="696" y="169" width="50" height="44"/>
+	<SubTexture name="white0000.png" x="756" y="169" width="102" height="159"/>
+	<SubTexture name="yellow hold end0000.png" x="868" y="169" width="50" height="64"/>
+	<SubTexture name="yellow hold piece0000.png" x="928" y="169" width="50" height="44"/>
+	<SubTexture name="yellow0000.png" x="0" y="338" width="102" height="159"/>
+</TextureAtlas>

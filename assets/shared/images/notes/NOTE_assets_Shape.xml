@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="NOTE_assets_Shape.png">
+	<!-- Created with Adobe Animate version 23.0.0.407 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="blue hold piece0000.png" x="0" y="0" width="66" height="90"/>
+	<SubTexture name="blue0000.png" x="76" y="0" width="132" height="122"/>
+	<SubTexture name="dark hold piece0000.png" x="218" y="0" width="60" height="97"/>
+	<SubTexture name="dark0000.png" x="288" y="0" width="158" height="158"/>
+	<SubTexture name="green hold piece0000.png" x="0" y="168" width="78" height="92"/>
+	<SubTexture name="green0000.png" x="88" y="168" width="118" height="133"/>
+	<SubTexture name="purple hold piece0000.png" x="216" y="168" width="69" height="95"/>
+	<SubTexture name="purple0000.png" x="295" y="168" width="139" height="139"/>
+	<SubTexture name="red hold piece0000.png" x="444" y="168" width="60" height="97"/>
+	<SubTexture name="red0000.png" x="0" y="317" width="158" height="158"/>
+	<SubTexture name="yellow hold piece0000.png" x="168" y="317" width="69" height="95"/>
+	<SubTexture name="yellow0000.png" x="247" y="317" width="139" height="139"/>
+</TextureAtlas>
