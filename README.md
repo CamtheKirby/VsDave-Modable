@@ -1,3 +1,12 @@
+Extra Keys from: https://github.com/Magman03k7/VsDave-ExtraKeysAddon
+
+Need help on polymod coding
+
+## Dependencies you need to build
+
+![image](https://github.com/CamtheKirby/VsDave-Modable/assets/92703353/7a0c65c3-37a4-43d6-b2d5-7901436c2eb8)
+
+
 <img src="KadeEngineWitBackground.png" width="600" height="400">
 
 # VS DAVE (DAVE ENGINE)
@@ -8,7 +17,10 @@ this is dave
 say hi to dave
 please say hi to him
 
-## About the mod
+
+
+
+## About the OG mod
 Powered by a heavily modified version of Kade Engine, The mod includes lots of additional improvements such as
 - OpenGL Shaders
 - Character Selector
