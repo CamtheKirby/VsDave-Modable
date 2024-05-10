@@ -54,7 +54,7 @@ class FreeplayState extends MusicBeatState
 	private var NameAlpha:Alphabet;
 
 	var loadingPack:Bool = false;
-
+	
 	var songColors:Array<FlxColor> = 
 	[
     	0xFF00137F,    // GF but its actually dave!

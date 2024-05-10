@@ -401,6 +401,11 @@ class MainMenuState extends MusicBeatState
 				changeItem(1);
 			}
 
+			/*if (FlxG.keys.justPressed.M)
+				{
+					FlxG.switchState(new ModState());
+				}*/
+
 			if (controls.BACK)
 			{
 				FlxG.switchState(new TitleState());

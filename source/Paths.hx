@@ -181,7 +181,6 @@ class Paths
 			return defaultReturnPath;
 		}
 	}
-
 	/*
 		WARNING!!
 		DO NOT USE splashImage, splashFile or getSplashSparrowAtlas for searching stuff in paths!!!!!

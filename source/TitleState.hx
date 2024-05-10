@@ -50,13 +50,14 @@ class TitleState extends MusicBeatState
 	var eye:FlxSprite;
 	var loopEyeTween:FlxTween;
 
+	
 	override public function create():Void
-	{		
-		fun = FlxG.random.int(0, 999);
-		if(fun == 1)
-		{
-			LoadingState.loadAndSwitchState(new SusState());
-		}
+	{	
+		//fun = FlxG.random.int(0, 999);
+		//if(fun == 1)
+		//{
+		//	LoadingState.loadAndSwitchState(new SusState());
+		//}
 
 		PlayerSettings.init();
 
