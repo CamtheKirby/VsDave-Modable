@@ -1,5 +1,6 @@
 package;
 
+import sys.FileSystem;
 import haxe.Http;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -49,6 +50,8 @@ class TitleState extends MusicBeatState
 	var awaitingExploitation:Bool;
 	var eye:FlxSprite;
 	var loopEyeTween:FlxTween;
+	public static var mods:Array<String> = [];
+	public static var currentMod:String = "test";
 
 	
 	override public function create():Void
@@ -110,6 +113,14 @@ class TitleState extends MusicBeatState
 		#elseif CHARTING
 		FlxG.switchState(new ChartingState());
 		#else
+		
+		if(FileSystem.exists('mods')) {
+			for (folder in FileSystem.readDirectory('mods')){
+				if (FileSystem.isDirectory('mods/' + folder) && !mods.contains(folder))
+					mods.push(folder);
+			}
+			}
+			trace(mods);
 
 		new FlxTimer().start(1, function(tmr:FlxTimer)
 		{

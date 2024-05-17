@@ -114,6 +114,7 @@ class MainMenuState extends MusicBeatState
 		'SwagnotrllyTheMod',
 		'zombought',
 	];
+	
 
 	var logoBl:FlxSprite;
 
@@ -132,6 +133,7 @@ class MainMenuState extends MusicBeatState
 
 	override function create()
 	{
+	
 		awaitingExploitation = (FlxG.save.data.exploitationState == 'awaiting');
 		if (!FlxG.sound.music.playing)
 		{
