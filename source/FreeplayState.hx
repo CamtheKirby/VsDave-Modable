@@ -568,6 +568,7 @@ class FreeplayState extends MusicBeatState
 			{				
 				loadingPack = true;
 				canInteract = false;
+				isaCustomSong = false;
 				
 				for (i in grpSongs)
 				{
