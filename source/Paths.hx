@@ -149,6 +149,11 @@ class Paths
 		return sound(key + FlxG.random.int(min, max), library);
 	}
 
+	inline static public function customChart(key:String)
+		{
+			return TitleState.modFolder + '/data/charts/$key.json';
+		}
+
 	inline static public function music(key:String, ?library:String)
 	{
 		return getPath('music/$key.$SOUND_EXT', MUSIC, library);
@@ -156,7 +161,7 @@ class Paths
 
 	inline static public function voices(song:String, addon:String = "")
 	{
-		if (OpenFlAssets.exists('${(song)}/Voices${(addon)}')) {
+		if (!FreeplayState.isaCustomSong) {
 		var songKey:String = '${(song)}/Voices${(addon)}';
 	var voices = returnSound(null, songKey, 'songs');
 	return voices;
@@ -169,7 +174,7 @@ class Paths
 
 	inline static public function inst(song:String)
 	{
-		if (OpenFlAssets.exists('${(song)}/Inst')) {
+		if (!FreeplayState.isaCustomSong) {
 			var songKey:String = '${(song)}/Inst';
 		var inst = returnSound(null, songKey, 'songs');
 		return inst;
@@ -226,7 +231,10 @@ class Paths
 		 }
 		 var gottenPath:String = '$key.$SOUND_EXT';
 		 if(path != null) gottenPath = '$path/$gottenPath';
-	//	 gottenPath = getPath(gottenPath, SOUND, library);
+		 if (!FreeplayState.isaCustomSong)
+			{
+		 gottenPath = getPath(gottenPath, SOUND, library);
+			}
 		 gottenPath = gottenPath.substring(gottenPath.indexOf(':') + 1, gottenPath.length);
 		 if(!currentTrackedSounds.exists(gottenPath))
 	

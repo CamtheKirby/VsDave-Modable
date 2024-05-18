@@ -52,6 +52,7 @@ class TitleState extends MusicBeatState
 	var loopEyeTween:FlxTween;
 	public static var mods:Array<String> = [];
 	public static var currentMod:String = "test";
+	public static var modFolder:String = 'mods/' + currentMod;
 
 	
 	override public function create():Void

@@ -46,7 +46,7 @@ class FreeplayState extends MusicBeatState
 	private var InMainFreeplayState:Bool = false;
 
 	private var CurrentSongIcon:FlxSprite;
-	var customSongs = CoolUtil.coolTextFile('mods/' + TitleState.currentMod + '/data/CustomSongs.txt'); // idk should work
+	var customSongs = CoolUtil.coolTextFile(TitleState.modFolder + '/data/CustomSongs.txt'); // idk should work
 
 	private var Catagories:Array<String> = ['dave', 'joke', 'extras', 'mod'];
 	var translatedCatagory:Array<String> = [LanguageManager.getTextString('freeplay_dave'), LanguageManager.getTextString('freeplay_joke'), LanguageManager.getTextString('freeplay_extra')];

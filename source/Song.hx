@@ -70,7 +70,7 @@ class Song
 	public static function loadFromCustomJson(jsonInput:String):SwagSong
 		{
 			#if sys
-			var rawJson = File.getContent('mods/' + TitleState.currentMod + '/data/charts/' + jsonInput.toLowerCase()).trim() + '.json';
+			var rawJson = File.getContent(Paths.customChart(jsonInput.toLowerCase())).trim();
 			#else
 			var rawJson = Assets.getText(Paths.chart(jsonInput.toLowerCase())).trim();
 			#end
