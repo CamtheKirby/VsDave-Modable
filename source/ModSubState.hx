@@ -32,7 +32,7 @@ var menuItems:Array<ModOption> = [];
 	var patienceTime:Float = 0;
 
     var funnyTexts:FlxTypedGroup<FlxText> = new FlxTypedGroup<FlxText>();
-	public static var inMods:Bool = true;
+	public static var inMods:Bool = false;
 
 	public function new(x:Float, y:Float)
 	{
