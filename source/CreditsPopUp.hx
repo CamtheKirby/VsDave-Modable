@@ -24,6 +24,7 @@ class CreditsPopUp extends FlxSpriteGroup
 	public var funnyIcon:FlxSprite;
 	var iconOffset:Float;
 	var curHeading:SongHeading;
+	var custom:Array<String>;
 
 	public function new(x:Float, y:Float)
 	{
@@ -33,6 +34,9 @@ class CreditsPopUp extends FlxSpriteGroup
 		var songCreator:String = '';
 		var songCreatorIcon:String = '';
 		var headingPath:SongHeading = null;
+        if (FreeplayState.isaCustomSong) {
+	    custom = CoolUtil.coolTextFile(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-cred.txt');
+		}
 
 		switch (PlayState.SONG.song.toLowerCase())
 		{
@@ -63,7 +67,7 @@ class CreditsPopUp extends FlxSpriteGroup
 				songCreator = 'sibottle';
 			default:
 				if (FreeplayState.isaCustomSong) {
-					var custom = CoolUtil.coolTextFile(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-cred.txt');
+					
 					for (i in 0...custom.length)
 						{
 							var data:Array<String> = custom[i].split(':');
@@ -112,7 +116,12 @@ class CreditsPopUp extends FlxSpriteGroup
 				animation: new Animation('expunged', 'Expunged', 24, true, [false, false]), iconOffset: 0};
 			default:
 			if (FreeplayState.isaCustomSong)
-			headingPath = {path: 'songHeadings/daveHeading', antiAliasing: false, iconOffset: 0};
+				
+				for (i in 0...custom.length)
+					{
+			var data:Array<String> = custom[i].split(':');
+			headingPath = {path: 'songHeadings/' + data[1], antiAliasing: false, iconOffset: 0};
+					}
 		}
 		switch (PlayState.SONG.song.toLowerCase())
 		{
@@ -122,7 +131,11 @@ class CreditsPopUp extends FlxSpriteGroup
 				headingPath = {path: 'songHeadings/interdimensionalHeading', antiAliasing: false, iconOffset: 0};
 			default:
 			if (FreeplayState.isaCustomSong)
-			headingPath = {path: 'songHeadings/daveHeading', antiAliasing: false, iconOffset: 0};
+				for (i in 0...custom.length)
+					{
+			var data:Array<String> = custom[i].split(':');
+			headingPath = {path: 'songHeadings/' + data[1], antiAliasing: false, iconOffset: 0};
+					}
 		}
 		if (PlayState.recursedStaticWeek)
 		{
@@ -134,7 +147,13 @@ class CreditsPopUp extends FlxSpriteGroup
 		{
 			if (headingPath.animation == null)
 			{
+				if (FileSystem.exists('assets/shared/images/' + headingPath.path + '.png')) {
+					trace('yay');
 				bg.loadGraphic(Paths.image(headingPath.path));
+				} else {
+					trace('nae');
+				bg.loadGraphic(Paths.customImage('images/' + headingPath.path));
+				}
 			}
 			else
 			{
@@ -147,9 +166,16 @@ class CreditsPopUp extends FlxSpriteGroup
 			curHeading = headingPath;
 		}
 		createHeadingText(LanguageManager.getTextString("credits_songby") + ' ' + songCreator);
+		if (FileSystem.exists('assets/shared/images/songCreators/' + songCreatorIcon + '.png') || FileSystem.exists('assets/shared/images/songCreators/' + songCreator + '.png')) {
 		funnyIcon = new FlxSprite(0, 0, Paths.image('songCreators/${songCreatorIcon != '' ? songCreatorIcon : songCreator}'));
 		rescaleIcon();
 		add(funnyIcon);
+		} else {
+		funnyIcon = new FlxSprite(0, 0, Paths.customImage('images/songCreators/' + songCreator));
+		rescaleIcon();
+		add(funnyIcon);
+		}
+		
 
 		rescaleBG();
 

@@ -296,6 +296,8 @@ class PlayState extends MusicBeatState
 	var songPosBar:FlxBar;
 	var songPosBG:FlxSprite;
 
+	var custom:Array<String>;
+	
 	var bfNoteCamOffset:Array<Float> = new Array<Float>();
 	var dadNoteCamOffset:Array<Float> = new Array<Float>();
 
@@ -461,6 +463,10 @@ class PlayState extends MusicBeatState
 		barType = FlxG.save.data.songBarOption;
 
 		resetShader();
+
+		if (FreeplayState.isaCustomSong) {
+			custom = CoolUtil.coolTextFile(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-cred.txt');
+			}
 
 		switch (SONG.song.toLowerCase())
 		{
@@ -1297,7 +1303,7 @@ class PlayState extends MusicBeatState
 		healthBar.createFilledBar(dad.barColor, boyfriend.barColor);
 		insert(members.indexOf(healthBarBG), healthBar);
 
-		var credits:String;
+		var credits:String = '';
 		switch (SONG.song.toLowerCase())
 		{
 			case 'supernovae':
@@ -1315,7 +1321,19 @@ class PlayState extends MusicBeatState
 			case 'kabunga':
 				credits = LanguageManager.getTextString('kabunga_credit');
 			default:
+				if (FreeplayState.isaCustomSong) {
+					for (i in 0...custom.length)
+						{
+							var data:Array<String> = custom[i].split(':');
+							if (data[2] == null) {
+							credits = '';
+							} else {
+							credits = data[2];
+							}
+						}
+				} else {
 				credits = '';
+				}
 		}
 		var creditsText:Bool = credits != '';
 		var textYPos:Float = healthBarBG.y + 50;
