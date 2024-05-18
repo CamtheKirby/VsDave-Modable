@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxSubState;
 import sys.FileSystem;
 import haxe.Http;
 import flixel.FlxG;
@@ -35,7 +36,7 @@ using StringTools;
 
 class TitleState extends MusicBeatState
 {
-	static var initialized:Bool = false;
+	public static var initialized:Bool = false;
 
 	var blackScreen:FlxSprite;
 	var credGroup:FlxGroup;
@@ -51,8 +52,8 @@ class TitleState extends MusicBeatState
 	var eye:FlxSprite;
 	var loopEyeTween:FlxTween;
 	public static var mods:Array<String> = [];
-	public static var currentMod:String = "test";
-	public static var modFolder:String = 'mods/' + currentMod;
+	public static var currentMod:String = 'test';
+	public static var modFolder:String = '';
 
 	
 	override public function create():Void
@@ -63,6 +64,12 @@ class TitleState extends MusicBeatState
 		//	LoadingState.loadAndSwitchState(new SusState());
 		//}
 
+
+		if (FlxG.save.data.Mod == null)
+			FlxG.save.data.Mod = 'test'; // DON'T REMOVE ALL MOD FOLDERS OR CRASH i think
+
+			currentMod = FlxG.save.data.Mod;
+			modFolder = 'mods/' + currentMod;
 		PlayerSettings.init();
 
 		curWacky = FlxG.random.getObject(getIntroTextShit());
@@ -322,8 +329,13 @@ class TitleState extends MusicBeatState
 		{
 			FlxG.switchState(new CompatWarningState());
 		}
+
+		if (FlxG.keys.justPressed.M)
+			{
+				openSubState(new ModSubState(0, 0));
+			}
 		
-		if (pressedEnter && !transitioning && skippedIntro)
+		if (pressedEnter && !transitioning && skippedIntro && !ModSubState.inMods)
 		{
 			titleText.animation.play('press');
 
@@ -438,6 +450,11 @@ class TitleState extends MusicBeatState
 		credGroup.add(coolText);
 		textGroup.add(coolText);
 	}
+
+	override function openSubState(SubState:FlxSubState)
+		{
+			super.openSubState(SubState);
+		}
 	
 	function deleteCoolText()
 	{
