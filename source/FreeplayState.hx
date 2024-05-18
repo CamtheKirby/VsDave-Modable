@@ -21,6 +21,10 @@ import flixel.FlxObject;
 import flixel.addons.util.FlxAsyncLoop;
 #if sys import sys.FileSystem; #end
 #if desktop import Discord.DiscordClient; #end
+import flixel.graphics.FlxGraphic;
+import openfl.display.BitmapData;
+import openfl.utils.Assets as OpenFlAssets;
+
 
 using StringTools;
 
@@ -49,7 +53,7 @@ class FreeplayState extends MusicBeatState
 	var customSongs = CoolUtil.coolTextFile(TitleState.modFolder + '/data/CustomSongs.txt'); // idk should work
 
 	private var Catagories:Array<String> = ['dave', 'joke', 'extras', 'mod'];
-	var translatedCatagory:Array<String> = [LanguageManager.getTextString('freeplay_dave'), LanguageManager.getTextString('freeplay_joke'), LanguageManager.getTextString('freeplay_extra')];
+	var translatedCatagory:Array<String> = [LanguageManager.getTextString('freeplay_dave'), LanguageManager.getTextString('freeplay_joke'), LanguageManager.getTextString('freeplay_extra'), TitleState.currentMod];
 
 	private var CurrentPack:Int = 0;
 	private var NameAlpha:Alphabet;
@@ -170,7 +174,8 @@ class FreeplayState extends MusicBeatState
 		for (i in 0...Catagories.length)
 		{
 			Highscore.load();
-
+			if (FileSystem.exists(Paths.image('packs/' + (Catagories[i].toLowerCase())))) {
+				trace('yay');
 			var CurrentSongIcon:FlxSprite = new FlxSprite(0,0).loadGraphic(Paths.image('packs/' + (Catagories[i].toLowerCase()), "preload"));
 			CurrentSongIcon.centerOffsets(false);
 			CurrentSongIcon.x = (1000 * i + 1) + (512 - CurrentSongIcon.width);
@@ -184,6 +189,22 @@ class FreeplayState extends MusicBeatState
 			icons.push(CurrentSongIcon);
 			add(NameAlpha);
 			titles.push(NameAlpha);
+			} else {
+			trace('nae');
+		var CurrentSongIcon:FlxSprite = new FlxSprite(0,0).loadGraphic(Paths.customImage('Icon'));
+			CurrentSongIcon.centerOffsets(false);
+			CurrentSongIcon.x = (1000 * i + 1) + (512 - CurrentSongIcon.width);
+			CurrentSongIcon.y = (FlxG.height / 2) - 256;
+			CurrentSongIcon.antialiasing = true;
+
+			var NameAlpha:Alphabet = new Alphabet(40, (FlxG.height / 2) - 282, translatedCatagory[i], true, false);
+			NameAlpha.x = CurrentSongIcon.x;
+
+			add(CurrentSongIcon);
+			icons.push(CurrentSongIcon);
+			add(NameAlpha);
+			titles.push(NameAlpha);
+			}
 		}
 
 

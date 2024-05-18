@@ -2,6 +2,9 @@ package;
 
 import flixel.FlxSprite;
 import flixel.math.FlxMath;
+import flixel.graphics.FlxGraphic;
+import openfl.display.BitmapData;
+
 
 class HealthIcon extends FlxSprite
 {
@@ -34,7 +37,7 @@ class HealthIcon extends FlxSprite
 		if (this.char != char)
 		{
 			if (char != "none")
-				loadGraphic(Paths.image('ui/iconGrid/' + char, 'preload'), true, 150, 150);
+				loadGraphic(FlxGraphic.fromBitmapData(BitmapData.fromFile(Paths.image('ui/iconGrid/' + char, 'preload'))), true, 150, 150);
 			else
 				loadGraphic(Paths.image('blank', 'shared'));
 	

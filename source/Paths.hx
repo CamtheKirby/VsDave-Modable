@@ -1,5 +1,7 @@
 package;
 
+import flixel.graphics.FlxGraphic;
+import openfl.display.BitmapData;
 import flixel.FlxG;
 import flixel.graphics.frames.FlxAtlasFrames;
 import openfl.utils.AssetType;
@@ -154,6 +156,10 @@ class Paths
 			return TitleState.modFolder + '/data/charts/$key.json';
 		}
 
+		inline static public function customImage(key:String)
+			{
+				return (FlxGraphic.fromBitmapData(BitmapData.fromFile(TitleState.modFolder + '/${key}.png')));
+			}
 	inline static public function music(key:String, ?library:String)
 	{
 		return getPath('music/$key.$SOUND_EXT', MUSIC, library);

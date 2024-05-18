@@ -61,6 +61,15 @@ class CreditsPopUp extends FlxSpriteGroup
 				songCreator = 'TH3R34LD34L';
 			case 'roofs':
 				songCreator = 'sibottle';
+			default:
+				if (FreeplayState.isaCustomSong) {
+					var custom = CoolUtil.coolTextFile(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-cred.txt');
+					for (i in 0...custom.length)
+						{
+							var data:Array<String> = custom[i].split(':');
+							songCreator = data[0];
+						}
+				}
 		}
 		switch (PlayState.storyWeek)
 		{
@@ -101,6 +110,9 @@ class CreditsPopUp extends FlxSpriteGroup
 			case 16:
 				headingPath = {path: 'songHeadings/expungedHeading', antiAliasing: true,
 				animation: new Animation('expunged', 'Expunged', 24, true, [false, false]), iconOffset: 0};
+			default:
+			if (FreeplayState.isaCustomSong)
+			headingPath = {path: 'songHeadings/daveHeading', antiAliasing: false, iconOffset: 0};
 		}
 		switch (PlayState.SONG.song.toLowerCase())
 		{
@@ -108,6 +120,9 @@ class CreditsPopUp extends FlxSpriteGroup
 				headingPath = {path: 'songHeadings/3D-daveHeading', antiAliasing: false, iconOffset: 0};
 			case 'interdimensional':
 				headingPath = {path: 'songHeadings/interdimensionalHeading', antiAliasing: false, iconOffset: 0};
+			default:
+			if (FreeplayState.isaCustomSong)
+			headingPath = {path: 'songHeadings/daveHeading', antiAliasing: false, iconOffset: 0};
 		}
 		if (PlayState.recursedStaticWeek)
 		{

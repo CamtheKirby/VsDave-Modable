@@ -533,9 +533,9 @@ class PlayState extends MusicBeatState
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 		eyesoreson = FlxG.save.data.eyesores;
-		#if debug
+
 		botPlay = FlxG.save.data.botplay;
-		#end
+
 		modchartoption = !FlxG.save.data.modchart;
 
 		sicks = 0;
