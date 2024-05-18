@@ -6,6 +6,10 @@ import openfl.utils.AssetCache;
 import flixel.math.FlxRandom;
 import flixel.math.FlxMath;
 import lime.utils.Assets;
+#if sys
+import sys.io.File;
+import sys.FileSystem;
+#end
 
 using StringTools;
 
@@ -40,7 +44,7 @@ class CoolUtil
 
 	public static function coolTextFile(path:String):Array<String>
 	{
-		var daList:Array<String> = Assets.getText(path).trim().split('\n');
+		var daList:Array<String> = File.getContent(path).trim().split('\n');
 
 		for (i in 0...daList.length)
 		{

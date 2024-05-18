@@ -120,7 +120,7 @@ class TitleState extends MusicBeatState
 					mods.push(folder);
 			}
 			}
-			trace(mods);
+			trace(mods + ' ' + currentMod);
 
 		new FlxTimer().start(1, function(tmr:FlxTimer)
 		{

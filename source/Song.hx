@@ -9,6 +9,11 @@ import lime.utils.Assets;
 import lime.app.Application;
 #end
 
+#if sys
+import sys.io.File;
+import sys.FileSystem;
+#end
+
 using StringTools;
 
 typedef SwagSong =
@@ -62,6 +67,21 @@ class Song
 		return parseJSONshit(rawJson);
 	}
 
+	public static function loadFromCustomJson(jsonInput:String):SwagSong
+		{
+			#if sys
+			var rawJson = File.getContent('mods/' + TitleState.currentMod + '/data/charts/' + jsonInput.toLowerCase()).trim() + '.json';
+			#else
+			var rawJson = Assets.getText(Paths.chart(jsonInput.toLowerCase())).trim();
+			#end
+	
+			while (!rawJson.endsWith("}"))
+			{
+				rawJson = rawJson.substr(0, rawJson.length - 1);
+			}
+	
+			return parseJSONshit(rawJson);
+		}
 	public static function parseJSONshit(rawJson:String):SwagSong
 	{
 		var swagShit:SwagSong = cast Json.parse(rawJson).song;

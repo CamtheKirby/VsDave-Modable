@@ -46,8 +46,9 @@ class FreeplayState extends MusicBeatState
 	private var InMainFreeplayState:Bool = false;
 
 	private var CurrentSongIcon:FlxSprite;
+	var customSongs = CoolUtil.coolTextFile('mods/' + TitleState.currentMod + '/data/CustomSongs.txt'); // idk should work
 
-	private var Catagories:Array<String> = ['dave', 'joke', 'extras'];
+	private var Catagories:Array<String> = ['dave', 'joke', 'extras', 'mod'];
 	var translatedCatagory:Array<String> = [LanguageManager.getTextString('freeplay_dave'), LanguageManager.getTextString('freeplay_joke'), LanguageManager.getTextString('freeplay_extra')];
 
 	private var CurrentPack:Int = 0;
@@ -116,12 +117,15 @@ class FreeplayState extends MusicBeatState
 	var bgShader:Shaders.GlitchEffect;
 	var awaitingExploitation:Bool;
 	public static var packTransitionDone:Bool = false;
+	public static var isaCustomSong:Bool = false;
 	var characterSelectText:FlxText;
 	var showCharText:Bool = true;
 
 	override function create()
 	{
 		#if desktop DiscordClient.changePresence("In the Freeplay Menu", null); #end
+
+		isaCustomSong = false;
 		
 		awaitingExploitation = (FlxG.save.data.exploitationState == 'awaiting');
 		showCharText = FlxG.save.data.wasInCharSelect;
@@ -154,12 +158,13 @@ class FreeplayState extends MusicBeatState
 		}
 		if (FlxG.save.data.terminalFound && !awaitingExploitation)
 		{
-			Catagories = ['dave', 'joke', 'extras', 'terminal'];
+			Catagories = ['dave', 'joke', 'extras', 'terminal', 'mod'];
 			translatedCatagory = [
 			LanguageManager.getTextString('freeplay_dave'),
 			LanguageManager.getTextString('freeplay_joke'),
 			LanguageManager.getTextString('freeplay_extra'),
-			LanguageManager.getTextString('freeplay_terminal')];
+			LanguageManager.getTextString('freeplay_terminal'),
+		    TitleState.currentMod];
 		}
 
 		for (i in 0...Catagories.length)
@@ -314,6 +319,13 @@ class FreeplayState extends MusicBeatState
 					addWeek(['Exploitation'], 16, ['expunged']);
 
 				addWeek(['Enter Terminal'], 17, ['terminal']);
+				case 'mod':
+					isaCustomSong = true;
+					for (i in 0...customSongs.length)
+						{
+							var data:Array<String> = customSongs[i].split(':');
+							addWeek([data[0]], Std.parseInt(data[1]), [data[2]]);
+						}
 		}
 	}
 
@@ -631,7 +643,11 @@ class FreeplayState extends MusicBeatState
 						FlxG.switchState(new TerminalState());
 					default:
 						FlxG.sound.music.fadeOut(1, 0);
+						if (isaCustomSong) {
+						PlayState.SONG = Song.loadFromCustomJson(songs[curSelected].songName.toLowerCase()/*, curDifficulty*/);
+						} else {
 						PlayState.SONG = Song.loadFromJson(Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty));
+						}
 						PlayState.isStoryMode = false;
 						PlayState.storyDifficulty = curDifficulty;
 		

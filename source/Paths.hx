@@ -5,6 +5,7 @@ import flixel.graphics.frames.FlxAtlasFrames;
 import openfl.utils.AssetType;
 import openfl.utils.Assets as OpenFlAssets;
 #if sys import sys.FileSystem; #end
+import flash.media.Sound;
 
 class Paths
 {
@@ -111,6 +112,13 @@ class Paths
 		return getPath('data/$key.xml', TEXT, library);
 	}
 
+	inline static public function modsSounds(path:String, key:String) {
+		return modSongs(path + '/' + key + '.' + SOUND_EXT);
+	}
+
+	static public function modSongs(key:String) {
+		return 'mods/' + TitleState.currentMod + '/songs/' + key;
+	}
 	inline static public function json(key:String, ?library:String)
 	{
 		return getPath('data/$key.json', TEXT, library);
@@ -148,12 +156,28 @@ class Paths
 
 	inline static public function voices(song:String, addon:String = "")
 	{
-		return 'songs:assets/songs/${song.toLowerCase()}/Voices${addon}.$SOUND_EXT';
+		if (OpenFlAssets.exists('${(song)}/Voices${(addon)}')) {
+		var songKey:String = '${(song)}/Voices${(addon)}';
+	var voices = returnSound(null, songKey, 'songs');
+	return voices;
+		} else {
+	var songKey:String = 'mods/' + TitleState.currentMod + '/songs/${(song)}/Voices${(addon)}';
+	var voices = returnSound(null, songKey, 'songs');
+	return voices;
+		}
 	}
 
 	inline static public function inst(song:String)
 	{
-		return 'songs:assets/songs/${song.toLowerCase()}/Inst.$SOUND_EXT';
+		if (OpenFlAssets.exists('${(song)}/Inst')) {
+			var songKey:String = '${(song)}/Inst';
+		var inst = returnSound(null, songKey, 'songs');
+		return inst;
+			} else {
+		var songKey:String = 'mods/' + TitleState.currentMod + '/songs/${(song)}/Inst';
+		var inst = returnSound(null, songKey, 'songs');
+		return inst;
+			}
 	}
 
 	inline static public function externmusic(song:String)
@@ -181,6 +205,36 @@ class Paths
 			return defaultReturnPath;
 		}
 	}
+
+	 // Thanks psych engine for the sound code
+   
+	 public static var currentTrackedSounds:Map<String, Sound> = [];
+	 public static var localTrackedAssets:Array<String> = [];
+	 public static function returnSound(path:String, key:String, ?library:String) {
+
+		 var modLibPath:String = '';
+		 if (library != null) modLibPath = '$library/';
+		 if (path != null) modLibPath += '$path/';
+ 
+		 var file:String = modsSounds((path != null ? path : ""), key);
+		 if(FileSystem.exists(file)) {
+			 if(!currentTrackedSounds.exists(file)) {
+				 currentTrackedSounds.set(file, Sound.fromFile(file));
+			 }
+			 localTrackedAssets.push(key);
+			 return currentTrackedSounds.get(file);
+		 }
+		 var gottenPath:String = '$key.$SOUND_EXT';
+		 if(path != null) gottenPath = '$path/$gottenPath';
+	//	 gottenPath = getPath(gottenPath, SOUND, library);
+		 gottenPath = gottenPath.substring(gottenPath.indexOf(':') + 1, gottenPath.length);
+		 if(!currentTrackedSounds.exists(gottenPath))
+	
+			 currentTrackedSounds.set(gottenPath, Sound.fromFile('./' + gottenPath));
+		
+		 localTrackedAssets.push(gottenPath);
+		 return currentTrackedSounds.get(gottenPath);
+	 }
 	/*
 		WARNING!!
 		DO NOT USE splashImage, splashFile or getSplashSparrowAtlas for searching stuff in paths!!!!!

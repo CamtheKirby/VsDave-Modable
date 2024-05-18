@@ -14,6 +14,7 @@ import lime.utils.AssetLibrary;
 import lime.utils.AssetManifest;
 
 import haxe.io.Path;
+import flash.media.Sound;
 
 class LoadingState extends MusicBeatState
 {
@@ -107,14 +108,14 @@ class LoadingState extends MusicBeatState
 		FlxG.switchState(target);
 	}
 	
-	static function getSongPath()
-	{
-		return Paths.inst(PlayState.SONG.song);
-	}
+	static function getSongPath(): Null<String>
+		{
+			return PlayState.SONG.song;
+		}
 	
-	static function getVocalPath()
+	static function getVocalPath(): Null<String>
 	{
-		return Paths.voices(PlayState.SONG.song);
+		return PlayState.SONG.song;
 	}
 	
 	inline static public function loadAndSwitchState(target:FlxState, stopMusic = false)
