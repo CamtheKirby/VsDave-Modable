@@ -1,0 +1,13 @@
+{
+	"skipSelect": [
+		"five-nights",
+		"vs-dave-rap",
+		"vs-dave-rap-two"
+	],
+	"noExtraKeys": [
+		"five-nights",
+		"vs-dave-rap",
+		"vs-dave-rap-two",
+		"overdrive"
+	]
+}

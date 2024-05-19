@@ -3,14 +3,14 @@
         {
           "newCharacter": [
             {
-              "casename": "bf-pixel",
+              "playername": "bf-pixel",
               "thecharactername": "Test",
-              "thenotemsagain": [1, 1, 1, 1],
+              "thenotems": [1, 1, 1, 1],
               "notestyle": ""
             }
           ],
           "mainName": "testtwo",
-          "thehotemsithink": [1, 1, 1, 1]
+          "mainnotems": [1, 1, 1, 1]
         }
       ]
     }

@@ -24,9 +24,18 @@ import flixel.addons.util.FlxAsyncLoop;
 import flixel.graphics.FlxGraphic;
 import openfl.display.BitmapData;
 import openfl.utils.Assets as OpenFlAssets;
-
+import haxe.Json;
+import haxe.format.JsonParser;
+import sys.FileSystem;
+import sys.io.File;
 
 using StringTools;
+
+typedef FreeplaySettings =
+{
+	var skipSelect:Array<String>;
+	var noExtraKeys:Array<String>;
+}
 
 class FreeplayState extends MusicBeatState
 {
@@ -57,10 +66,14 @@ class FreeplayState extends MusicBeatState
 
 	private var CurrentPack:Int = 0;
 	private var NameAlpha:Alphabet;
+	public var rawJsonF:String;
+    public var jsonF:FreeplaySettings;
+	public var rawJsonFM:String;
+    public var jsonFM:FreeplaySettings;
 
 	var loadingPack:Bool = false;
 	
-	var songColors:Array<FlxColor> = 
+	var songColors:Array<FlxColor> = // Couldn't get this to work in the json I'll get you one day
 	[
     	0xFF00137F,    // GF but its actually dave!
 		0xFF4965FF,    // DAVE
@@ -78,21 +91,21 @@ class FreeplayState extends MusicBeatState
 		0xFF0162F5,    // OVERDRIVE
 		0xFF119A2B,    // CHEATING
 		0xFFFF0000,    // UNFAIRNESS
-		0xFF810000,    // EXPLOITATION
+		0xFF810000,    // EXPLOITATION 
     ];
 	public static var skipSelect:Array<String> = 
 	[
-		'five-nights',
+		/*'five-nights',
 		'vs-dave-rap',
-		'vs-dave-rap-two'
+		'vs-dave-rap-two' */
 	];
 
 	public static var noExtraKeys:Array<String> = 
 	[
-		'five-nights',
+		/*'five-nights',
 		'vs-dave-rap',
 		'vs-dave-rap-two',
-		'overdrive'
+		'overdrive'*/
 	];
 
 	private var camFollow:FlxObject;
@@ -130,7 +143,33 @@ class FreeplayState extends MusicBeatState
 		#if desktop DiscordClient.changePresence("In the Freeplay Menu", null); #end
 
 		isaCustomSong = false;
-		
+		rawJsonF = File.getContent(Paths.json('FreeplaySettings'));
+        jsonF = cast Json.parse(rawJsonF);
+
+		if (FileSystem.exists(TitleState.modFolder + '/data/FreeplaySettings.json')) {
+		rawJsonFM = File.getContent(TitleState.modFolder + '/data/FreeplaySettings.json');
+        jsonFM = cast Json.parse(rawJsonFM);
+
+		for (i in jsonFM.skipSelect) {
+			skipSelect.push(i);
+		}
+
+		for (i in jsonFM.noExtraKeys) {
+			noExtraKeys.push(i);
+		}
+		}
+
+		trace(songColors);
+
+		for (i in jsonF.skipSelect) {
+			skipSelect.push(i);
+		}
+
+		for (i in jsonF.noExtraKeys) {
+			noExtraKeys.push(i);
+		}
+
+
 		awaitingExploitation = (FlxG.save.data.exploitationState == 'awaiting');
 		showCharText = FlxG.save.data.wasInCharSelect;
 
@@ -666,7 +705,15 @@ class FreeplayState extends MusicBeatState
 					default:
 						FlxG.sound.music.fadeOut(1, 0);
 						if (isaCustomSong) {
+							if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + (songs[curSelected].songName.toLowerCase() + '.json'))) {
 						PlayState.SONG = Song.loadFromCustomJson(songs[curSelected].songName.toLowerCase()/*, curDifficulty*/);
+							} else {
+							var deathSound:FlxSound = new FlxSound();
+				            deathSound.loadEmbedded(Paths.soundRandom('missnote', 1, 3));
+				            deathSound.volume = FlxG.random.float(0.6, 1);
+				            deathSound.play();				
+				            FlxG.camera.shake(0.05, 0.1);
+							}
 						} else {
 						PlayState.SONG = Song.loadFromJson(Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty));
 						}
@@ -824,7 +871,9 @@ class FreeplayState extends MusicBeatState
 			#end
 
 			#if PRELOAD_ALL
+			//if (FileSystem.exists('assets/songs' + songs[curSelected].songName)) {
 			FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName), 0);
+			//}
 			#end
 			
 			curChar = Highscore.getChar(songs[curSelected].songName, curDifficulty);
@@ -868,6 +917,7 @@ class FreeplayState extends MusicBeatState
 		pressSpeeds = new Array<Float>();
 		pressUnlockNumber = new FlxRandom().int(20, 40);
 	}
+
 	function recursedUnlock()
 	{
 		canInteract = false;

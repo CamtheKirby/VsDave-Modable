@@ -42,15 +42,15 @@ typedef CharSelectStuff =
 {
 	var newCharacter:Array<TheActualChar>;
 	var mainName:String;
-	var thehotemsithink:Array<Float>;
+	var mainnotems:Array<Float>;
 	
 }
 
 typedef TheActualChar = 
 {
-var casename:String;
+var playername:String;
 var thecharactername:String;
-var thenotemsagain:Array<Float>;
+var thenotems:Array<Float>;
 var notestyle:String;
 }
 class CharacterInSelect
@@ -185,35 +185,36 @@ class CharacterSelectState extends MusicBeatState
 
 		for (character in json.characters) { // Normal
 			var mainName:String = character.mainName;
-			var thehotemsithink:Array<Float> = character.thehotemsithink;
+			var thehotemsithink:Array<Float> = character.mainnotems;
 			
 			var newCharacterForms:Array<CharacterForm> = [];
 			for (newChar in character.newCharacter) {
-				newCharacterForms.push(new CharacterForm(newChar.casename, newChar.thecharactername, newChar.thenotemsagain, newChar.notestyle));
+				newCharacterForms.push(new CharacterForm(newChar.playername, newChar.thecharactername, newChar.thenotems, newChar.notestyle));
 			}
 			
 			characters.push(new CharacterInSelect(mainName, thehotemsithink, newCharacterForms));
 		}
-
+		if (FileSystem.exists(TitleState.modFolder + 'Skins/characterSelect.json')) {
 		for (character in jsonCustom.characters) { // For Globle Characters
 			var mainName:String = character.mainName;
-			var thehotemsithink:Array<Float> = character.thehotemsithink;
+			var thehotemsithink:Array<Float> = character.mainnotems;
 			
 			var newCharacterForms:Array<CharacterForm> = [];
 			for (newChar in character.newCharacter) {
-				newCharacterForms.push(new CharacterForm(newChar.casename, newChar.thecharactername, newChar.thenotemsagain, newChar.notestyle));
+				newCharacterForms.push(new CharacterForm(newChar.playername, newChar.thecharactername, newChar.thenotems, newChar.notestyle));
 			}
 			
 			characters.push(new CharacterInSelect(mainName, thehotemsithink, newCharacterForms));
 		}
+	}
 		if (FileSystem.exists(TitleState.modFolder + '/data/characterSelect.json')) {
 		for (character in jsonCustom2.characters) { // For Characters in Mod Packs
 			var mainName:String = character.mainName;
-			var thehotemsithink:Array<Float> = character.thehotemsithink;
+			var thehotemsithink:Array<Float> = character.mainnotems;
 			
 			var newCharacterForms:Array<CharacterForm> = [];
 			for (newChar in character.newCharacter) {
-				newCharacterForms.push(new CharacterForm(newChar.casename, newChar.thecharactername, newChar.thenotemsagain, newChar.notestyle));
+				newCharacterForms.push(new CharacterForm(newChar.playername, newChar.thecharactername, newChar.thenotems, newChar.notestyle));
 			}
 			
 			characters.push(new CharacterInSelect(mainName, thehotemsithink, newCharacterForms));

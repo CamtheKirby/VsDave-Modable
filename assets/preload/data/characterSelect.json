@@ -3,128 +3,128 @@
         {
           "newCharacter": [
             {
-              "casename": "bf",
+              "playername": "bf",
               "thecharactername": "Boyfriend",
-              "thenotemsagain": [1, 1, 1, 1],
+              "thenotems": [1, 1, 1, 1],
               "notestyle": ""
             },
             {
-              "casename": "bf-pixel",
+              "playername": "bf-pixel",
               "thecharactername": "Pixel Boyfriend",
-              "thenotemsagain": [1, 1, 1, 1],
+              "thenotems": [1, 1, 1, 1],
               "notestyle": ""
             }
           ],
           "mainName": "bf",
-          "thehotemsithink": [1, 1, 1, 1]
+          "mainnotems": [1, 1, 1, 1]
         },
         {
           "newCharacter": [
             {
-              "casename": "dave",
+              "playername": "dave",
               "thecharactername": "Dave",
-              "thenotemsagain": [0.25, 0.25, 2, 2],
+              "thenotems": [0.25, 0.25, 2, 2],
               "notestyle": ""
             }
           ],
           "mainName": "dave",
-          "thehotemsithink": [0.25, 0.25, 2, 2]
+          "mainnotems": [0.25, 0.25, 2, 2]
         },
         {
           "newCharacter": [
             {
-              "casename": "bambi-new",
+              "playername": "bambi-new",
               "thecharactername": "Bambi",
-              "thenotemsagain": [0, 0, 3, 0]
+              "thenotems": [0, 0, 3, 0]
             }
           ],
           "mainName": "bambi",
-          "thehotemsithink": [0, 0, 3, 0]
+          "mainnotems": [0, 0, 3, 0]
         },
         {
           "newCharacter": [
             {
-              "casename": "tristan",
+              "playername": "tristan",
               "thecharactername": "Tristan",
-              "thenotemsagain": [2, 0.5, 0.5, 0.5],
+              "thenotems": [2, 0.5, 0.5, 0.5],
               "notestyle": ""
             }
           ],
           "mainName": "tristan",
-          "thehotemsithink": [2, 0.5, 0.5, 0.5]
+          "mainnotems": [2, 0.5, 0.5, 0.5]
         },
         {
           "newCharacter": [
             {
-              "casename": "tristan-golden",
+              "playername": "tristan-golden",
               "thecharactername": "Tristan Golden",
-              "thenotemsagain": [0.25, 0.25, 0.25, 2],
+              "thenotems": [0.25, 0.25, 0.25, 2],
               "notestyle": ""
             }
           ],
           "mainName": "tristan-golden",
-          "thehotemsithink": [0.25, 0.25, 0.25, 2]
+          "mainnotems": [0.25, 0.25, 0.25, 2]
         },
         {
           "newCharacter": [
             {
-              "casename": "dave-angey",
+              "playername": "dave-angey",
               "thecharactername": "3D Dave",
-              "thenotemsagain": [2, 2, 0.25, 0.25],
+              "thenotems": [2, 2, 0.25, 0.25],
               "notestyle": "3D"
             },
             {
-                "casename": "dave-festival-3d",
+                "playername": "dave-festival-3d",
                 "thecharactername": "3D Dave Festival",
-                "thenotemsagain": [2, 2, 0.25, 0.25],
+                "thenotems": [2, 2, 0.25, 0.25],
                 "notestyle": "3D"
             }
           ],
           "mainName": "dave-angey",
-          "thehotemsithink": [2, 2, 0.25, 0.25]
+          "mainnotems": [2, 2, 0.25, 0.25]
         },
         {
           "newCharacter": [
             {
-              "casename": "bambi-3d",
+              "playername": "bambi-3d",
               "thecharactername": "Expunged",
-              "thenotemsagain": [0, 3, 0, 0],
+              "thenotems": [0, 3, 0, 0],
               "notestyle": "3D"
             }
           ],
           "mainName": "bambi-3d",
-          "thehotemsithink": [0, 3, 0, 0]
+          "mainnotems": [0, 3, 0, 0]
 
         },
         {
           "newCharacter": [
             {
-              "casename": "shaggy",
+              "playername": "shaggy",
               "thecharactername": "Shaggy",
-              "thenotemsagain": [1, 1, 1, 1],
+              "thenotems": [1, 1, 1, 1],
               "notestyle": ""
             },
             {
-                "casename": "supershaggy",
+                "playername": "supershaggy",
                 "thecharactername": "Shaggy (0.001%)",
-                "thenotemsagain": [1, 1, 1, 1],
+                "thenotems": [1, 1, 1, 1],
                 "notestyle": ""
             },
             {
-                "casename": "godshaggy",
+                "playername": "godshaggy",
                 "thecharactername": "Shaggy (0.002%)",
-                "thenotemsagain": [1, 1, 1, 1],
+                "thenotems": [1, 1, 1, 1],
                 "notestyle": ""
             },
             {
-                "casename": "redshaggy",
+                "playername": "redshaggy",
                 "thecharactername": "Red Shaggy",
-                "thenotemsagain": [1, 1, 1, 1],
+                "thenotems": [1, 1, 1, 1],
                 "notestyle": ""
               }
           ],
           "mainName": "shaggy",
-          "thehotemsithink": [1, 1, 1, 1]
+          "mainnotems": [1, 1, 1, 1]
         }
       ]
     }
