@@ -1,0 +1,16 @@
+{
+      "characters": [
+        {
+          "newCharacter": [
+            {
+              "casename": "bf-pixel",
+              "thecharactername": "Test",
+              "thenotemsagain": [1, 1, 1, 1],
+              "notestyle": ""
+            }
+          ],
+          "mainName": "test",
+          "thehotemsithink": [1, 1, 1, 1]
+        }
+      ]
+    }

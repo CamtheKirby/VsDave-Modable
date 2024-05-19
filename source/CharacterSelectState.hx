@@ -23,6 +23,8 @@ import flixel.FlxSprite;
 import lime.app.Application;
 import sys.FileSystem;
 #end
+import haxe.Json;
+import haxe.format.JsonParser;
 
  /**
 	hey you fun commiting people, 
@@ -31,6 +33,26 @@ import sys.FileSystem;
 	the secondary dev, ben
 */
 
+typedef CharacterSelectFile =
+{
+	var characters:Array<CharSelectStuff>;
+}
+
+typedef CharSelectStuff = 
+{
+	var newCharacter:Array<TheActualChar>;
+	var mainName:String;
+	var thehotemsithink:Array<Float>;
+	
+}
+
+typedef TheActualChar = 
+{
+var casename:String;
+var thecharactername:String;
+var thenotemsagain:Array<Float>;
+var notestyle:String;
+}
 class CharacterInSelect
 {
 	public var name:String;
@@ -85,7 +107,12 @@ class CharacterSelectState extends MusicBeatState
 	private var camTransition:FlxCamera;
 
 	var currentSelectedCharacter:CharacterInSelect;
-
+	public var rawJson:String;
+    public var json:CharacterSelectFile;
+	public var rawJsonCustom:String;
+    public var jsonCustom:CharacterSelectFile;
+	public var rawJsonCustom2:String;
+    public var jsonCustom2:CharacterSelectFile;
 	var noteMsTexts:FlxTypedGroup<FlxText> = new FlxTypedGroup<FlxText>();
 
 	var arrows:Array<FlxSprite> = [];
@@ -93,7 +120,7 @@ class CharacterSelectState extends MusicBeatState
 	
 	public var characters:Array<CharacterInSelect> = 
 	[
-		new CharacterInSelect('bf', [1, 1, 1, 1], [
+		/*new CharacterInSelect('bf', [1, 1, 1, 1], [
 			new CharacterForm('bf', 'Boyfriend', [1,1,1,1]),
 			new CharacterForm('bf-pixel', 'Pixel Boyfriend', [1,1,1,1])
 		]),
@@ -121,6 +148,7 @@ class CharacterSelectState extends MusicBeatState
 			new CharacterForm('godshaggy', 'Shaggy (0.002%)', [1, 1, 1, 1]),
 			new CharacterForm('redshaggy', 'Red Shaggy', [1, 1, 1, 1]),
 		]),
+		*/
 	];
 	#if SHADERS_ENABLED
 	var bgShader:Shaders.GlitchEffect;
@@ -144,7 +172,55 @@ class CharacterSelectState extends MusicBeatState
 				wasInFullscreen = true;
 			}
 		}
+		rawJson = File.getContent(Paths.json('characterSelect'));
+        json = cast Json.parse(rawJson);
+		rawJsonCustom = File.getContent(('Skins/characterSelect.json'));
+        jsonCustom = cast Json.parse(rawJsonCustom);
+		if (FileSystem.exists(TitleState.modFolder + '/data/characterSelect.json')) {
+		rawJsonCustom2 = File.getContent((TitleState.modFolder + '/data/characterSelect.json'));
+        jsonCustom2 = cast Json.parse(rawJsonCustom2);
+		}
 
+		var characterInSelectArray:Array<CharacterInSelect> = [];
+
+		for (character in json.characters) { // Normal
+			var mainName:String = character.mainName;
+			var thehotemsithink:Array<Float> = character.thehotemsithink;
+			
+			var newCharacterForms:Array<CharacterForm> = [];
+			for (newChar in character.newCharacter) {
+				newCharacterForms.push(new CharacterForm(newChar.casename, newChar.thecharactername, newChar.thenotemsagain, newChar.notestyle));
+			}
+			
+			characters.push(new CharacterInSelect(mainName, thehotemsithink, newCharacterForms));
+		}
+
+		for (character in jsonCustom.characters) { // For Globle Characters
+			var mainName:String = character.mainName;
+			var thehotemsithink:Array<Float> = character.thehotemsithink;
+			
+			var newCharacterForms:Array<CharacterForm> = [];
+			for (newChar in character.newCharacter) {
+				newCharacterForms.push(new CharacterForm(newChar.casename, newChar.thecharactername, newChar.thenotemsagain, newChar.notestyle));
+			}
+			
+			characters.push(new CharacterInSelect(mainName, thehotemsithink, newCharacterForms));
+		}
+		if (FileSystem.exists(TitleState.modFolder + '/data/characterSelect.json')) {
+		for (character in jsonCustom2.characters) { // For Characters in Mod Packs
+			var mainName:String = character.mainName;
+			var thehotemsithink:Array<Float> = character.thehotemsithink;
+			
+			var newCharacterForms:Array<CharacterForm> = [];
+			for (newChar in character.newCharacter) {
+				newCharacterForms.push(new CharacterForm(newChar.casename, newChar.thecharactername, newChar.thenotemsagain, newChar.notestyle));
+			}
+			
+			characters.push(new CharacterInSelect(mainName, thehotemsithink, newCharacterForms));
+		}
+	}
+
+		trace(characters);
 		Conductor.changeBPM(110);
 
 		camGame = new FlxCamera();
@@ -505,7 +581,6 @@ class CharacterSelectState extends MusicBeatState
 			UpdateBF();
 			FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 		}
-		#if debug
 		if (FlxG.keys.justPressed.R && !selectedCharacter)
 		{
 			reset();
@@ -522,7 +597,6 @@ class CharacterSelectState extends MusicBeatState
 				}
 			}
 		}
-		#end
 	}
 	public static function unlockCharacter(character:String)
 	{
