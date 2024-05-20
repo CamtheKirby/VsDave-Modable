@@ -1,0 +1,49 @@
+{
+    "animations": [
+        {
+            "animName": "idle",
+            "anim": "idle",
+            "fps": 24,
+            "loop": true
+        },
+        {
+            "animName": "singUP",
+            "anim": "up",
+            "fps": 24,
+            "loop": false
+
+        },
+        {
+            "animName": "singLEFT",
+            "anim": "left",
+            "fps": 24,
+            "loop": false
+
+        },
+        {
+            "animName": "singRIGHT",
+            "anim": "right",
+            "fps": 24,
+            "loop": false
+        },
+        {
+            "animName": "singDOWN",
+            "anim": "down",
+            "fps": 24,
+            "loop": false
+        }
+    ],
+    "globalOffset": [-480, -700],
+    "isPlayable": false,
+    "skins": [],
+    "barcolor": {
+        "red": 0,
+        "green": 215,
+        "blue": 0
+    },
+    "antialiasing": true,
+    "nativelyPlayable": true,
+    "flipX": true,
+    "updateHitbox": true,
+    "setGraphicSize": ""
+}

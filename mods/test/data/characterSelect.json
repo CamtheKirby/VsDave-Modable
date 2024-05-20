@@ -3,10 +3,10 @@
         {
           "newCharacter": [
             {
-              "playername": "bf-pixel",
-              "thecharactername": "Test",
+              "playername": "Example",
+              "thecharactername": "Example",
               "thenotems": [1, 1, 1, 1],
-              "notestyle": ""
+              "notestyle": "3D"
             }
           ],
           "mainName": "testtwo",

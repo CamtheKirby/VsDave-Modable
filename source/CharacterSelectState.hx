@@ -174,7 +174,7 @@ class CharacterSelectState extends MusicBeatState
 		}
 		rawJson = File.getContent(Paths.json('characterSelect'));
         json = cast Json.parse(rawJson);
-		rawJsonCustom = File.getContent(('mods/skins/characterSelect.json'));
+		rawJsonCustom = File.getContent(('mods/global characters/characterSelect.json'));
         jsonCustom = cast Json.parse(rawJsonCustom);
 		if (FileSystem.exists(TitleState.modFolder + '/data/characterSelect.json')) {
 		rawJsonCustom2 = File.getContent((TitleState.modFolder + '/data/characterSelect.json'));
@@ -194,7 +194,7 @@ class CharacterSelectState extends MusicBeatState
 			
 			characters.push(new CharacterInSelect(mainName, thehotemsithink, newCharacterForms));
 		}
-		if (FileSystem.exists('mods/skins/characterSelect.json')) {
+		if (FileSystem.exists('mods/global characters/characterSelect.json')) {
 		for (character in jsonCustom.characters) { // For Globle Characters
 			var mainName:String = character.mainName;
 			var thehotemsithink:Array<Float> = character.mainnotems;

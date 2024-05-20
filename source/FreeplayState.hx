@@ -230,7 +230,7 @@ class FreeplayState extends MusicBeatState
 			titles.push(NameAlpha);
 			} else {
 			trace('nae');
-		var CurrentSongIcon:FlxSprite = new FlxSprite(0,0).loadGraphic(Paths.customImage('Icon'));
+		var CurrentSongIcon:FlxSprite = new FlxSprite(0,0).loadGraphic(Paths.customImage(TitleState.modFolder + '/Icon'));
 			CurrentSongIcon.centerOffsets(false);
 			CurrentSongIcon.x = (1000 * i + 1) + (512 - CurrentSongIcon.width);
 			CurrentSongIcon.y = (FlxG.height / 2) - 256;

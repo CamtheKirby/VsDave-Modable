@@ -1,5 +1,6 @@
 package;
 
+import sys.FileSystem;
 import flixel.FlxSprite;
 import flixel.math.FlxMath;
 import flixel.graphics.FlxGraphic;
@@ -37,7 +38,15 @@ class HealthIcon extends FlxSprite
 		if (this.char != char)
 		{
 			if (char != "none")
+				if (FileSystem.exists('assets/images/ui/iconGrid/' + char + '.png')) {
 				loadGraphic(FlxGraphic.fromBitmapData(BitmapData.fromFile(Paths.image('ui/iconGrid/' + char, 'preload'))), true, 150, 150);
+				} else if (FileSystem.exists('mods/global characters/icons/' + char + '.png')) {
+					loadGraphic(Paths.customImage('mods/global characters/images/icons/' + char), true, 150, 150);
+				} else if  (FileSystem.exists(TitleState.modFolder + '/images/icons/' + char + '.png')) {
+					loadGraphic(Paths.customImage(TitleState.modFolder + '/images/icons/' + char), true, 150, 150);
+				} else {
+					loadGraphic(Paths.image('blank', 'shared'));
+				}
 			else
 				loadGraphic(Paths.image('blank', 'shared'));
 	

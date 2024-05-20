@@ -1,6 +1,7 @@
 package;
 
 import sys.FileSystem;
+import sys.io.File;
 import flixel.math.FlxPoint;
 import flixel.util.FlxColor;
 import flixel.addons.effects.chainable.FlxEffectSprite;
@@ -9,8 +10,44 @@ import flixel.FlxSprite;
 import flixel.animation.FlxBaseAnimation;
 import flixel.graphics.frames.FlxAtlasFrames;
 import haxe.Json;
+import haxe.format.JsonParser;
 
 using StringTools;
+
+typedef CharacterFile =
+{
+	var animations:Array<Anim>;
+	var globalOffset:Array<Float>;
+	var isPlayable:Bool;
+	var skins:Array<SkinSet>;
+	var barcolor:RGB;
+    var	antialiasing:Bool;
+	var nativelyPlayable:Bool;
+	var flipX:Bool;
+	var updateHitbox:Bool;
+	var setGraphicSize:String;
+}
+
+typedef Anim = 
+{
+	var animName:String;
+	var anim:String;
+	var fps:Int;
+	var loop:Bool;
+}
+
+typedef SkinSet = 
+{
+	var type:String;
+	var replacement:String;
+}
+
+typedef RGB = 
+{
+	var red:Int;
+	var green:Int;
+	var blue:Int;
+}
 
 class Character extends FlxSprite
 {
@@ -33,6 +70,8 @@ class Character extends FlxSprite
 	
 	public var canSing:Bool = true;
 	public var skins:Map<String, String> = new Map<String, String>();
+	public var rawJsonCustom:String;
+    public var jsonCustom:CharacterFile;
 
 	public function new(x:Float, y:Float, ?character:String = "bf", ?isPlayer:Bool = false)
 	{
@@ -1144,6 +1183,135 @@ class Character extends FlxSprite
 
 				loadOffsetFile(curCharacter);
 				playAnim('firstDeath');
+
+				default:
+					if (FileSystem.exists(TitleState.modFolder + '/data/characters/${curCharacter}.json')) {
+
+				rawJsonCustom = File.getContent((TitleState.modFolder + '/data/characters/${curCharacter}.json'));
+			    jsonCustom = cast Json.parse(rawJsonCustom);
+
+				frames = Paths.getCustomSparrowAtlas(TitleState.modFolder + '/images/characters/' + curCharacter);
+				
+				for (i in jsonCustom.animations) {
+				animation.addByPrefix(i.animName, i.anim, i.fps, i.loop);
+				}
+			
+                 if (!jsonCustom.isPlayable) {
+				loadCustomOffsetFile(curCharacter);
+				 } else {
+				loadCustomOffsetFile(curCharacter + (isPlayer ? '-playable' : ''));
+				 }
+
+				globalOffset = jsonCustom.globalOffset;
+
+				for (i in jsonCustom.skins) {
+				skins.set(i.type, i.replacement);
+				}
+
+				barColor = FlxColor.fromRGB(jsonCustom.barcolor.red, jsonCustom.barcolor.green, jsonCustom.barcolor.blue);
+
+				if (jsonCustom.setGraphicSize != '') 
+					{
+						var thing = jsonCustom.setGraphicSize;
+						setGraphicSize(Std.int(width * Reflect.field(PlayState, thing)));
+					}
+
+				if (jsonCustom.updateHitbox)
+					{
+					updateHitbox();
+					}
+
+				nativelyPlayable = jsonCustom.nativelyPlayable;
+
+				antialiasing = jsonCustom.antialiasing;
+
+				
+
+				flipX = jsonCustom.flipX;
+				
+				playAnim('idle');
+					} else if (FileSystem.exists('mods/global characters/characters/${curCharacter}.json')) {
+
+				rawJsonCustom = File.getContent(('mods/global characters/characters/${curCharacter}.json'));
+				jsonCustom = cast Json.parse(rawJsonCustom);
+
+				frames = Paths.getCustomSparrowAtlas('mods/global characters/images/' + curCharacter);
+				
+				for (i in jsonCustom.animations) {
+				animation.addByPrefix(i.animName, i.anim, i.fps, i.loop);
+				}
+			
+                 if (!jsonCustom.isPlayable) {
+				loadCustomOffsetFile(curCharacter);
+				 } else {
+				loadCustomOffsetFile(curCharacter + (isPlayer ? '-playable' : ''));
+				 }
+
+				globalOffset = jsonCustom.globalOffset;
+
+				for (i in jsonCustom.skins) {
+				skins.set(i.type, i.replacement);
+				}
+
+				barColor = FlxColor.fromRGB(jsonCustom.barcolor.red, jsonCustom.barcolor.green, jsonCustom.barcolor.blue);
+
+				if (jsonCustom.setGraphicSize != '') 
+					{
+						var thing = jsonCustom.setGraphicSize;
+						setGraphicSize(Std.int(width * Reflect.field(PlayState, thing)));
+					}
+
+				if (jsonCustom.updateHitbox)
+					{
+					updateHitbox();
+					}
+
+				nativelyPlayable = jsonCustom.nativelyPlayable;
+
+				antialiasing = jsonCustom.antialiasing;
+
+				
+
+				flipX = jsonCustom.flipX;
+				
+				playAnim('idle');
+
+					} else {
+
+				frames = Paths.getSparrowAtlas('characters/BOYFRIEND', 'shared');
+				
+				animation.addByPrefix('idle', 'BF idle dance', 24, false);
+				animation.addByPrefix('singUP', 'BF NOTE UP0', 24, false);
+				animation.addByPrefix('singLEFT', 'BF NOTE LEFT0', 24, false);
+				animation.addByPrefix('singRIGHT', 'BF NOTE RIGHT0', 24, false);
+				animation.addByPrefix('singDOWN', 'BF NOTE DOWN0', 24, false);
+				animation.addByPrefix('singUPmiss', 'BF NOTE UP MISS', 24, false);
+				animation.addByPrefix('singLEFTmiss', 'BF NOTE LEFT MISS', 24, false);
+				animation.addByPrefix('singRIGHTmiss', 'BF NOTE RIGHT MISS', 24, false);
+				animation.addByPrefix('singDOWNmiss', 'BF NOTE DOWN MISS', 24, false);
+				animation.addByPrefix('hey', 'BF HEY', 24, false);
+
+				animation.addByPrefix('firstDeath', "BF dies", 24, false);
+				animation.addByPrefix('deathLoop', "BF Dead Loop", 24, true);
+				animation.addByPrefix('deathConfirm', "BF Dead confirm", 24, false);
+				animation.addByPrefix('dodge', "boyfriend dodge", 24, false);
+				animation.addByPrefix('scared', 'BF idle shaking', 24);
+				animation.addByPrefix('hit', 'BF hit', 24, false);
+
+				loadOffsetFile('bf');
+
+				skins.set('gfSkin', 'gf');
+				skins.set('3d', 'bf-3d');
+
+				barColor = FlxColor.fromRGB(49, 176, 209);
+       
+
+				playAnim('idle');
+
+				nativelyPlayable = true;
+
+				flipX = true;
+					}
 		}
 		dance();
 
@@ -1165,6 +1333,17 @@ class Character extends FlxSprite
 		}
 	}
 
+	function loadCustomOffsetFile(character:String)
+		{
+			var offsetStuffs:Array<String> = CoolUtil.coolTextFile(TitleState.modFolder + '/offsets/' + character + '.txt');
+			
+			for (offsetText in offsetStuffs)
+			{
+				var offsetInfo:Array<String> = offsetText.split(' ');
+	
+				addOffset(offsetInfo[0], Std.parseFloat(offsetInfo[1]), Std.parseFloat(offsetInfo[2]));
+			}
+		}
 	override function update(elapsed:Float)
 	{
 		if (animation == null)

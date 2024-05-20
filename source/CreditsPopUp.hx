@@ -162,7 +162,7 @@ class CreditsPopUp extends FlxSpriteGroup
 				bg.loadGraphic(Paths.image(headingPath.path));
 				} else {
 					trace('nae');
-				bg.loadGraphic(Paths.customImage('images/' + headingPath.path));
+				bg.loadGraphic(Paths.customImage(TitleState.modFolder + '/images/' + headingPath.path));
 				}
 			}
 			else
@@ -181,7 +181,7 @@ class CreditsPopUp extends FlxSpriteGroup
 		rescaleIcon();
 		add(funnyIcon);
 		} else {
-		funnyIcon = new FlxSprite(0, 0, Paths.customImage('images/songCreators/' + songCreator));
+		funnyIcon = new FlxSprite(0, 0, Paths.customImage(TitleState.modFolder + '/images/songCreators/' + songCreator));
 		rescaleIcon();
 		add(funnyIcon);
 		}

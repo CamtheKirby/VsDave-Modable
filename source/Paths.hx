@@ -8,6 +8,7 @@ import openfl.utils.AssetType;
 import openfl.utils.Assets as OpenFlAssets;
 #if sys import sys.FileSystem; #end
 import flash.media.Sound;
+import sys.io.File;
 
 class Paths
 {
@@ -88,6 +89,13 @@ class Paths
 		}
 	}
 
+	inline static public function customFile(file:String)
+		{
+			   var defaultReturnPath = File.getContent(file);
+
+				return defaultReturnPath;
+		}
+
 	inline static public function txt(key:String, ?library:String)
 	{
 		var defaultReturnPath = getPath('data/$key.txt', TEXT, library);
@@ -158,7 +166,7 @@ class Paths
 
 		inline static public function customImage(key:String)
 			{
-				return (FlxGraphic.fromBitmapData(BitmapData.fromFile(TitleState.modFolder + '/${key}.png')));
+				return (FlxGraphic.fromBitmapData(BitmapData.fromFile('${key}.png')));
 			}
 	inline static public function music(key:String, ?library:String)
 	{
@@ -287,13 +295,23 @@ class Paths
 
 	inline static public function getSparrowAtlas(key:String, ?library:String)
 	{
-		return FlxAtlasFrames.fromSparrow(image(key, library), file('images/$key.xml', library));
+		return FlxAtlasFrames.fromSparrow(image(key, library), file('images/$key.xml', library));	
 	}
+
+	inline static public function getCustomSparrowAtlas(key:String)
+		{
+			return FlxAtlasFrames.fromSparrow(customImage(key), customFile('$key.xml'));	
+		}
 
 	inline static public function getPackerAtlas(key:String, ?library:String)
 	{
 		return FlxAtlasFrames.fromSpriteSheetPacker(image(key, library), file('images/$key.txt', library));
 	}
+
+	inline static public function getCustomPackerAtlas(key:String)
+		{
+			return FlxAtlasFrames.fromSpriteSheetPacker(customImage(key), customFile('$key.txt'));
+		}
 
 	inline static public function video(key:String, ?library:String)
 	{

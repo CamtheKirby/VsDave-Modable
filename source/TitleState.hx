@@ -127,7 +127,7 @@ class TitleState extends MusicBeatState
 		
 		if(FileSystem.exists('mods')) {
 			for (folder in FileSystem.readDirectory('mods')){
-				if (FileSystem.isDirectory('mods/' + folder) && !mods.contains(folder) && folder != 'skins')
+				if (FileSystem.isDirectory('mods/' + folder) && !mods.contains(folder) && folder != 'global characters')
 					mods.push(folder);
 			}
 			}
