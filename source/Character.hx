@@ -1242,9 +1242,9 @@ class Character extends FlxSprite
 				}
 			
                  if (!jsonCustom.isPlayable) {
-				loadCustomOffsetFile(curCharacter);
+				loadSkinOffsetFile(curCharacter);
 				 } else {
-				loadCustomOffsetFile(curCharacter + (isPlayer ? '-playable' : ''));
+				loadSkinOffsetFile(curCharacter + (isPlayer ? '-playable' : ''));
 				 }
 
 				globalOffset = jsonCustom.globalOffset;
@@ -1344,6 +1344,18 @@ class Character extends FlxSprite
 				addOffset(offsetInfo[0], Std.parseFloat(offsetInfo[1]), Std.parseFloat(offsetInfo[2]));
 			}
 		}
+
+		function loadSkinOffsetFile(character:String)
+			{
+				var offsetStuffs:Array<String> = CoolUtil.coolTextFile('mods/global characters/offsets/' + character + '.txt');
+				
+				for (offsetText in offsetStuffs)
+				{
+					var offsetInfo:Array<String> = offsetText.split(' ');
+		
+					addOffset(offsetInfo[0], Std.parseFloat(offsetInfo[1]), Std.parseFloat(offsetInfo[2]));
+				}
+			}
 	override function update(elapsed:Float)
 	{
 		if (animation == null)
