@@ -65,11 +65,7 @@ class TitleState extends MusicBeatState
 		//}
 
 
-		if (FlxG.save.data.Mod == null)
-			FlxG.save.data.Mod = 'test'; // DON'T REMOVE ALL MOD FOLDERS OR CRASH i think
-
-			currentMod = FlxG.save.data.Mod;
-			modFolder = 'mods/' + currentMod;
+		
 		PlayerSettings.init();
 
 		curWacky = FlxG.random.getObject(getIntroTextShit());
@@ -121,6 +117,13 @@ class TitleState extends MusicBeatState
 		#elseif CHARTING
 		FlxG.switchState(new ChartingState());
 		#else
+
+
+		if (FlxG.save.data.Mod == null)
+			FlxG.save.data.Mod = 'test'; // DON'T REMOVE ALL MOD FOLDERS OR CRASH i think
+
+			currentMod = FlxG.save.data.Mod;
+			modFolder = 'mods/' + currentMod;
 		
 		if(FileSystem.exists('mods')) {
 			for (folder in FileSystem.readDirectory('mods')){

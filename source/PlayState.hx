@@ -465,8 +465,11 @@ class PlayState extends MusicBeatState
 		resetShader();
 
 		if (FreeplayState.isaCustomSong) {
+			if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-cred.txt')) {
 			custom = CoolUtil.coolTextFile(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-cred.txt');
 			}
+		}
+			
 
 		switch (SONG.song.toLowerCase())
 		{
@@ -669,6 +672,7 @@ class PlayState extends MusicBeatState
 		// DIALOGUE STUFF
 		// Hi guys i know yall are gonna try to add more dialogue here, but with this new system, all you have to do is add a dialogue file with the name of the song in the assets/data/dialogue folder,
 		// and it will automatically get the dialogue in this function
+			if (!FreeplayState.isaCustomSong) {
 		if (FileSystem.exists(Paths.txt('dialogue/${SONG.song.toLowerCase()}')))
 		{
 			var postfix:String = "";
@@ -683,6 +687,22 @@ class PlayState extends MusicBeatState
 		{
 			hasDialogue = false;
 		}
+	} else {
+		if (FileSystem.exists(TitleState.modFolder + '/data/dialogue/${SONG.song.toLowerCase()}.txt'))
+			{
+				var postfix:String = "";
+				if (PlayState.instance.localFunny == PlayState.CharacterFunnyEffect.Recurser)
+				{
+					postfix = "-recurser";
+				}
+				dialogue = CoolUtil.coolTextFile(TitleState.modFolder + '/data/dialogue/${SONG.song.toLowerCase() + postfix}.txt');
+				hasDialogue = true;
+			}
+			else
+			{
+				hasDialogue = false;
+			}
+	}
 
 		if(SONG.stage == null)
 		{
@@ -1123,7 +1143,7 @@ class PlayState extends MusicBeatState
 				add(tv);
 		}
 
-		var doof:DialogueBox = new DialogueBox(false, dialogue, isStoryMode || localFunny == CharacterFunnyEffect.Recurser);
+		var doof:DialogueBox = new DialogueBox(false, dialogue, isStoryMode || localFunny == CharacterFunnyEffect.Recurser || FreeplayState.isaCustomSong);
 		// doof.x += 70;
 		// doof.y = FlxG.height * 0.5;
 		doof.scrollFactor.set();
@@ -1321,7 +1341,7 @@ class PlayState extends MusicBeatState
 			case 'kabunga':
 				credits = LanguageManager.getTextString('kabunga_credit');
 			default:
-				if (FreeplayState.isaCustomSong) {
+				if (FreeplayState.isaCustomSong && (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-cred.txt'))) {
 					for (i in 0...custom.length)
 						{
 							var data:Array<String> = custom[i].split(':');
@@ -1509,7 +1529,7 @@ class PlayState extends MusicBeatState
 		{
 			startTimer.active = true;
 		}
-		if (isStoryMode || localFunny == CharacterFunnyEffect.Recurser)
+		if (isStoryMode || localFunny == CharacterFunnyEffect.Recurser || FreeplayState.isaCustomSong)
 		{
 			if (hasDialogue)
 			{
