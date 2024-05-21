@@ -108,6 +108,9 @@ class ChartingState extends MusicBeatState
 
 	var shagVoice:Bool;
 
+	var c:Array<String>;
+	var cm:Array<String>;
+
 	override function create()
 	{
 		curSection = lastSection;
@@ -329,7 +332,15 @@ class ChartingState extends MusicBeatState
 			shiftNotes(Std.int(stepperShiftNoteDial.value),Std.int(stepperShiftNoteDialstep.value),Std.int(stepperShiftNoteDialms.value));
 		});
 
-		var characters:Array<String> = CoolUtil.coolTextFile(Paths.txt('characterList'));
+		c = CoolUtil.coolTextFile(Paths.txt('characterList'));
+
+         if (FileSystem.exists(TitleState.modFolder + '/data/customCharacterList.txt')) {
+         cm = CoolUtil.coolTextFile(TitleState.modFolder + '/data/customCharacterList.txt');
+         } else {
+        cm = [''];
+        }
+
+var characters:Array<String> = c.concat(cm);
 
 		var stages:Array<String> = CoolUtil.coolTextFile(Paths.txt('stageList'));
 
