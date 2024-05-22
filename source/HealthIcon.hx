@@ -37,7 +37,7 @@ class HealthIcon extends FlxSprite
 	{
 		if (this.char != char)
 		{
-			if (char != "none")
+			if (char != "none") {
 				if (FileSystem.exists('assets/images/ui/iconGrid/' + char + '.png')) {
 				loadGraphic(FlxGraphic.fromBitmapData(BitmapData.fromFile(Paths.image('ui/iconGrid/' + char, 'preload'))), true, 150, 150);
 				} else if (FileSystem.exists('mods/global characters/icons/' + char + '.png')) {
@@ -47,8 +47,9 @@ class HealthIcon extends FlxSprite
 				} else {
 					loadGraphic(Paths.image('blank', 'shared'));
 				}
-			else
+			} else {
 				loadGraphic(Paths.image('blank', 'shared'));
+			}
 	
 			if (char != "none")
 			{
