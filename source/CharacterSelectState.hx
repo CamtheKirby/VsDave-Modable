@@ -89,7 +89,7 @@ class CharacterSelectState extends MusicBeatState
 	public var notemodtext:FlxText;
 	public var characterText:FlxText;
 	public var wasInFullscreen:Bool;
-	
+	public static var inCS:Bool = false;
 	public var funnyIconMan:HealthIcon;
 
 	var strummies:FlxTypedGroup<FlxSprite>;
@@ -163,6 +163,8 @@ class CharacterSelectState extends MusicBeatState
 	
 	override public function create():Void 
 	{
+
+		inCS = true;
 		unlockCharacter('shaggy');
 		if (PlayState.SONG.song.toLowerCase() == 'exploitation' && !FlxG.save.data.modchart)
 		{
@@ -488,6 +490,7 @@ class CharacterSelectState extends MusicBeatState
 			{
 				FlxG.fullscreen = true;
 			}
+			inCS = false;
 			LoadingState.loadAndSwitchState(new FreeplayState());
 		}
 
@@ -529,6 +532,7 @@ class CharacterSelectState extends MusicBeatState
 			char.playAnim(heyAnimation ? 'hey' : 'singUP', true);
 			FlxG.sound.music.fadeOut(1.9, 0);
 			FlxG.sound.play(Paths.sound('confirmMenu', 'preload'));
+			inCS = false;
 			new FlxTimer().start(1.9, endIt);
 		}
 		if (FlxG.keys.justPressed.LEFT && !selectedCharacter)

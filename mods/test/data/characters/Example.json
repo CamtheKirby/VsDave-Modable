@@ -45,5 +45,6 @@
     "nativelyPlayable": true,
     "flipX": true,
     "updateHitbox": true,
-    "setGraphicSize": ""
+    "setGraphicSize": "",
+    "effect": "3dfloat"
 }

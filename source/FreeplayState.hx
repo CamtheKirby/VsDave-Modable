@@ -597,6 +597,7 @@ class FreeplayState extends MusicBeatState
 			}
 			if (controls.BACK && canInteract && !awaitingExploitation)
 			{
+				isaCustomSong = false;
 				FlxG.switchState(new MainMenuState());
 			}
 

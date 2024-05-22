@@ -22,7 +22,7 @@ class ModSubState extends MusicBeatSubstate
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 	var bg:FlxBackdrop;
 
-// First, create an empty array
+
 var menuItems:Array<ModOption> = [];
 
 	var curSelected:Int = 0;

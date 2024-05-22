@@ -26,6 +26,7 @@ typedef CharacterFile =
 	var flipX:Bool;
 	var updateHitbox:Bool;
 	var setGraphicSize:String;
+	var effect:String;
 }
 
 typedef Anim = 
@@ -1213,8 +1214,28 @@ class Character extends FlxSprite
 				if (jsonCustom.setGraphicSize != '') 
 					{
 						var thing = jsonCustom.setGraphicSize;
-						setGraphicSize(Std.int(width * Reflect.field(PlayState, thing)));
+						if (thing == 'furiosityScale') {
+						setGraphicSize(Std.int((width * 1.3) / furiosityScale));
+						} else if (thing == 'daPixelZoom') {
+						setGraphicSize(Std.int(width * PlayState.daPixelZoom));
+						}else {
+						setGraphicSize(Std.int(width * Std.parseInt(thing)));
+						}
 					}
+
+					if (jsonCustom.effect != '') 
+						{
+							var funnyeffect = jsonCustom.effect;
+							if (funnyeffect == '3dfloat' && !PlayState.funnyFloatyBoys.contains(curCharacter )&& !Note.CharactersWith3D.contains(curCharacter)) {
+							PlayState.funnyFloatyBoys.push(curCharacter);
+							Note.CharactersWith3D.push(curCharacter);
+							} else if (funnyeffect == 'float'  && !PlayState.floatyBoysMod.contains(curCharacter)) {
+							PlayState.floatyBoysMod.push(curCharacter);
+						} else if (funnyeffect == '3d' && !PlayState.threedBoysMod.contains(curCharacter) && !Note.CharactersWith3D.contains(curCharacter)) {
+							PlayState.threedBoysMod.push(curCharacter);
+							Note.CharactersWith3D.push(curCharacter);
+						}
+ 					}
 
 				if (jsonCustom.updateHitbox)
 					{
@@ -1258,8 +1279,30 @@ class Character extends FlxSprite
 				if (jsonCustom.setGraphicSize != '') 
 					{
 						var thing = jsonCustom.setGraphicSize;
-						setGraphicSize(Std.int(width * Reflect.field(PlayState, thing)));
+						if (thing == 'furiosityScale') {
+						setGraphicSize(Std.int((width * 1.3) / furiosityScale));
+						} else if (thing == 'daPixelZoom') {
+						setGraphicSize(Std.int(width * PlayState.daPixelZoom));
+						}else {
+						setGraphicSize(Std.int(width * Std.parseInt(thing)));
+						}
 					}
+					
+					if (jsonCustom.effect != '') 
+						{
+							var funnyeffect = jsonCustom.effect;
+							if (funnyeffect == '3dfloat' && !PlayState.funnyFloatyBoys.contains(curCharacter) || !Note.CharactersWith3D.contains(curCharacter)) {
+							PlayState.funnyFloatyBoys.push(curCharacter);
+							Note.CharactersWith3D.push(curCharacter);
+							} else if (funnyeffect == 'float'  && !PlayState.floatyBoysMod.contains(curCharacter)) {
+							PlayState.floatyBoysMod.push(curCharacter);
+						} else if (funnyeffect == '3d' && !PlayState.threedBoysMod.contains(curCharacter) || !Note.CharactersWith3D.contains(curCharacter)) {
+							PlayState.threedBoysMod.push(curCharacter);
+							Note.CharactersWith3D.push(curCharacter);
+						}
+ 					}
+					
+					
 
 				if (jsonCustom.updateHitbox)
 					{

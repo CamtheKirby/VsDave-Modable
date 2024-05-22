@@ -163,7 +163,9 @@ class PlayState extends MusicBeatState
 
 	var focusOnDadGlobal:Bool = true;
 
-	var funnyFloatyBoys:Array<String> = ['dave-angey', 'bambi-3d', 'expunged', 'bambi-unfair', 'exbungo', 'dave-festival-3d', 'dave-3d-recursed', 'bf-3d'];
+	public static var funnyFloatyBoys:Array<String> = ['dave-angey', 'bambi-3d', 'expunged', 'bambi-unfair', 'exbungo', 'dave-festival-3d', 'dave-3d-recursed', 'bf-3d'];
+	public static var floatyBoysMod:Array<String> = [];
+	public static var threedBoysMod:Array<String> = ['nofriend'];
 
 	var storyDifficultyText:String = "";
 	var iconRPC:String = "";
@@ -778,7 +780,8 @@ class PlayState extends MusicBeatState
 		var gfVersion:String = 'gf';
 		
 		var noGFSongs = ['memory', 'five-nights', 'bot-trot', 'escape-from-california', 'overdrive'];
-		
+		trace(funnyFloatyBoys);
+		trace('this this false right?: ' + CharacterSelectState.inCS);
 		if(SONG.gf != null)
 		{
 			gfVersion = SONG.gf;
@@ -1110,7 +1113,7 @@ class PlayState extends MusicBeatState
 				if (isShaggy) boyfriend.y += 200;
 				if (boyfriend.curCharacter == 'godshaggy') boyfriend.x += 300;
 			case 'red-void':
-				if (funnyFloatyBoys.contains(dad.curCharacter))
+				if (funnyFloatyBoys.contains(dad.curCharacter) || floatyBoysMod.contains(dad.curCharacter))
 				{
 					dad.y -= 70;
 				}
@@ -2722,7 +2725,7 @@ class PlayState extends MusicBeatState
 		{
 			var arrowType:Int = note_order[i];
 			var strumType:String = '';
-			if ((funnyFloatyBoys.contains(dad.curCharacter) || dad.curCharacter == "nofriend") && player == 0 || funnyFloatyBoys.contains(boyfriend.curCharacter) && player == 1)
+			if ((funnyFloatyBoys.contains(dad.curCharacter) || threedBoysMod.contains(dad.curCharacter)) && player == 0 || funnyFloatyBoys.contains(boyfriend.curCharacter) || threedBoysMod.contains(boyfriend.curCharacter) && player == 1)
 			{
 				strumType = '3D';
 			}
@@ -3265,7 +3268,7 @@ class PlayState extends MusicBeatState
 			dad.y += (toy - dad.y);
 		}
 
-		if(funnyFloatyBoys.contains(dad.curCharacter.toLowerCase()) && canFloat)
+		if(funnyFloatyBoys.contains(dad.curCharacter.toLowerCase()) || floatyBoysMod.contains(dad.curCharacter.toLowerCase()) && canFloat)
 		{
 			if (dad.curCharacter.toLowerCase() == "expunged")
 			{
@@ -3278,7 +3281,7 @@ class PlayState extends MusicBeatState
 				dad.y += (Math.sin(elapsedtime) * 0.2);
 			}
 		}
-		if(funnyFloatyBoys.contains(boyfriend.curCharacter.toLowerCase()) && canFloat)
+		if(funnyFloatyBoys.contains(boyfriend.curCharacter.toLowerCase()) || floatyBoysMod.contains(boyfriend.curCharacter.toLowerCase()) && canFloat)
 		{
 			boyfriend.y += (Math.sin(elapsedtime) * 0.2);
 		}
@@ -3287,7 +3290,7 @@ class PlayState extends MusicBeatState
 			dadmirror.y += (Math.sin(elapsedtime) * 0.6);
 		}*/
 
-		if(funnyFloatyBoys.contains(gf.curCharacter.toLowerCase()) && canFloat)
+		if(funnyFloatyBoys.contains(gf.curCharacter.toLowerCase()) || floatyBoysMod.contains(gf.curCharacter.toLowerCase()) && canFloat)
 		{
 			gf.y += (Math.sin(elapsedtime) * 0.2);
 		}
