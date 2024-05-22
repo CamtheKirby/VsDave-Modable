@@ -108,6 +108,13 @@ class FreeplayState extends MusicBeatState
 		'overdrive'*/
 	];
 
+	var descriptions:Array<String> =
+	[
+		'See the Story',
+		'haha joke funny',
+		'Extra songs for you to play'
+	];
+
 	private var camFollow:FlxObject;
 	private static var prevCamFollow:FlxObject;
 
@@ -137,6 +144,8 @@ class FreeplayState extends MusicBeatState
 	public static var isaCustomSong:Bool = false;
 	var characterSelectText:FlxText;
 	var showCharText:Bool = true;
+
+	var curOptDesc:FlxText;
 
 	override function create()
 	{
@@ -208,8 +217,19 @@ class FreeplayState extends MusicBeatState
 			LanguageManager.getTextString('freeplay_extra'),
 			LanguageManager.getTextString('freeplay_terminal'),
 		    TitleState.currentMod];
+			descriptions = [
+			'See the Story',
+			'haha joke funny',
+			'Extra songs for you to play',
+			'cmd.exe'];
 		}
 
+		if (FileSystem.exists(TitleState.modFolder + '/desc.txt')) {
+			descriptions.push(Paths.customFile(TitleState.modFolder + '/desc.txt'));
+		} else {
+			descriptions.push('A mod');
+		}
+		
 		for (i in 0...Catagories.length)
 		{
 			Highscore.load();
@@ -261,6 +281,15 @@ class FreeplayState extends MusicBeatState
 		FlxG.camera.follow(camFollow, LOCKON, 0.04);
 		FlxG.camera.focusOn(camFollow.getPosition());
 
+		curOptDesc = new FlxText(0, 0, FlxG.width, descriptions[CurrentPack]);
+		curOptDesc.setFormat("Comic Sans MS Bold", 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		curOptDesc.scrollFactor.set(0, 0);
+		curOptDesc.borderSize = 2;
+		curOptDesc.antialiasing = true;
+		curOptDesc.screenCenter(X);
+		curOptDesc.y = FlxG.height - 58;
+		add(curOptDesc);
+
 		if (awaitingExploitation)
 		{
 			if (!packTransitionDone)
@@ -297,6 +326,8 @@ class FreeplayState extends MusicBeatState
 					translatedCatagory = ['uh oh'];
 					packTransitionDone = true;
 					canInteract = true;
+					descriptions = ['See MY power'];
+					curOptDesc.text = descriptions[CurrentPack];
 				}});
 			}
 			else
@@ -317,6 +348,8 @@ class FreeplayState extends MusicBeatState
 				
 				Catagories = ['uhoh'];
 				translatedCatagory = ['uh oh'];
+				descriptions = ['See MY power'];
+				curOptDesc.text = descriptions[CurrentPack];
 			}
 		}
 
@@ -484,6 +517,7 @@ class FreeplayState extends MusicBeatState
 			CurrentPack = 0;
 
 		camFollow.x = icons[CurrentPack].x + 256;
+		curOptDesc.text = descriptions[CurrentPack];
 	}
 
 	override function beatHit()
@@ -582,11 +616,13 @@ class FreeplayState extends MusicBeatState
 					
 					for (item in icons) { FlxTween.tween(item, {alpha: 0, y: item.y - 200}, 0.2, {ease: FlxEase.cubeInOut}); }
 					for (item in titles) { FlxTween.tween(item, {alpha: 0, y: item.y - 200}, 0.2, {ease: FlxEase.cubeInOut}); }
+					FlxTween.tween(curOptDesc, {alpha: 0, y: curOptDesc.y - 200}, 0.2, {ease: FlxEase.cubeInOut});
 					
 					new FlxTimer().start(0.2, function(Dumbshit:FlxTimer)
 					{
 						for (item in icons) { item.visible = false; }
 						for (item in titles) { item.visible = false; }
+						curOptDesc.visible = false;
 
 						GoToActualFreeplay();
 						resetPresses();
@@ -641,6 +677,9 @@ class FreeplayState extends MusicBeatState
 
 						for (item in icons) { item.visible = true; FlxTween.tween(item, {alpha: 1, y: item.y + 200}, 0.2, {ease: FlxEase.cubeInOut}); }
 						for (item in titles) { item.visible = true; FlxTween.tween(item, {alpha: 1, y: item.y + 200}, 0.2, {ease: FlxEase.cubeInOut}); }
+
+					    curOptDesc.visible = true; 
+						FlxTween.tween(curOptDesc, {alpha: 1, y: curOptDesc.y + 200}, 0.2, {ease: FlxEase.cubeInOut});
 
 						if (scoreBG != null)
 						{
