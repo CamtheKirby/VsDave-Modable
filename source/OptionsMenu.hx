@@ -40,6 +40,8 @@ class OptionsMenu extends MusicBeatState
 		'SongName',
 	];
 	var curSongBarOptionSelected:Int;
+	public static var onPlayState:Bool = false;
+	
 	override function create()
 	{
 		#if desktop
@@ -130,9 +132,17 @@ class OptionsMenu extends MusicBeatState
 
 		if (controls.BACK)
 		{
+			if(onPlayState) {
+			FlxG.save.flush();
+			CompatTool.save.flush();
+			LoadingState.loadAndSwitchState(new PlayState());
+			FlxG.sound.music.volume = 0;
+			onPlayState = false;
+			} else {
 			FlxG.save.flush();
 			CompatTool.save.flush();
 			FlxG.switchState(new MainMenuState());
+			}
 		}
 		if (controls.UP_P)
 			changeSelection(-1);

@@ -27,6 +27,7 @@ class PauseSubState extends MusicBeatSubstate
 		new PauseOption('Restart Song'),
 		new PauseOption('Change Character'),
 		new PauseOption('No Miss Mode'),
+		new PauseOption('Options'),
 		new PauseOption('Exit to menu')
 	];
 	var curSelected:Int = 0;
@@ -133,7 +134,7 @@ class PauseSubState extends MusicBeatSubstate
 
 		for (i in 0...menuItems.length)
 		{
-			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, LanguageManager.getTextString('pause_${menuItems[i].optionName}'), true, false);
+			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, LanguageManager.getTextString('${menuItems[i].optionName}'), true, false);
 			songText.isMenuItem = true;
 			songText.targetY = i;
 			grpMenuShit.add(songText);
@@ -241,6 +242,14 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.instance.health = 0;
 					close();
 				}
+			case "Options":
+				if (MathGameState.failedGame)
+					{
+						MathGameState.failedGame = false;
+					}
+				PlayState.instance.vocals.volume = 0;
+				FlxG.switchState(new OptionsMenu());
+				OptionsMenu.onPlayState = true;
 			case "Exit to menu":
 				if (MathGameState.failedGame)
 				{
