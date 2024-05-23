@@ -94,6 +94,7 @@ class OptionsMenu extends MusicBeatState
 			+ "\n" + (FlxG.save.data.disableFps ? LanguageManager.getTextString('option_enable_fps') : LanguageManager.getTextString('option_disable_fps'))
 			+ "\n" + (CompatTool.save.data.compatMode ? LanguageManager.getTextString('option_enable_compat') : LanguageManager.getTextString('option_disable_compat'))
 			+ "\n" + (FlxG.save.data.modchart ? 'Mod Chart OFF' : 'Mod Chart ON')
+			+ "\n" + (FlxG.save.data.lessLag ? 'Less Lag OFF' : 'Less Lag ON')
 			);
 
 		grpControls = new FlxTypedGroup<Alphabet>();
@@ -211,7 +212,11 @@ class OptionsMenu extends MusicBeatState
 					updateGroupControls(CompatTool.save.data.compatMode ? LanguageManager.getTextString('option_enable_compat') : LanguageManager.getTextString('option_disable_compat'), 11, 'Vertical');
 				case 12:
 					if (!awaitingExploitation) FlxG.save.data.modchart = !FlxG.save.data.modchart;
-					updateGroupControls(FlxG.save.data.modchart ? 'Mod Chart OFF' : 'Mod Chart ON', 12, 'Vertical');		 
+					updateGroupControls(FlxG.save.data.modchart ? 'Mod Chart OFF' : 'Mod Chart ON', 12, 'Vertical');		
+					
+					case 13:
+					FlxG.save.data.lessLag = !FlxG.save.data.lessLag;
+					updateGroupControls(FlxG.save.data.lessLag ? 'Less Lag OFF' : 'Less Lag ON', 12, 'Vertical');	
 			}
 		}
 

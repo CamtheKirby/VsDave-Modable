@@ -4172,7 +4172,7 @@ class PlayState extends MusicBeatState
 							}
 					}
 					cameraMoveOnNote(noteToPlay, 'dad');
-					
+					if (FlxG.save.data.lessLag) {
 					dadStrums.forEach(function(sprite:StrumNote)
 					{
 						if (Math.abs(Math.round(Math.abs(daNote.noteData)) % dadStrumAmount) == sprite.ID)
@@ -4204,6 +4204,7 @@ class PlayState extends MusicBeatState
 						}
 						sprite.pressingKey5 = daNote.noteStyle == 'shape';
 					});
+				}
 
 					daNote.hitByOpponent = true;
 
@@ -4976,6 +4977,7 @@ class PlayState extends MusicBeatState
 			coolText.screenCenter();
 			coolText.x = FlxG.width * 0.55;
 		}
+		if (FlxG.save.data.lessLag) {
 		var rating = new FlxSprite().loadGraphic(Paths.image("ui/" + assetPath + daRating));
 		rating.screenCenter();
 		rating.x = coolText.x - 40;
@@ -5070,6 +5072,7 @@ class PlayState extends MusicBeatState
 			startDelay: Conductor.crochet * 0.001
 		});
 	}
+}
 
 
 	private function popUpScore(strumtime:Float, note:Note):Void
@@ -5953,7 +5956,9 @@ class PlayState extends MusicBeatState
 				if(botPlay) {
 					if (Math.abs(Math.round(Math.abs(note.noteData)) % playerStrumAmount) == spr.ID)
 					{
+						if (FlxG.save.data.lessLag) {
 						spr.playAnim('confirm', true);
+						}
 						spr.animation.finishCallback = function(name:String)
 						{
 							spr.playAnim('static', true);
@@ -5963,7 +5968,9 @@ class PlayState extends MusicBeatState
 				} else {
 					if (Math.abs(note.noteData) == spr.ID)
 					{
+						if (FlxG.save.data.lessLag) {
 						spr.playAnim('confirm', true);
+						}
 					}
 				}
 			});
