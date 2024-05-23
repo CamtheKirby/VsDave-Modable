@@ -318,15 +318,6 @@ class TitleState extends MusicBeatState
 				pressedEnter = true;
 			#end
 		}
-
-		#if debug
-		if (FlxG.keys.justPressed.S)
-		{
-			PlayState.SONG = Song.loadFromJson("bonus-song");
-			//PlayState.formoverride = 'shaggy';
-			LoadingState.loadAndSwitchState(new PlayState());
-		}
-		#end
 		
 		if (FlxG.keys.justPressed.ALT)
 		{
@@ -349,9 +340,9 @@ class TitleState extends MusicBeatState
 
 			new FlxTimer().start(2, function(tmr:FlxTimer)
 			{
-				#if debug
+			/*	#if debug
 				FlxG.save.data.exploitationState = null;
-				#end
+				#end */
 				FlxG.switchState(FlxG.save.data.alreadyGoneToWarningScreen && FlxG.save.data.exploitationState != 'playing' ? new MainMenuState() : new OutdatedSubState());
 			});
 		}

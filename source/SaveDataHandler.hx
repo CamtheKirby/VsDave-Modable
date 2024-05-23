@@ -61,5 +61,16 @@ class SaveDataHandler
 		
 		if (FlxG.save.data.songBarOption == null)
 			FlxG.save.data.songBarOption = 'ShowTime';
+
+		if (FlxG.save.data.adminMode == null) {
+			#if debug
+			FlxG.save.data.adminMode = true;
+			#else
+			FlxG.save.data.adminMode = false;
+			#end
+		}
+
+		if (FlxG.save.data.practiceMode == null)
+			FlxG.save.data.practiceMode = false;
     }
 }

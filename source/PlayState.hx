@@ -293,6 +293,8 @@ class PlayState extends MusicBeatState
 
 	var bfTween:ColorTween;
 
+	var adminMode:Bool;
+
 	var tweenTime:Float;
 
 	var songPosBar:FlxBar;
@@ -463,6 +465,8 @@ class PlayState extends MusicBeatState
 		paused = false;
 
 		barType = FlxG.save.data.songBarOption;
+
+		adminMode = FlxG.save.data.adminMode;
 
 		resetShader();
 
@@ -2256,6 +2260,14 @@ class PlayState extends MusicBeatState
 	}
 	function startCountdown():Void
 	{
+		if (SONG.song.toLowerCase() == 'cheating' || SONG.song.toLowerCase() == 'unfairness' || SONG.song.toLowerCase() == 'exploitation')
+			{
+				if(FlxG.save.data.botplay || FlxG.save.data.practiceMode && !adminMode)
+				{
+					FlxG.switchState(new SusState()); // hehe get jumpscared non-admins
+				}
+			}
+
 		inCutscene = false;
 
 		generateStaticArrows(0);
@@ -3813,7 +3825,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		#if debug
+		if (adminMode) {
 		if (FlxG.keys.justPressed.THREE)
 		{
 			if(FlxTransitionableState.skipNextTransIn)
@@ -3829,7 +3841,8 @@ class PlayState extends MusicBeatState
 			DiscordClient.changePresence("Chart Editor", null, null, true);
 			#end
 		}
-		#end
+	}
+
 
 		// FlxG.watch.addQuick('VOL', vocals.amplitudeLeft);
 		// FlxG.watch.addQuick('VOLRight', vocals.amplitudeRight);
@@ -3884,27 +3897,23 @@ class PlayState extends MusicBeatState
 				iconP1.changeState('normal');
 		}
 
-		#if debug
+		if (adminMode) {
 		if (FlxG.keys.justPressed.FOUR)
 		{
 			trace('DUMP LOL:\nDAD POSITION: ${dad.getPosition()}\nBOYFRIEND POSITION: ${boyfriend.getPosition()}\nGF POSITION: ${gf.getPosition()}\nCAMERA POSITION: ${camFollow.getPosition()}');
 		}
-		/*if (FlxG.keys.justPressed.FIVE)
+		if (FlxG.keys.justPressed.FIVE)
 		{
 			FlxG.switchState(new CharacterDebug(dad.curCharacter));
 		}
-		if (FlxG.keys.justPressed.SEMICOLON)
-		{
-			FlxG.switchState(new CharacterDebug(boyfriend.curCharacter));
-		}
-		if (FlxG.keys.justPressed.COMMA)
+		if (FlxG.keys.justPressed.NINE)
 		{
 			FlxG.switchState(new CharacterDebug(gf.curCharacter));
 		}
 		if (FlxG.keys.justPressed.EIGHT)
 			FlxG.switchState(new AnimationDebug(dad.curCharacter));
 		if (FlxG.keys.justPressed.SIX)
-			FlxG.switchState(new AnimationDebug(boyfriend.curCharacter));*/
+			FlxG.switchState(new AnimationDebug(boyfriend.curCharacter));
 		if (FlxG.keys.justPressed.TWO) //Go 10 seconds into the future :O
 		{
 			FlxG.sound.music.pause();
@@ -3945,9 +3954,7 @@ class PlayState extends MusicBeatState
 			vocals.play();
 			boyfriend.stunned = false;
 		}
-		/*if (FlxG.keys.justPressed.THREE)
-			FlxG.switchState(new AnimationDebug(gf.curCharacter));*/
-		#end
+	}
 	
 		if (startingSong)
 		{
@@ -3997,7 +4004,7 @@ class PlayState extends MusicBeatState
 		FlxG.watch.addQuick("beatShit", curBeat);
 		FlxG.watch.addQuick("stepShit", curStep);
 
-		if (health <= 0 && !botPlay)
+		if (health <= 0 && !botPlay && !FlxG.save.data.practiceMode)
 		{
 			if(!perfectMode)
 			{
@@ -4324,10 +4331,10 @@ class PlayState extends MusicBeatState
 		if (!inCutscene && !botPlay)
 			keyShit();
 
-		#if debug
+		if (adminMode) {
 		if (FlxG.keys.justPressed.ONE)
 			endSong();
-		#end
+	      }
 
 		if (updatevels)
 		{
@@ -4566,7 +4573,7 @@ class PlayState extends MusicBeatState
 
 		FlxG.sound.music.volume = 0;
 		vocals.volume = 0;
-		if (SONG.validScore && !botPlay && !(!modchartoption && (SONG.song.toLowerCase() == 'cheating' || SONG.song.toLowerCase() == 'unfairness' || SONG.song.toLowerCase() == 'kabunga' || localFunny == CharacterFunnyEffect.Exbungo || localFunny == CharacterFunnyEffect.Recurser || SONG.song.toLowerCase() == 'exploitation')))
+		if (SONG.validScore && !FlxG.save.data.practiceMode && !botPlay && !(!modchartoption && (SONG.song.toLowerCase() == 'cheating' || SONG.song.toLowerCase() == 'unfairness' || SONG.song.toLowerCase() == 'kabunga' || localFunny == CharacterFunnyEffect.Exbungo || localFunny == CharacterFunnyEffect.Recurser || SONG.song.toLowerCase() == 'exploitation')))
 		{
 			trace("score is valid");
 
@@ -4588,7 +4595,7 @@ class PlayState extends MusicBeatState
 		}
 		#end
 
-		if (!botPlay) {
+		if (!botPlay || !FlxG.save.data.practiceMode) {
 			// Song Character Unlocks (Story Mode)
 			if (isStoryMode)
 			{
@@ -4637,7 +4644,7 @@ class PlayState extends MusicBeatState
 				FlxG.save.data.songsCompleted = new Array<String>();
 			}
 			completedSongs = FlxG.save.data.songsCompleted;
-			if (!botPlay) completedSongs.push(storyPlaylist[0]);
+			if (!botPlay || !FlxG.save.data.practiceMode) completedSongs.push(storyPlaylist[0]);
 			for (i in 0...mustCompleteSongs.length)
 			{
 				if (!completedSongs.contains(mustCompleteSongs[i]))
@@ -4727,13 +4734,13 @@ class PlayState extends MusicBeatState
 				// if ()
 				StoryMenuState.weekUnlocked[Std.int(Math.min(storyWeek + 1, StoryMenuState.weekUnlocked.length - 1))] = true;
 
-				if (SONG.validScore && !botPlay)
+				if (SONG.validScore && !botPlay && !FlxG.save.data.practiceMode)
 				{
 					Highscore.saveWeekScore(storyWeek, campaignScore,
 						storyDifficulty, characteroverride == "none" || characteroverride == "bf" ? "bf" : characteroverride);
 				}
 
-				if (!botPlay) FlxG.save.data.weekUnlocked = StoryMenuState.weekUnlocked;
+				if (!botPlay && !FlxG.save.data.practiceMode) FlxG.save.data.weekUnlocked = StoryMenuState.weekUnlocked;
 				FlxG.save.flush();
 			}
 			else
@@ -4810,7 +4817,7 @@ class PlayState extends MusicBeatState
 					FlxG.save.data.songsCompletedCanon = new Array<String>();
 				}
 				completedSongs = FlxG.save.data.songsCompletedCanon;
-				if (!botPlay) completedSongs.push(curSong);
+				if (!botPlay || !FlxG.save.data.practiceMode) completedSongs.push(curSong);
 				for (i in 0...mustCompleteSongs.length)
 				{
 					if (!completedSongs.contains(mustCompleteSongs[i]))
