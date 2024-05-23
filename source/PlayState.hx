@@ -117,6 +117,8 @@ class PlayState extends MusicBeatState
 	public static var sicks:Int = 0;
 
 	public static var botPlay:Bool = false;
+	public static var pMode:Bool = false;
+
 	public var botplaySine:Float = 0;
 	public var botplayTxt:FlxText;
 
@@ -550,6 +552,8 @@ class PlayState extends MusicBeatState
 		eyesoreson = FlxG.save.data.eyesores;
 
 		botPlay = FlxG.save.data.botplay;
+
+		pMode = FlxG.save.data.practiceMode;
 
 		modchartoption = !FlxG.save.data.modchart;
 
@@ -2260,13 +2264,15 @@ class PlayState extends MusicBeatState
 	}
 	function startCountdown():Void
 	{
+		if (!adminMode) { // For some reason I couldn't put with botplay and practice mode
 		if (SONG.song.toLowerCase() == 'cheating' || SONG.song.toLowerCase() == 'unfairness' || SONG.song.toLowerCase() == 'exploitation')
 			{
-				if(FlxG.save.data.botplay || FlxG.save.data.practiceMode && !adminMode)
+				if(botPlay || pMode)
 				{
 					FlxG.switchState(new SusState()); // hehe get jumpscared non-admins
 				}
 			}
+		}
 
 		inCutscene = false;
 
@@ -4004,7 +4010,7 @@ class PlayState extends MusicBeatState
 		FlxG.watch.addQuick("beatShit", curBeat);
 		FlxG.watch.addQuick("stepShit", curStep);
 
-		if (health <= 0 && !botPlay && !FlxG.save.data.practiceMode)
+		if (health <= 0 && !botPlay && !pMode)
 		{
 			if(!perfectMode)
 			{
@@ -4574,7 +4580,7 @@ class PlayState extends MusicBeatState
 
 		FlxG.sound.music.volume = 0;
 		vocals.volume = 0;
-		if (SONG.validScore && !FlxG.save.data.practiceMode && !botPlay && !(!modchartoption && (SONG.song.toLowerCase() == 'cheating' || SONG.song.toLowerCase() == 'unfairness' || SONG.song.toLowerCase() == 'kabunga' || localFunny == CharacterFunnyEffect.Exbungo || localFunny == CharacterFunnyEffect.Recurser || SONG.song.toLowerCase() == 'exploitation')))
+		if (SONG.validScore && !pMode && !botPlay && !(!modchartoption && (SONG.song.toLowerCase() == 'cheating' || SONG.song.toLowerCase() == 'unfairness' || SONG.song.toLowerCase() == 'kabunga' || localFunny == CharacterFunnyEffect.Exbungo || localFunny == CharacterFunnyEffect.Recurser || SONG.song.toLowerCase() == 'exploitation')))
 		{
 			trace("score is valid");
 
@@ -4596,7 +4602,7 @@ class PlayState extends MusicBeatState
 		}
 		#end
 
-		if (!botPlay || !FlxG.save.data.practiceMode) {
+		if (!botPlay || !pMode) {
 			// Song Character Unlocks (Story Mode)
 			if (isStoryMode)
 			{
@@ -4645,7 +4651,7 @@ class PlayState extends MusicBeatState
 				FlxG.save.data.songsCompleted = new Array<String>();
 			}
 			completedSongs = FlxG.save.data.songsCompleted;
-			if (!botPlay || !FlxG.save.data.practiceMode) completedSongs.push(storyPlaylist[0]);
+			if (!botPlay || !pMode) completedSongs.push(storyPlaylist[0]);
 			for (i in 0...mustCompleteSongs.length)
 			{
 				if (!completedSongs.contains(mustCompleteSongs[i]))
@@ -4735,13 +4741,13 @@ class PlayState extends MusicBeatState
 				// if ()
 				StoryMenuState.weekUnlocked[Std.int(Math.min(storyWeek + 1, StoryMenuState.weekUnlocked.length - 1))] = true;
 
-				if (SONG.validScore && !botPlay && !FlxG.save.data.practiceMode)
+				if (SONG.validScore && !botPlay && !FlxG.save.data.pMode)
 				{
 					Highscore.saveWeekScore(storyWeek, campaignScore,
 						storyDifficulty, characteroverride == "none" || characteroverride == "bf" ? "bf" : characteroverride);
 				}
 
-				if (!botPlay && !FlxG.save.data.practiceMode) FlxG.save.data.weekUnlocked = StoryMenuState.weekUnlocked;
+				if (!botPlay && !pMode) FlxG.save.data.weekUnlocked = StoryMenuState.weekUnlocked;
 				FlxG.save.flush();
 			}
 			else
@@ -4818,7 +4824,7 @@ class PlayState extends MusicBeatState
 					FlxG.save.data.songsCompletedCanon = new Array<String>();
 				}
 				completedSongs = FlxG.save.data.songsCompletedCanon;
-				if (!botPlay || !FlxG.save.data.practiceMode) completedSongs.push(curSong);
+				if (!botPlay || !FlxG.save.data.pMode) completedSongs.push(curSong);
 				for (i in 0...mustCompleteSongs.length)
 				{
 					if (!completedSongs.contains(mustCompleteSongs[i]))
