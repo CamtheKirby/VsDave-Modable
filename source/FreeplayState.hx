@@ -363,12 +363,14 @@ class FreeplayState extends MusicBeatState
 			case 'uhoh':
 				addWeek(['Exploitation'], 16, ['expunged']);
 			case 'dave':
+				addWeek(['Random'], 0, ['dave']);
 				addWeek(['Warmup'], 0, ['dave']);
 				addWeek(['House', 'Insanity', 'Polygonized'], 1, ['dave', 'dave-annoyed', 'dave-angey']);
 				addWeek(['Blocked', 'Corn-Theft', 'Maze'], 2, ['bambi-new', 'bambi-new', 'bambi-new']);
 				addWeek(['Splitathon'], 3, ['the-duo']);
 				addWeek(['Shredder', 'Greetings', 'Interdimensional', 'Rano'], 4, ['bambi-new', 'tristan-festival', 'dave-festival-3d', 'dave-festival']);
 			case 'joke':
+				addWeek(['Random'], 0, ['dave']);
 				if (FlxG.save.data.hasPlayedMasterWeek)
 				{
 					addWeek(['Supernovae', 'Glitch', 'Master'], 5, ['bambi-joke']);
@@ -392,6 +394,7 @@ class FreeplayState extends MusicBeatState
 					addWeek(['Vs-Dave-Rap-Two'], 1, ['dave-cool']);
 				}
 			case 'extras':
+				addWeek(['Random'], 0, ['dave']);
 				if (FlxG.save.data.recursedUnlocked)
 					addWeek(['Recursed'], 10, ['recurser']);
 			    addWeek(['Bonus-Song'], 1, ['dave']);
@@ -404,6 +407,7 @@ class FreeplayState extends MusicBeatState
 				addWeek(['Indignancy'], 2, ['bambi-angey']);
 				addWeek(['Memory'], 1, ['dave']);
 			case 'terminal':
+				addWeek(['Random'], 0, ['dave']);
 				if (FlxG.save.data.cheatingFound)
 					addWeek(['Cheating'], 14, ['bambi-3d']);
 				if (FlxG.save.data.unfairnessFound)
@@ -413,6 +417,7 @@ class FreeplayState extends MusicBeatState
 
 				addWeek(['Enter Terminal'], 17, ['terminal']);
 				case 'mod':
+					addWeek(['Random'], 0, ['dave']);
 					isaCustomSong = true;
 					for (i in 0...customSongs.length)
 						{
@@ -740,20 +745,56 @@ class FreeplayState extends MusicBeatState
 			{
 				switch (songs[curSelected].songName)
 				{
+					case 'Random':
+						var randomThing = FlxG.random.int(1, songs.length - 1);
+						if (isaCustomSong) {
+							trace(randomThing);
+							PlayState.SONG = Song.loadFromCustomJson(Highscore.formatSong(songs[randomThing].songName.toLowerCase(), curDifficulty));
+							} else {
+							trace(randomThing);
+							PlayState.SONG = Song.loadFromJson(Highscore.formatSong(songs[randomThing].songName.toLowerCase(), curDifficulty));
+							}
+						PlayState.isStoryMode = false;
+						PlayState.storyDifficulty = curDifficulty;
+		
+						PlayState.characteroverride = "none";
+						PlayState.formoverride = "none";
+						PlayState.curmult = [1, 1, 1, 1];
+			
+						PlayState.storyWeek = songs[curSelected].week;
+						
+						packTransitionDone = false;
+						if ((FlxG.keys.pressed.CONTROL || skipSelect.contains(PlayState.SONG.song.toLowerCase())) && !(PlayState.SONG.song.toLowerCase() == 'exploitation' && !FlxG.save.data.modchart))
+						{
+							if (curDifficulty == 0) {
+								if (PlayState.SONG.song.toLowerCase() == 'roofs') {
+									PlayState.characteroverride = "shaggy";
+									PlayState.formoverride = "redshaggy";
+								} else if (PlayState.SONG.song.toLowerCase() == 'exploitation') {
+									PlayState.characteroverride = "shaggy";
+									PlayState.formoverride = "godshaggy";
+								} else {
+									PlayState.characteroverride = "shaggy";
+									PlayState.formoverride = "shaggy";
+								}
+							}
+							LoadingState.loadAndSwitchState(new PlayState());
+						}
+						else
+						{
+							if (!FlxG.save.data.wasInCharSelect)
+							{
+								FlxG.save.data.wasInCharSelect = true;
+								FlxG.save.flush();
+							}
+							LoadingState.loadAndSwitchState(new CharacterSelectState());
+						}
 					case 'Enter Terminal':
 						FlxG.switchState(new TerminalState());
 					default:
 						FlxG.sound.music.fadeOut(1, 0);
 						if (isaCustomSong) {
-							if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + (songs[curSelected].songName.toLowerCase() + '.json'))) {
-						PlayState.SONG = Song.loadFromCustomJson(songs[curSelected].songName.toLowerCase()/*, curDifficulty*/);
-							} else {
-							var deathSound:FlxSound = new FlxSound();
-				            deathSound.loadEmbedded(Paths.soundRandom('missnote', 1, 3));
-				            deathSound.volume = FlxG.random.float(0.6, 1);
-				            deathSound.play();				
-				            FlxG.camera.shake(0.05, 0.1);
-							}
+						PlayState.SONG = Song.loadFromCustomJson(Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty));
 						} else {
 						PlayState.SONG = Song.loadFromJson(Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty));
 						}
@@ -904,7 +945,7 @@ class FreeplayState extends MusicBeatState
 		if (curSelected >= songs.length)
 			curSelected = 0;
 
-		if (songs[curSelected].songName != 'Enter Terminal')
+		if (songs[curSelected].songName != 'Enter Terminal' && songs[curSelected].songName != 'Random')
 		{
 			#if !switch
 			intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);

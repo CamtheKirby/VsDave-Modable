@@ -274,7 +274,11 @@ class PauseSubState extends MusicBeatSubstate
 				PlayState.instance.camZooming = false;
 				FlxG.mouse.visible = false;
 				FreeplayState.isaCustomSong = false;
-				FlxG.switchState(new MainMenuState());
+				if (PlayState.isStoryMode) {
+				FlxG.switchState(new StoryMenuState());
+				} else {
+				FlxG.switchState(new FreeplayState());
+				}
 		}
 	}
 	override function close()
