@@ -71,7 +71,6 @@
 	<haxelib name="flixel-addons" />
 	<haxelib name="hscript" />
 	<haxelib name="actuate" />
-	<haxelib name="polymod"/>
 	<haxelib name="flixel-ui" />
 	<haxelib name="faxe" if='switch'/>
 	<haxelib name="hxCodec" if="desktop || android" />
