@@ -2,6 +2,7 @@ Extra Keys from: https://github.com/Magman03k7/VsDave-ExtraKeysAddon
 
 ## Dependencies you need to build
 flixel-addons is 2.11.0 btw
+You don't need polymod
 
 ![image](https://github.com/CamtheKirby/VsDave-Modable/assets/92703353/7a0c65c3-37a4-43d6-b2d5-7901436c2eb8)
 
