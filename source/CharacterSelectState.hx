@@ -207,6 +207,7 @@ class CharacterSelectState extends MusicBeatState
 			}
 			
 			characters.push(new CharacterInSelect(mainName, thehotemsithink, newCharacterForms));
+			unlockCharacter(mainName);
 		}
 	}
 		if (FileSystem.exists(TitleState.modFolder + '/data/characterSelect.json')) {
@@ -220,6 +221,7 @@ class CharacterSelectState extends MusicBeatState
 			}
 			
 			characters.push(new CharacterInSelect(mainName, thehotemsithink, newCharacterForms));
+			unlockCharacter(mainName);
 		}
 	}
 
@@ -592,7 +594,7 @@ class CharacterSelectState extends MusicBeatState
 			FlxG.resetState();
 		}
 
-		if (FlxG.keys.justPressed.SEVEN)
+		if (FlxG.keys.justPressed.SEVEN && FlxG.save.data.adminMode)
 		{
 			for (character in characters)
 			{

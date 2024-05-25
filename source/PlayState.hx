@@ -1154,7 +1154,7 @@ class PlayState extends MusicBeatState
 				add(tv);
 		}
 
-		var doof:DialogueBox = new DialogueBox(false, dialogue, isStoryMode || localFunny == CharacterFunnyEffect.Recurser || FreeplayState.isaCustomSong);
+		var doof:DialogueBox = new DialogueBox(false, dialogue, isStoryMode || localFunny == CharacterFunnyEffect.Recurser || FreeplayState.isaCustomSong || FlxG.save.data.freeplayCuts);
 		// doof.x += 70;
 		// doof.y = FlxG.height * 0.5;
 		doof.scrollFactor.set();
@@ -1540,7 +1540,7 @@ class PlayState extends MusicBeatState
 		{
 			startTimer.active = true;
 		}
-		if (isStoryMode || localFunny == CharacterFunnyEffect.Recurser || FreeplayState.isaCustomSong)
+		if (isStoryMode || localFunny == CharacterFunnyEffect.Recurser || FreeplayState.isaCustomSong || FlxG.save.data.freeplayCuts)
 		{
 			if (hasDialogue)
 			{

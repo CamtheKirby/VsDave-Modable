@@ -95,6 +95,7 @@ class OptionsMenu extends MusicBeatState
 			+ "\n" + (CompatTool.save.data.compatMode ? LanguageManager.getTextString('option_enable_compat') : LanguageManager.getTextString('option_disable_compat'))
 			+ "\n" + (FlxG.save.data.modchart ? 'Mod Chart OFF' : 'Mod Chart ON')
 			+ "\n" + (FlxG.save.data.lessLag ? 'Less Lag OFF' : 'Less Lag ON')
+			+ "\n" + (FlxG.save.data.freeplayCuts ? "Freeplay Cutscenes ON" : "Freeplay Cutscenes OFF")
 			);
 
 		grpControls = new FlxTypedGroup<Alphabet>();
@@ -212,17 +213,19 @@ class OptionsMenu extends MusicBeatState
 					updateGroupControls(CompatTool.save.data.compatMode ? LanguageManager.getTextString('option_enable_compat') : LanguageManager.getTextString('option_disable_compat'), 11, 'Vertical');
 				case 12:
 					if (!awaitingExploitation) FlxG.save.data.modchart = !FlxG.save.data.modchart;
-					updateGroupControls(FlxG.save.data.modchart ? 'Mod Chart OFF' : 'Mod Chart ON', 12, 'Vertical');		
-					
-					case 13:
+					updateGroupControls(FlxG.save.data.modchart ? 'Mod Chart OFF' : 'Mod Chart ON', 12, 'Vertical');			
+				case 13:
 					FlxG.save.data.lessLag = !FlxG.save.data.lessLag;
 					updateGroupControls(FlxG.save.data.lessLag ? 'Less Lag OFF' : 'Less Lag ON', 12, 'Vertical');	
+				case 14:
+					FlxG.save.data.freeplayCuts = !FlxG.save.data.freeplayCuts;
+					updateGroupControls(FlxG.save.data.freeplayCuts ? 'Freeplay Cutscenes ON' : 'Freeplay Cutscenes OFF', 12, 'Vertical');	
 			}
 		}
 
 		if (FlxG.keys.justPressed.SEVEN)
 			{
-				FlxG.save.flush();
+			FlxG.save.flush();
 			CompatTool.save.flush();
 			FlxG.switchState(new AdminOptionsMenu());
 			}	

@@ -2,6 +2,7 @@ Extra Keys from: https://github.com/Magman03k7/VsDave-ExtraKeysAddon
 
 ## Dependencies you need to build
 flixel-addons is 2.11.0 btw
+
 You don't need polymod
 
 ![image](https://github.com/CamtheKirby/VsDave-Modable/assets/92703353/7a0c65c3-37a4-43d6-b2d5-7901436c2eb8)
@@ -12,7 +13,7 @@ You don't need polymod
 # VS DAVE (DAVE ENGINE)
 this is dave
 
-<img src="https://cdn.discordapp.com/attachments/892140166309892136/905267141299802152/dorve_reale.png" width="211" height="373">
+<img src="https://static.wikia.nocookie.net/fridaynightfunking/images/1/1e/Dave30_Static_Up_Pose.png/revision/latest?cb=20221112223155" width="211" height="373">
 
 say hi to dave
 please say hi to him

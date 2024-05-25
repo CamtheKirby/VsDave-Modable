@@ -75,5 +75,8 @@ class SaveDataHandler
 
 		if (FlxG.save.data.lessLag == null)
 			FlxG.save.data.lesslag = false;
+
+		if (FlxG.save.data.freeplayCuts == null)
+			FlxG.save.data.freeplayCuts = false;
     }
 }
