@@ -25,13 +25,13 @@ class CreditsPopUp extends FlxSpriteGroup
 	var iconOffset:Float;
 	var curHeading:SongHeading;
 	var custom:Array<String>;
+	public static var songCreator:String = '';
 
 	public function new(x:Float, y:Float)
 	{
 		super(x, y);
 		bg = new FlxSprite().makeGraphic(400, 50, FlxColor.WHITE);
 		add(bg);
-		var songCreator:String = '';
 		var songCreatorIcon:String = '';
 		var headingPath:SongHeading = null;
         if (FreeplayState.isaCustomSong) {

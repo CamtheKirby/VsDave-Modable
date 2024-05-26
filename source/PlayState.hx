@@ -234,6 +234,7 @@ class PlayState extends MusicBeatState
 	private var gfSpeed:Int = 1;
 	public var health:Float = 1;
 	private var combo:Int = 0;
+	private var maxCombo:Int = 0;
 
 	public static var misses:Int = 0;
 
@@ -414,6 +415,8 @@ class PlayState extends MusicBeatState
 	var notesLeft:Int;
 	var notesLeftText:FlxText;
 
+	var noteHits:Int = 0;
+
 	var preRecursedHealth:Float;
 	var preRecursedSkin:String;
 	var rotateCamToRight:Bool;
@@ -481,6 +484,17 @@ class PlayState extends MusicBeatState
 	var shx:Float;
 	var shy:Float;
 	var sh_r:Float = 60;
+
+	public static var rssongScore:Int = 0;
+    public static var rsmisses:Int = 0;
+    public static var rsaccuracy:Float = 0.00;
+    public static var rsshits:Int = 0;
+    public static var rsbads:Int = 0;
+    public static var rsgoods:Int = 0;
+    public static var rssicks:Int = 0;
+    public static var rscombo:Int = 0;
+	public static var rstotalNotesHit:Float = 0;
+	public static var rssong:String = '';
 
 	override public function create()
 	{
@@ -1571,7 +1585,7 @@ class PlayState extends MusicBeatState
 		{
 			startTimer.active = true;
 		}
-		if (isStoryMode || localFunny == CharacterFunnyEffect.Recurser || FreeplayState.isaCustomSong || FlxG.save.data.freeplayCuts)
+		if (isStoryMode || localFunny == CharacterFunnyEffect.Recurser || FlxG.save.data.freeplayCuts)
 		{
 			if (hasDialogue)
 			{
@@ -4919,7 +4933,18 @@ class PlayState extends MusicBeatState
 						}
 						return;
 					}
-					FlxG.switchState(new FreeplayState());
+					rssongScore = songScore;
+					rsmisses = misses;
+					rsaccuracy = truncateFloat(accuracy, 2);
+					rsshits = shits;
+					rsbads = bads;
+					rsgoods = goods;
+					rssicks = sicks;
+					rscombo = maxCombo;
+					rstotalNotesHit = noteHits;
+					rssong = kadeEngineWatermark.text;
+
+					FlxG.switchState(new ResultsScreen());
 			}
 			if(FlxTransitionableState.skipNextTransIn)
 			{
@@ -5932,6 +5957,10 @@ class PlayState extends MusicBeatState
 			if (!note.isSustainNote)
 			{
 				combo += 1;
+				noteHits += 1;
+				if (combo > maxCombo) {
+					maxCombo = combo;
+				}
 				popUpScore(note.strumTime, note);
 				if (FlxG.save.data.donoteclick)
 				{
