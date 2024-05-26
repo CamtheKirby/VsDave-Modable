@@ -4,7 +4,7 @@
             "animName": "idle",
             "anim": "BF idle dance",
             "fps": 24,
-            "loop": true
+            "loop": false
         },
         {
             "animName": "singUP",
