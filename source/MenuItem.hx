@@ -6,6 +6,8 @@ import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
 import flixel.util.FlxColor;
+import sys.FileSystem;
+import sys.io.File;
 
 class MenuItem extends FlxSpriteGroup
 {
@@ -22,7 +24,13 @@ class MenuItem extends FlxSpriteGroup
 		}
 		else
 		{
+			if (FileSystem.exists(Paths.image('storymenu/week' + weekNum))) {
 			week = new FlxSprite().loadGraphic(Paths.image('storymenu/week' + weekNum));
+			} else if (FileSystem.exists(TitleState.modFolder + '/images/storymenu/week' + weekNum + '.png')) {
+			week = new FlxSprite().loadGraphic(Paths.customImage(TitleState.modFolder + '/images/storymenu/week' + weekNum));	
+			} else {
+			week = new FlxSprite().loadGraphic(Paths.image('storymenu/week1'));	
+			}
 		}
 		add(week);
 		week.antialiasing = true;

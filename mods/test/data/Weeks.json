@@ -1,0 +1,9 @@
+{
+	  "weeks": [
+		{
+		  "songList": ["Test", "Test"],
+		  "weekName": "Test Week",
+		  "bannerName": "testbanner"
+		}
+	  ]
+	}

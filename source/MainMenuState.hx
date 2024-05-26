@@ -74,6 +74,7 @@ class MainMenuState extends MusicBeatState
 
 	public static var daRealEngineVer:String = 'Dave';
 	public static var engineVer:String = '3.0b';
+	public static var fanmadeEngineVer:String = '1.0.0';
 
 	public static var engineVers:Array<String> = 
 	[
@@ -290,7 +291,7 @@ class MainMenuState extends MusicBeatState
 
 		firstStart = false;
 
-		var versionShit:FlxText = new FlxText(1, FlxG.height - 50, 0, '${daRealEngineVer} Engine v${engineVer}\nExtra Keys Addon v2.0.2\n', 12);
+		var versionShit:FlxText = new FlxText(1, FlxG.height - 70, 0, 'Fanmade Dave Engine v${fanmadeEngineVer}\n${daRealEngineVer} Engine v${engineVer}\nExtra Keys Addon v2.0.2\n', 12);
 		versionShit.antialiasing = true;
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("Comic Sans MS Bold", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);

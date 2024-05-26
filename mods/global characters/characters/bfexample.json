@@ -1,0 +1,116 @@
+{
+    "animations": [
+        {
+            "animName": "idle",
+            "anim": "BF idle dance",
+            "fps": 24,
+            "loop": true
+        },
+        {
+            "animName": "singUP",
+            "anim": "BF NOTE UP0",
+            "fps": 24,
+            "loop": false
+
+        },
+        {
+            "animName": "singLEFT",
+            "anim": "BF NOTE LEFT0",
+            "fps": 24,
+            "loop": false
+
+        },
+        {
+            "animName": "singRIGHT",
+            "anim": "BF NOTE RIGHT0",
+            "fps": 24,
+            "loop": false
+        },
+        {
+            "animName": "singDOWN",
+            "anim": "BF NOTE DOWN0",
+            "fps": 24,
+            "loop": false
+        },
+        {
+            "animName": "singUPmiss",
+            "anim": "BF NOTE UP MISS",
+            "fps": 24,
+            "loop": false
+        },
+        {
+            "animName": "singLEFTmiss",
+            "anim": "BF NOTE LEFT MISS",
+            "fps": 24,
+            "loop": false
+        },
+        {
+            "animName": "singRIGHTmiss",
+            "anim": "BF NOTE RIGHT MISS",
+            "fps": 24,
+            "loop": false
+        },
+        {
+            "animName": "singDOWNmiss",
+            "anim": "BF NOTE DOWN MISS",
+            "fps": 24,
+            "loop": false
+        },
+        {
+            "animName": "hey",
+            "anim": "BF HEY",
+            "fps": 24,
+            "loop": false
+        },
+        {
+            "animName": "firstDeath",
+            "anim": "BF dies",
+            "fps": 24,
+            "loop": false
+        },
+        {
+            "animName": "deathLoop",
+            "anim": "BF Dead Loop",
+            "fps": 24,
+            "loop": true
+        },
+        {
+            "animName": "deathConfirm",
+            "anim": "BF Dead confirm",
+            "fps": 24,
+            "loop": false
+        },
+        {
+            "animName": "dodge",
+            "anim": "boyfriend dodge",
+            "fps": 24,
+            "loop": false
+        },
+        {
+            "animName": "scared",
+            "anim": "BF idle shaking",
+            "fps": 24,
+            "loop": false
+        },
+        {
+            "animName": "hit",
+            "anim": "BF hit",
+            "fps": 24,
+            "loop": false
+        }
+    ],
+    "globalOffset": [0, 0],
+    "isPlayable": false,
+    "skins": [],
+    "barcolor": {
+        "red": 49,
+        "green": 176,
+        "blue": 209
+    },
+    "antialiasing": true,
+    "nativelyPlayable": true,
+    "flipX": true,
+    "updateHitbox": false,
+    "setGraphicSize": "",
+    "effect": ""
+}

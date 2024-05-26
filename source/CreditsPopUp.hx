@@ -68,15 +68,14 @@ class CreditsPopUp extends FlxSpriteGroup
 			case 'roofs':
 				songCreator = 'sibottle';
 			default:
-				if (FreeplayState.isaCustomSong  && FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-cred.txt')) {
-					
+				if (FreeplayState.isaCustomSong) {
+					if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-cred.txt')) {
 					for (i in 0...custom.length)
 						{
 							var data:Array<String> = custom[i].split(':');
 							songCreator = data[0];
 						}
-				} else {
-					songCreator = 'MoldyGH';
+					}
 				}
 		}
 		switch (PlayState.storyWeek)
@@ -119,15 +118,14 @@ class CreditsPopUp extends FlxSpriteGroup
 				headingPath = {path: 'songHeadings/expungedHeading', antiAliasing: true,
 				animation: new Animation('expunged', 'Expunged', 24, true, [false, false]), iconOffset: 0};
 			default:
-			if (FreeplayState.isaCustomSong && FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-cred.txt')) {
-				
+			if (FreeplayState.isaCustomSong) {
+				if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-cred.txt')) {
 				for (i in 0...custom.length)
 					{
 			var data:Array<String> = custom[i].split(':');
 			headingPath = {path: 'songHeadings/' + data[1], antiAliasing: false, iconOffset: 0};
 					}
-		} else {
-			headingPath = {path: 'songHeadings/daveHeading', antiAliasing: false, iconOffset: 0};
+				}
 		}
 	}
 		switch (PlayState.SONG.song.toLowerCase())
@@ -137,15 +135,15 @@ class CreditsPopUp extends FlxSpriteGroup
 			case 'interdimensional':
 				headingPath = {path: 'songHeadings/interdimensionalHeading', antiAliasing: false, iconOffset: 0};
 			default:
-			if (FreeplayState.isaCustomSong && FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-cred.txt')) {
+			if (FreeplayState.isaCustomSong) {
+				if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-cred.txt')) {
 				for (i in 0...custom.length)
 					{
 			var data:Array<String> = custom[i].split(':');
 			headingPath = {path: 'songHeadings/' + data[1], antiAliasing: false, iconOffset: 0};
 					}
-				} else {
-					headingPath = {path: 'songHeadings/daveHeading', antiAliasing: false, iconOffset: 0};
 				}
+			}
 		}
 		if (PlayState.recursedStaticWeek)
 		{

@@ -123,6 +123,7 @@ menuItems.push(new ModOption('Exit'));
 
 			default:
 			FlxG.save.data.Mod = daSelected;
+			FlxG.save.flush();
 			trace(FlxG.save.data.Mod);
 			close();
 			inMods = false;

@@ -21,13 +21,32 @@ import flixel.util.FlxTimer;
 #if desktop
 import Discord.DiscordClient;
 #end
+import haxe.Json;
+import sys.FileSystem;
+import sys.io.File;
 
 import vlc.MP4Handler;
 
 using StringTools;
 
+typedef WeeksJson =
+{
+	var weeks:Array<TheWeeks>;
+}
+
+typedef TheWeeks =
+{
+	var songList:Array<String>;
+	var weekName:String;
+	var bannerName:String;
+}
+
 class StoryMenuState extends MusicBeatState
 {
+
+	public var rawJsonWeek:String;
+    public var jsonWeek:WeeksJson;
+
 	var scoreText:FlxText;
 	
 	public static var weekUnlocked:Array<Bool> = [true, true, true, true, true, true];
@@ -46,11 +65,11 @@ class StoryMenuState extends MusicBeatState
 	var grpLocks:FlxTypedGroup<FlxSprite>;
 	
 	var weeks:Array<Week> = [
-		new Week(['Warmup'], LanguageManager.getTextString('story_tutorial'), 0xFF8A42B7, 'warmup'),  // WARMUP
-		new Week(['House', 'Insanity', 'Polygonized'], LanguageManager.getTextString('story_daveWeek'), 0xFF4965FF, 'DaveHouse'), // DAVE
-		new Week(['Blocked', 'Corn-Theft', 'Maze'], LanguageManager.getTextString('story_bambiWeek'), 0xFF00B515, 'bamboi'), // MISTER BAMBI RETARD
-		new Week(['Splitathon'], LanguageManager.getTextString('story_finale'), 0xFF00FFFF, 'splitathon'), // SPLIT THE THONNNNN
-		new Week(['Shredder', 'Greetings', 'Interdimensional', 'Rano'], LanguageManager.getTextString('story_festivalWeek'), 0xFF800080, 'festival'), // FESTEVAL
+		new Week(['Warmup'], LanguageManager.getTextString('story_tutorial'), 0xFF8A42B7, 'warmup', false),  // WARMUP
+		new Week(['House', 'Insanity', 'Polygonized'], LanguageManager.getTextString('story_daveWeek'), 0xFF4965FF, 'DaveHouse', false), // DAVE
+		new Week(['Blocked', 'Corn-Theft', 'Maze'], LanguageManager.getTextString('story_bambiWeek'), 0xFF00B515, 'bamboi', false), // MISTER BAMBI RETARD
+		new Week(['Splitathon'], LanguageManager.getTextString('story_finale'), 0xFF00FFFF, 'splitathon', false), // SPLIT THE THONNNNN
+		new Week(['Shredder', 'Greetings', 'Interdimensional', 'Rano'], LanguageManager.getTextString('story_festivalWeek'), 0xFF800080, 'festival', false), // FESTEVAL
 	];
 
 	var awaitingExploitation:Bool;
@@ -63,14 +82,25 @@ class StoryMenuState extends MusicBeatState
 	{
 		awaitingExploitation = (FlxG.save.data.exploitationState == 'awaiting');
 
+		FreeplayState.isaCustomSong = false;
+
 		if (FlxG.save.data.masterWeekUnlocked)
 		{
 			var weekName = !FlxG.save.data.hasPlayedMasterWeek ? LanguageManager.getTextString('story_masterWeekToPlay') : LanguageManager.getTextString('story_masterWeek');
 			weeks.push(new Week(
 				['Supernovae', 'Glitch', 'Master'], weekName, 0xFF116E1C, 
-				FlxG.save.data.hasPlayedMasterWeek ? 'masterweek' : 'masterweekquestion'));  // MASTERA BAMBI
+				FlxG.save.data.hasPlayedMasterWeek ? 'masterweek' : 'masterweekquestion', false));  // MASTERA BAMBI
 		}
-
+		
+		if (FileSystem.exists(TitleState.modFolder + '/data/Weeks.json'))
+        {
+		rawJsonWeek = File.getContent(TitleState.modFolder + '/data/Weeks.json');
+		jsonWeek = cast Json.parse(rawJsonWeek);
+		for (i in jsonWeek.weeks) {
+		weeks.push(new Week(i.songList, i.weekName, 0xFF1E3DBB, i.bannerName, true));  // CUSTOM WEEKS
+		weekUnlocked.push(true);
+		}
+		}
 		#if desktop
 		DiscordClient.changePresence("In the Story Menu", null);
 		#end
@@ -145,6 +175,8 @@ class StoryMenuState extends MusicBeatState
 
 		for (i in 0...weeks.length)
 		{
+			if (FileSystem.exists(Paths.image('weekBanners/${weeks[i].bannerName}')))
+			{
 			var weekBanner:FlxSprite = new FlxSprite(600, 56).loadGraphic(Paths.image('weekBanners/${weeks[i].bannerName}'));
 			weekBanner.antialiasing = false;
 			weekBanner.active = true;
@@ -153,6 +185,25 @@ class StoryMenuState extends MusicBeatState
 			add(weekBanner);
 
 			weekBanners.push(weekBanner);
+			} else if (FileSystem.exists(TitleState.modFolder + '/images/weekBanners/${weeks[i].bannerName}.png')) {
+			var weekBanner:FlxSprite = new FlxSprite(600, 56).loadGraphic(Paths.customImage(TitleState.modFolder + '/images/weekBanners/${weeks[i].bannerName}'));	
+			weekBanner.antialiasing = false;
+			weekBanner.active = true;
+			weekBanner.screenCenter(X);
+			weekBanner.alpha = i == curWeek ? 1 : 0;
+			add(weekBanner);
+
+			weekBanners.push(weekBanner);
+			} else {
+			var weekBanner:FlxSprite = new FlxSprite(600, 56).loadGraphic(Paths.image('weekBanners/masterweekquestion'));
+			weekBanner.antialiasing = false;
+			weekBanner.active = true;
+			weekBanner.screenCenter(X);
+			weekBanner.alpha = i == curWeek ? 1 : 0;
+			add(weekBanner);
+
+			weekBanners.push(weekBanner);
+			}
 		}
 
 		updateText();
@@ -246,7 +297,12 @@ class StoryMenuState extends MusicBeatState
 			PlayState.isStoryMode = true;
 			selectedWeek = true;
 
+			if (weeks[curWeek].customWeek) {
+			FreeplayState.isaCustomSong = true;
+			PlayState.SONG = Song.loadFromCustomJson(Highscore.formatSong(PlayState.storyPlaylist[0].toLowerCase(), 1));
+			} else {
 			PlayState.SONG = Song.loadFromJson(Highscore.formatSong(PlayState.storyPlaylist[0].toLowerCase(), 1));
+			}
 			PlayState.storyWeek = curWeek;
 			PlayState.campaignScore = 0;
 			new FlxTimer().start(1, function(tmr:FlxTimer)
@@ -359,12 +415,14 @@ class Week
 	public var weekName:String;
 	public var weekColor:FlxColor;
 	public var bannerName:String;
+	public var customWeek:Bool;
 
-	public function new(songList:Array<String>, weekName:String, weekColor:FlxColor, bannerName:String)
+	public function new(songList:Array<String>, weekName:String, weekColor:FlxColor, bannerName:String, customWeek:Bool)
 	{
 		this.songList = songList;
 		this.weekName = weekName;
 		this.weekColor = weekColor;
 		this.bannerName = bannerName;
+		this.customWeek = customWeek;
 	}
 }

@@ -96,6 +96,24 @@ import vlc.MP4Handler;
 
 using StringTools;
 
+typedef StageJson =
+{
+	var bgZoom:Float;
+	var backgrounds:Array<BackgroundJson>;
+}
+
+typedef BackgroundJson =
+{
+	var spriteName:String;
+	var posX:Float;
+	var posY:Float;
+	var image:Float;
+	var size:Float;
+	var scrollX:Float;
+	var scrollY:Float;
+	var antialiasing:Bool;
+}
+
 class PlayState extends MusicBeatState
 {
 	public static var mania:Int = 0;
@@ -264,6 +282,7 @@ class PlayState extends MusicBeatState
 
 	var scoreTxt:FlxText;
 	var kadeEngineWatermark:FlxText;
+	var kadeEngineWatermark2:FlxText;
 	var creditsWatermark:FlxText;
 	var songName:FlxText;
 
@@ -343,6 +362,9 @@ class PlayState extends MusicBeatState
 	var originalBFScale:FlxPoint;
 	var originBambiPos:FlxPoint;
 	var originBFPos:FlxPoint;
+
+	public var rawJsonStage:String;
+    public var jsonStage:StageJson;
 
 	var tristan:BGSprite;
 	var curTristanAnim:String;
@@ -1154,7 +1176,7 @@ class PlayState extends MusicBeatState
 				add(tv);
 		}
 
-		var doof:DialogueBox = new DialogueBox(false, dialogue, isStoryMode || localFunny == CharacterFunnyEffect.Recurser || FreeplayState.isaCustomSong || FlxG.save.data.freeplayCuts);
+		var doof:DialogueBox = new DialogueBox(false, dialogue, isStoryMode || localFunny == CharacterFunnyEffect.Recurser || FlxG.save.data.freeplayCuts);
 		// doof.x += 70;
 		// doof.y = FlxG.height * 0.5;
 		doof.scrollFactor.set();
@@ -1396,6 +1418,14 @@ class PlayState extends MusicBeatState
 			kadeEngineWatermark.borderSize = 1.25 * fontScaler;
 			kadeEngineWatermark.antialiasing = true;
 			add(kadeEngineWatermark);
+
+			kadeEngineWatermark2 = new FlxText(4, textYPos + -20, 0, "Fanmade Dave Engine v" + MainMenuState.fanmadeEngineVer + " (KE v1.2)", 16);
+	
+			kadeEngineWatermark2.setFormat(font, 16 * fontScaler, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			kadeEngineWatermark2.scrollFactor.set();
+			kadeEngineWatermark2.borderSize = 1.25 * fontScaler;
+			kadeEngineWatermark2.antialiasing = true;
+			add(kadeEngineWatermark2);
 		}
 		if (creditsText)
 		{
@@ -1518,6 +1548,7 @@ class PlayState extends MusicBeatState
 		if (kadeEngineWatermark != null)
 		{
 			kadeEngineWatermark.cameras = [camHUD];
+			kadeEngineWatermark2.cameras = [camHUD];
 		}
 		doof.cameras = [camDialogue];
 		
@@ -2128,6 +2159,24 @@ class PlayState extends MusicBeatState
 				sprites.add(stfu);
 				add(stfu);
 			default:
+				// I don't know how to do this some one help
+				
+				/*if (FileSystem.exists(TitleState.modFolder + '/data/stages/' + bgName + '.json')) {
+				rawJsonStage = File.getContent(TitleState.modFolder + '/data/stages/' + bgName + '.json');
+		        jsonStage = cast Json.parse(rawJsonStage);
+
+				bgZoom = jsonStage.bgZoom;
+				stageName = bgName;
+
+				for (i in jsonStage.backgrounds) {
+				var spriteName:BGSprite = new BGSprite('spriteName', i.posX, i.posY, TitleState.modFolder + '/images/stages/' + bgName + '/' + i.image, null, i.scrollX, i.scrollY, i.antialiasing);
+				spriteName.setGraphicSize(Std.int(spriteName.width * 0.9));
+				spriteName.updateHitbox();
+				sprites.add(spriteName);
+				add(spriteName);
+				}
+				
+				} else { */
 				bgZoom = 0.9;
 				stageName = 'stage';
 
@@ -2146,6 +2195,7 @@ class PlayState extends MusicBeatState
 				stageCurtains.updateHitbox();
 				sprites.add(stageCurtains);
 				add(stageCurtains);
+			//	}
 		}
 		if (!revertedBG)
 		{
@@ -4885,8 +4935,11 @@ class PlayState extends MusicBeatState
 		FlxTransitionableState.skipNextTransIn = true;
 		FlxTransitionableState.skipNextTransOut = true;
 		prevCamFollow = camFollow;
-
-		PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0]);
+      if (FreeplayState.isaCustomSong) {
+	  PlayState.SONG = Song.loadFromCustomJson(PlayState.storyPlaylist[0]);
+	  } else {
+	  PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0]);
+	  }
 		FlxG.sound.music.stop();
 
 		switch (curSong.toLowerCase())
@@ -7672,6 +7725,7 @@ class PlayState extends MusicBeatState
 			var fonts = ['arial', 'chalktastic', 'openSans', 'pkmndp', 'barcode', 'vcr'];
 			var chosenFont = fonts[FlxG.random.int(0, fonts.length)];
 			kadeEngineWatermark.font = Paths.font('exploit/${chosenFont}.ttf');
+			kadeEngineWatermark2.font = Paths.font('exploit/${chosenFont}.ttf');
 			creditsWatermark.font = Paths.font('exploit/${chosenFont}.ttf');
 			scoreTxt.font = Paths.font('exploit/${chosenFont}.ttf');
 			botplayTxt.font = Paths.font('exploit/${chosenFont}.ttf');
