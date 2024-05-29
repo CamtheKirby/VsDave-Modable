@@ -14,8 +14,18 @@ import flixel.input.FlxKeyManager;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
+import sys.FileSystem;
+import sys.io.File;
+import haxe.Json;
 
 using StringTools;
+
+typedef DiaCharacter = 
+{
+	var x:Float;
+	var y:Float;
+	var right:Bool;
+}
 
 class DialogueBox extends FlxSpriteGroup
 {
@@ -51,12 +61,26 @@ class DialogueBox extends FlxSpriteGroup
 	var debug:Bool = false;
 
 	var curshader:Dynamic;
+	var custom:Array<String>;
+
+	public var rawJsonDial:String;
+    public var jsonDial:DiaCharacter;
+
+	public var rawJsonDialTwo:String;
+    public var jsonDialTwo:DiaCharacter;
+
+	public var rawJsonDialThree:String;
+    public var jsonDialThree:DiaCharacter;
 
 	public static var randomNumber:Int;
 
 	public function new(talkingRight:Bool = true, ?dialogueList:Array<String>, playMusic:Bool = true)
 	{
 		super();
+
+		if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-dia.txt')) {
+			custom = CoolUtil.coolTextFile(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-dia.txt');
+			}
 		
 		if (playMusic)
 		{
@@ -96,7 +120,19 @@ class DialogueBox extends FlxSpriteGroup
 				case 'rano':
 					FlxG.sound.playMusic(Paths.music('stocknightambianceforranolol'), 0);	
 				default:
+					if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-dia.txt')) {
+						for (i in 0...custom.length)
+							{
+								var data:Array<String> = custom[i].split(':');
+								if (data[4] == null) {
+								FlxG.sound.music.stop();
+								} else {
+								FlxG.sound.playMusic(Paths.music(data[4]), 0);	
+								}
+							}
+					} else {
 					FlxG.sound.music.stop();
+					}
 			}
 			FlxG.sound.music.fadeIn(1, 0, 0.8);
 		}
@@ -170,6 +206,15 @@ class DialogueBox extends FlxSpriteGroup
 				portraitLeftCharacter = ['dave', 'festival-tired'];
 			case 'interdimensional':
 				portraitLeftCharacter = ['dave', 'festival-3d-scared'];
+			default:
+				if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-dia.txt')) {
+				for (i in 0...custom.length)
+					{
+				var data:Array<String> = custom[i].split(':');
+				portraitLeftCharacter = [data[0], data[1]];
+				portraitRightCharacter = [data[2], data[3]];
+					}
+				}
 		}
 		
 
@@ -186,7 +231,17 @@ class DialogueBox extends FlxSpriteGroup
 		switch (PlayState.SONG.song.toLowerCase())
 		{
 			default:
+				if (FileSystem.exists(TitleState.modFolder + '/data/characters/dialogue/${curCharacter}.json')) {
+				rawJsonDialThree = File.getContent((TitleState.modFolder + '/data/characters/dialogue/${curCharacter}.json'));
+			    jsonDialThree = cast Json.parse(rawJsonDialThree);
+				if (jsonDialThree.right) {
+				portraitRight.setPosition(jsonDialThree.x, jsonDialThree.y);
+				} else {
+				portraitLeft.setPosition(jsonDialThree.x, jsonDialThree.y);	
+				}
+			} else {
 				portraitLeft.setPosition(276.95, 170);
+			}
 		}
 		add(portraitLeft);
 		add(portraitRight);
@@ -378,6 +433,20 @@ class DialogueBox extends FlxSpriteGroup
 					portraitLeft.setPosition(143, 200);
 				case 'bf' | 'gf': //create boyfriend & genderbent boyfriend
 					portraitRight.setPosition(570, 220);
+				default:
+				if (FileSystem.exists(TitleState.modFolder + '/data/characters/dialogue/${curCharacter}.json')) {
+					trace('test');
+			    rawJsonDial = File.getContent((TitleState.modFolder + '/data/characters/dialogue/${curCharacter}.json'));
+			    jsonDial = cast Json.parse(rawJsonDial);
+				if (jsonDial.right) {
+				portraitRight.setPosition(jsonDial.x, jsonDial.y);
+				} else {
+				portraitLeft.setPosition(jsonDial.x, jsonDial.y);	
+				}
+					} else {
+					portraitRight.setPosition(570, 220);	
+					trace('not test');
+					}
 			}
 			box.flipX = portraitLeft.visible;
 
@@ -453,7 +522,14 @@ class DialogueBox extends FlxSpriteGroup
 		}
 		else
 		{
+			if (FileSystem.exists('assets/shared/images/${portrait.portraitPath}.png')) {
 			portraitSprite.loadGraphic(Paths.image(portrait.portraitPath));
+			} else if (FileSystem.exists(portrait.portraitPath + '.png')) {
+			portraitSprite.loadGraphic(Paths.customImage(portrait.portraitPath));	
+			} else {
+			portraitSprite.loadGraphic(Paths.image('dialogue/dave/dave_annoyed'));
+			trace('sad');
+		    }
 		}
 		portraitSprite.updateHitbox();
 		portraitSprite.scrollFactor.set();
@@ -551,6 +627,32 @@ class DialogueBox extends FlxSpriteGroup
 					default:
 						portrait.portraitPath = 'dialogue/tristan/tristan_content';
 				}
+			default:
+				if (FileSystem.exists(TitleState.modFolder + '/data/characters/dialogue/${character}.json')) {
+					trace('test 2');
+			rawJsonDialTwo = File.getContent((TitleState.modFolder + '/data/characters/dialogue/${character}.json'));
+			jsonDialTwo = cast Json.parse(rawJsonDialTwo);
+		    switch (expression)
+				{
+					default:
+						portrait.portraitPath = TitleState.modFolder + '/images/dialogue/${character}/${character}_${expression}';
+				}
+				portrait.left = jsonDialTwo.right;
+			} else {
+				trace('not test 2');
+				switch (expression)
+				{
+					case 'ready':
+						portrait.portraitPath = 'dialogue/bf/bf_ready';
+					case 'confused':
+						portrait.portraitPath = 'dialogue/bf/bf_confused';
+					case 'upset':
+						portrait.portraitPath = 'dialogue/bf/bf_upset';
+					default:
+						portrait.portraitPath = 'dialogue/bf/bf_happy';
+				}
+				portrait.left = false;
+			}
 		}
 		return portrait;
 	}

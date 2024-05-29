@@ -410,5 +410,8 @@ credit_Cotiles==Beta Tester
 //Extra Keys Addon Creator
 credit_Magman==Extra Keys Charter, Coder, Shaggy Covers, 3D Extra Keys Note Sprite
 
+//The Mod
+credit_Cam==Created Dave and Bambi Moddable
+
 //Special Thanks
 credit_You!==For playing the mod and contributing to the growth of the community we created.

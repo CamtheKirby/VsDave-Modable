@@ -47,7 +47,7 @@ class ResultsScreen extends FlxState
 		info.alpha = 0;
 		add(info);
 
-		var info2:FlxText = new FlxText(FlxG.width - 700, FlxG.height - 100, 0, '${PlayState.rssong} (By ${CreditsPopUp.songCreator})', 12);
+		var info2:FlxText = new FlxText(FlxG.width - 400, FlxG.height - 100, 0, '${PlayState.rssong} (By ${CreditsPopUp.songCreator})', 12);
 		info2.antialiasing = true;
 		info2.scrollFactor.set();
 		info2.setFormat("Comic Sans MS Bold", 45, FlxColor.BLACK, LEFT);

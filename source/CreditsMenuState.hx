@@ -388,6 +388,15 @@ class CreditsMenuState extends MusicBeatState
          new Social('youtube', 'https://www.youtube.com/channel/UC1IWpXJIB0wYTCnQI0E9HMQ'),
          new Social('twitter', 'https://twitter.com/magar_manh')
       ]),
+      // The Mod
+      new Person("Cam", CreditsType.TheMod,
+      [
+         new Social('youtube', 'https://www.youtube.com/@CamtheKirby'),
+         new Social('discord', 'camthekirby'),
+         new Social('twitter', 'https://x.com/camthekirby1'),
+         new Social('roblox', 'https://www.roblox.com/users/2232065384/profile'),
+         new Social('gamebanana', 'https://gamebanana.com/members/1795786')
+      ], true),
 	  // Special Thanks //
      new Person("You!", CreditsType.SpecialThanks, [])
    ];
@@ -442,6 +451,7 @@ class CreditsMenuState extends MusicBeatState
       var betaTesters:Array<Person> = new Array<Person>();
       var specialThanks:Array<Person> = new Array<Person>();
       var ekaCreator:Array<Person> = new Array<Person>();
+      var theMod:Array<Person> = new Array<Person>();
 
       for (person in peopleInCredits) 
       {
@@ -453,13 +463,14 @@ class CreditsMenuState extends MusicBeatState
             case BetaTester: betaTesters.push(person);
             case SpecialThanks: specialThanks.push(person);
             case EKACreator: ekaCreator.push(person);
+            case TheMod: theMod.push(person);
          }
       }
 
       for (i in 0...peopleInCredits.length)
       {
          var currentPerson = peopleInCredits[i];
-         if (currentPerson == developers[0] || currentPerson == translators[0] || currentPerson == contributors[0] || currentPerson == betaTesters[0] || currentPerson == specialThanks[0] || currentPerson == ekaCreator[0])
+         if (currentPerson == developers[0] || currentPerson == translators[0] || currentPerson == contributors[0] || currentPerson == betaTesters[0] || currentPerson == specialThanks[0] || currentPerson == ekaCreator[0] || currentPerson == theMod[0])
          {
             switch (currentPerson.creditsType)
             {
@@ -481,6 +492,9 @@ class CreditsMenuState extends MusicBeatState
                case EKACreator:
                   creditsTypeString = 'Extra Keys Addon Creator';
                   translatedCreditsType = LanguageManager.getTextString('credits_ekaCreator');
+                  case TheMod:
+                  creditsTypeString = 'Mod Devs';
+                  translatedCreditsType = 'Mod Devs';
             }
             var titleText:FlxText = new FlxText(0, 0, 0, translatedCreditsType);
             titleText.setFormat("Comic Sans MS Bold", 64, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -810,7 +824,7 @@ class CreditsMenuState extends MusicBeatState
       credits.setFormat(selectedFormat.font, selectedFormat.size, selectedFormat.color, selectedFormat.alignment, selectedFormat.borderStyle, selectedFormat.borderColor);
       credits.screenCenter(X);
       credits.updateHitbox();
-	  credits.antialiasing = true;
+	   credits.antialiasing = true;
       credits.scrollFactor.set();
       credits.active = false;
 
@@ -902,12 +916,14 @@ class Person
    public var name:String;
    public var creditsType:CreditsType;
 	public var socialMedia:Array<Social>;
+   public var custom:Bool;
 
-	public function new(name:String, creditsType:CreditsType, socialMedia:Array<Social>)
+	public function new(name:String, creditsType:CreditsType, socialMedia:Array<Social>, custom:Bool = false)
 	{
       this.name = name;
       this.creditsType = creditsType;
       this.socialMedia = socialMedia;
+      this.custom = custom;
 	}
 }
 class Social
@@ -969,7 +985,7 @@ class SocialButton
 }
 enum CreditsType
 {
-   Dev; Translator; Contributor; BetaTester; SpecialThanks; EKACreator;
+   Dev; Translator; Contributor; BetaTester; SpecialThanks; EKACreator; TheMod;
 }
 enum State
 {
