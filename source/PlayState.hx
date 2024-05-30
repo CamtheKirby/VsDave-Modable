@@ -509,8 +509,8 @@ class PlayState extends MusicBeatState
 		resetShader();
 
 		if (FreeplayState.isaCustomSong) {
-			if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-cred.txt')) {
-			custom = CoolUtil.coolTextFile(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-cred.txt');
+			if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.txt')) {
+			custom = CoolUtil.coolTextFile(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.txt');
 			}
 		}
 			
@@ -1388,7 +1388,7 @@ class PlayState extends MusicBeatState
 			case 'kabunga':
 				credits = LanguageManager.getTextString('kabunga_credit');
 			default:
-				if (FreeplayState.isaCustomSong && (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-cred.txt'))) {
+				if (FreeplayState.isaCustomSong && (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.txt'))) {
 					for (i in 0...custom.length)
 						{
 							var data:Array<String> = custom[i].split(':');

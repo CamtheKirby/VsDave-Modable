@@ -1,3 +1,5 @@
+# For Fanmade Dave Engine just go to [the github page](https://github.com/CamtheKirby/VsDave-Modable)
+
 # 3.0 - Final Major Update (PLACEHOLDER NAME)
 The final major update for Vs. Dave and Bambi is finally here. I hope you enjoyed sticking with us and don't expect us to update the mod with anything new unless it's a bugfix or a funny joke.
 

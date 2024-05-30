@@ -35,8 +35,8 @@ class CreditsPopUp extends FlxSpriteGroup
 		var songCreatorIcon:String = '';
 		var headingPath:SongHeading = null;
         if (FreeplayState.isaCustomSong) {
-			if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-cred.txt')) {
-	    custom = CoolUtil.coolTextFile(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-cred.txt');
+			if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.txt')) {
+	    custom = CoolUtil.coolTextFile(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.txt');
 			}
 		}
 
@@ -69,7 +69,7 @@ class CreditsPopUp extends FlxSpriteGroup
 				songCreator = 'sibottle';
 			default:
 				if (FreeplayState.isaCustomSong) {
-					if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-cred.txt')) {
+					if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.txt')) {
 					for (i in 0...custom.length)
 						{
 							var data:Array<String> = custom[i].split(':');
@@ -119,7 +119,7 @@ class CreditsPopUp extends FlxSpriteGroup
 				animation: new Animation('expunged', 'Expunged', 24, true, [false, false]), iconOffset: 0};
 			default:
 			if (FreeplayState.isaCustomSong) {
-				if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-cred.txt')) {
+				if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.txt')) {
 				for (i in 0...custom.length)
 					{
 			var data:Array<String> = custom[i].split(':');
@@ -136,7 +136,7 @@ class CreditsPopUp extends FlxSpriteGroup
 				headingPath = {path: 'songHeadings/interdimensionalHeading', antiAliasing: false, iconOffset: 0};
 			default:
 			if (FreeplayState.isaCustomSong) {
-				if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-cred.txt')) {
+				if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.txt')) {
 				for (i in 0...custom.length)
 					{
 			var data:Array<String> = custom[i].split(':');
