@@ -78,5 +78,8 @@ class SaveDataHandler
 
 		if (FlxG.save.data.freeplayCuts == null)
 			FlxG.save.data.freeplayCuts = false;
+
+		if (FlxG.save.data.ogHold == null)
+			FlxG.save.data.ogHold = true;
     }
 }

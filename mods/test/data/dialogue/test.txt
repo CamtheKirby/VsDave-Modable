@@ -1,4 +1,3 @@
 :test,normal:Yoo it me pixel bf in the funny test song!
-:test,normal:Yoo it me pixel bf in the funny test song!
 :bf:Shut up
 :test,normal:ok

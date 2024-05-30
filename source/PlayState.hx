@@ -4219,7 +4219,9 @@ class PlayState extends MusicBeatState
 					switch (daNote.noteStyle)
 					{
 						case 'phone':
+							if (!daNote.isSustainNote || !FlxG.save.data.ogHold) {
 							dad.playAnim('singSmash', true);
+							}
 						default:
 							if (daNote.noteStyle == 'phone-alt') { // I didn't notice bambi's alt animation has only left and right
 								if (noteToPlay == 'UP') noteToPlay = 'RIGHT';
@@ -4235,11 +4237,13 @@ class PlayState extends MusicBeatState
 										noteToPlay = 'LEFT';
 								}
 							}
+							if (!daNote.isSustainNote || !FlxG.save.data.ogHold) {
 							dad.playAnim('sing' + noteToPlay + altAnim, true);
 							if (dadmirror != null)
 							{
 								dadmirror.playAnim('sing' + noteToPlay + altAnim, true);
 							}
+						}
 					}
 					cameraMoveOnNote(noteToPlay, 'dad');
 					if (FlxG.save.data.lessLag) {
@@ -4401,6 +4405,9 @@ class PlayState extends MusicBeatState
 
 		if (!inCutscene && !botPlay)
 			keyShit();
+
+		if (!inCutscene && botPlay)
+			keyShitBotPlay();
 
 		if (adminMode) {
 		if (FlxG.keys.justPressed.ONE)
@@ -5745,6 +5752,22 @@ class PlayState extends MusicBeatState
 		});
 	}
 
+	private function keyShitBotPlay():Void
+		{
+	
+			if (boyfriend.holdTimer > Conductor.stepCrochet * 4 * 0.001)
+			{
+				if ((boyfriend.animation.curAnim.name.startsWith('sing')) && !boyfriend.animation.curAnim.name.endsWith('miss'))
+				{
+					boyfriend.dance();
+					
+					bfNoteCamOffset[0] = 0;
+					bfNoteCamOffset[1] = 0;
+				}
+			}
+	
+		}
+
 	function noteMiss(direction:Int = 1, note:Note):Void
 	{
 		if (true)
@@ -5773,7 +5796,9 @@ class PlayState extends MusicBeatState
 						recursedNoteMiss();
 					case 'phone':
 						var hitAnimation:Bool = boyfriend.animation.getByName("hit") != null;
+						if (!note.isSustainNote || !FlxG.save.data.ogHold) {
 						boyfriend.playAnim(hitAnimation ? 'hit' : (isShaggy ? 'singDOWNmiss' : 'singRIGHTmiss'), true);
+						}
 						if (isShaggy) boyfriend.color = 0xFF000084;
 						FlxTween.cancelTweensOf(note.MyStrum);
 						note.MyStrum.alpha = 0.01;
@@ -5814,12 +5839,16 @@ class PlayState extends MusicBeatState
 			}
 			if (boyfriend.animation.getByName('sing${noteToPlay}miss') != null)
 			{
+				if (!note.isSustainNote || !FlxG.save.data.ogHold) {
 				boyfriend.playAnim('sing' + noteToPlay + "miss", true);
+				}
 			}
 			else
 			{
 				boyfriend.color = 0xFF000084;
+				if (!note.isSustainNote || !FlxG.save.data.ogHold) {
 				boyfriend.playAnim('sing' + noteToPlay, true);
+				}
 			}
 			updateAccuracy();
 		}
@@ -6021,17 +6050,21 @@ class PlayState extends MusicBeatState
 								fuckingDumbassBullshitFuckYou = 'LEFT';
 						}
 					}
+					if (!note.isSustainNote || !FlxG.save.data.ogHold) {
 					boyfriend.playAnim('sing' + fuckingDumbassBullshitFuckYou, true);
+					}
 					cameraMoveOnNote(fuckingDumbassBullshitFuckYou, 'bf');
 				case 'phone':
 					var hitAnimation:Bool = boyfriend.animation.getByName("dodge") != null;
 					var heyAnimation:Bool = boyfriend.animation.getByName("hey") != null;
+					if (!note.isSustainNote || !FlxG.save.data.ogHold) {
 					boyfriend.playAnim(hitAnimation ? 'dodge' : (heyAnimation ? 'hey' : (isShaggy ? 'singRIGHT' : 'singUPmiss')), true);
 					gf.playAnim('cheer', true);
 					if (note.health != 2)
 					{
 						dad.playAnim(dad.animation.getByName("singThrow") == null ? 'singSmash' : 'singThrow', true);
 					}
+				}
 			}
 			if (UsingNewCam)
 			{

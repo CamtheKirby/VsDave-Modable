@@ -124,10 +124,10 @@ class DialogueBox extends FlxSpriteGroup
 						for (i in 0...custom.length)
 							{
 								var data:Array<String> = custom[i].split(':');
-								if (data[4] == null) {
+								if (data[0] == null) {
 								FlxG.sound.music.stop();
 								} else {
-								FlxG.sound.playMusic(Paths.music(data[4]), 0);	
+								FlxG.sound.playMusic(Paths.music(data[0]), 0);	
 								}
 							}
 					} else {
@@ -206,15 +206,6 @@ class DialogueBox extends FlxSpriteGroup
 				portraitLeftCharacter = ['dave', 'festival-tired'];
 			case 'interdimensional':
 				portraitLeftCharacter = ['dave', 'festival-3d-scared'];
-			default:
-				if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-dia.txt')) {
-				for (i in 0...custom.length)
-					{
-				var data:Array<String> = custom[i].split(':');
-				portraitLeftCharacter = [data[0], data[1]];
-				portraitRightCharacter = [data[2], data[3]];
-					}
-				}
 		}
 		
 
@@ -231,17 +222,7 @@ class DialogueBox extends FlxSpriteGroup
 		switch (PlayState.SONG.song.toLowerCase())
 		{
 			default:
-				if (FileSystem.exists(TitleState.modFolder + '/data/characters/dialogue/${curCharacter}.json')) {
-				rawJsonDialThree = File.getContent((TitleState.modFolder + '/data/characters/dialogue/${curCharacter}.json'));
-			    jsonDialThree = cast Json.parse(rawJsonDialThree);
-				if (jsonDialThree.right) {
-				portraitRight.setPosition(jsonDialThree.x, jsonDialThree.y);
-				} else {
-				portraitLeft.setPosition(jsonDialThree.x, jsonDialThree.y);	
-				}
-			} else {
 				portraitLeft.setPosition(276.95, 170);
-			}
 		}
 		add(portraitLeft);
 		add(portraitRight);
@@ -435,7 +416,7 @@ class DialogueBox extends FlxSpriteGroup
 					portraitRight.setPosition(570, 220);
 				default:
 				if (FileSystem.exists(TitleState.modFolder + '/data/characters/dialogue/${curCharacter}.json')) {
-					trace('test');
+					trace(TitleState.modFolder + '/data/characters/dialogue/${curCharacter}.json');
 			    rawJsonDial = File.getContent((TitleState.modFolder + '/data/characters/dialogue/${curCharacter}.json'));
 			    jsonDial = cast Json.parse(rawJsonDial);
 				if (jsonDial.right) {
@@ -445,7 +426,6 @@ class DialogueBox extends FlxSpriteGroup
 				}
 					} else {
 					portraitRight.setPosition(570, 220);	
-					trace('not test');
 					}
 			}
 			box.flipX = portraitLeft.visible;
@@ -528,7 +508,6 @@ class DialogueBox extends FlxSpriteGroup
 			portraitSprite.loadGraphic(Paths.customImage(portrait.portraitPath));	
 			} else {
 			portraitSprite.loadGraphic(Paths.image('dialogue/dave/dave_annoyed'));
-			trace('sad');
 		    }
 		}
 		portraitSprite.updateHitbox();
@@ -629,7 +608,6 @@ class DialogueBox extends FlxSpriteGroup
 				}
 			default:
 				if (FileSystem.exists(TitleState.modFolder + '/data/characters/dialogue/${character}.json')) {
-					trace('test 2');
 			rawJsonDialTwo = File.getContent((TitleState.modFolder + '/data/characters/dialogue/${character}.json'));
 			jsonDialTwo = cast Json.parse(rawJsonDialTwo);
 		    switch (expression)
@@ -639,7 +617,6 @@ class DialogueBox extends FlxSpriteGroup
 				}
 				portrait.left = jsonDialTwo.right;
 			} else {
-				trace('not test 2');
 				switch (expression)
 				{
 					case 'ready':

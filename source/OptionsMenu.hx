@@ -96,6 +96,7 @@ class OptionsMenu extends MusicBeatState
 			+ "\n" + (FlxG.save.data.modchart ? 'Mod Chart OFF' : 'Mod Chart ON')
 			+ "\n" + (FlxG.save.data.lessLag ? 'Less Lag OFF' : 'Less Lag ON')
 			+ "\n" + (FlxG.save.data.freeplayCuts ? "Freeplay Cutscenes ON" : "Freeplay Cutscenes OFF")
+			+ "\n" + (FlxG.save.data.ogHold ? "OG Hold Note Style ON" : "OG Hold Note Style OFF")
 			);
 
 		grpControls = new FlxTypedGroup<Alphabet>();
@@ -220,6 +221,9 @@ class OptionsMenu extends MusicBeatState
 				case 14:
 					FlxG.save.data.freeplayCuts = !FlxG.save.data.freeplayCuts;
 					updateGroupControls(FlxG.save.data.freeplayCuts ? 'Freeplay Cutscenes ON' : 'Freeplay Cutscenes OFF', 12, 'Vertical');	
+				case 15:
+					FlxG.save.data.ogHold = !FlxG.save.data.ogHold;
+					updateGroupControls(FlxG.save.data.ogHold ? 'OG Hold Note Style ON' : 'OG Hold Note Style OFF', 12, 'Vertical');	
 			}
 		}
 
