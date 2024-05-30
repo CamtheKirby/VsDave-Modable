@@ -78,8 +78,8 @@ class DialogueBox extends FlxSpriteGroup
 	{
 		super();
 
-		if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.txt')) {
-			custom = CoolUtil.coolTextFile(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.txt');
+		if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-dia.txt')) {
+			custom = CoolUtil.coolTextFile(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-dia.txt');
 			}
 		
 		if (playMusic)
@@ -120,11 +120,11 @@ class DialogueBox extends FlxSpriteGroup
 				case 'rano':
 					FlxG.sound.playMusic(Paths.music('stocknightambianceforranolol'), 0);	
 				default:
-					if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.txt')) {
+					if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-dia.txt')) {
 						for (i in 0...custom.length)
 							{
 								var data:Array<String> = custom[i].split(':');
-								if (data[3] == null) {
+								if (data[0] == null) {
 								FlxG.sound.music.stop();
 								} else {
 								FlxG.sound.playMusic(Paths.music(data[0]), 0);	
