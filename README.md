@@ -1,24 +1,38 @@
-Extra Keys from: https://github.com/Magman03k7/VsDave-ExtraKeysAddon
-
-## Dependencies you need to build
-flixel-addons is 2.11.0 btw
-
-You don't need polymod
-
-![image](https://github.com/CamtheKirby/VsDave-Modable/assets/92703353/7a0c65c3-37a4-43d6-b2d5-7901436c2eb8)
-
-
-<img src="KadeEngineWitBackground.png" width="600" height="400">
+<img src="KadeEngineWitBackground.png">
 
 # VS DAVE (DAVE ENGINE)
 this is dave
 
-<img src="https://static.wikia.nocookie.net/fridaynightfunking/images/1/1e/Dave30_Static_Up_Pose.png/revision/latest?cb=20221112223155" width="211" height="373">
+<img src="https://static.wikia.nocookie.net/fridaynightfunking/images/1/1e/Dave30_Static_Up_Pose.png/revision/latest?cb=20221112223155">
 
 say hi to dave
 please say hi to him
 
+## About this Engine
+(Powered by Kade Engine 1.2)
 
+Have you ever wanted your spam tracks to look like the real deal?
+
+Well now you can with Dave and Bambi Moddable (Aka Fanmade Dave Engine)
+
+Includes:
+
+Mod Packs
+Custom Songs
+Softcoded Character Select
+Custom Dialogue 
+Custom Weeks
+Custom Characters
+And More!
+
+## Credit
+
+- [Dave and Bambi Team - Making Dave and Bambi and the Dave Engine](https://gamebanana.com/mods/43201)
+- [MagMan - Extra Keys](https://gamebanana.com/members/1684859)
+- Cam - Making Dave and Bambi Moddable/Fanmade Dave Engine
+- [ShadowMario - Custom Audio Code](https://gamebanana.com/mods/309789)
+
+## Dependencies you need to build the Engine
 
 
 ## About the OG mod
@@ -27,5 +41,3 @@ Powered by a heavily modified version of Kade Engine, The mod includes lots of a
 - Character Selector
 - Languages
 - [Strawberry Input](https://github.com/benjaminpants/Funkin-Strawberry)
-
-If you're looking to compile the mod/make your own modification, [look here](Modding.md).
