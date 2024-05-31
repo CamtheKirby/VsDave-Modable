@@ -17,13 +17,13 @@ Well now you can with Dave and Bambi Moddable (Aka Fanmade Dave Engine)
 
 Includes:
 
-Mod Packs
-Custom Songs
-Softcoded Character Select
-Custom Dialogue 
-Custom Weeks
-Custom Characters
-And More!
+- Mod Packs
+- Custom Songs
+- Softcoded Character Select
+- Custom Dialogue 
+- Custom Weeks
+- Custom Characters
+- And More!
 
 ## Credit
 
@@ -33,7 +33,9 @@ And More!
 - [ShadowMario - Custom Audio Code](https://gamebanana.com/mods/309789)
 
 ## Dependencies you need to build the Engine
+![image](https://github.com/CamtheKirby/VsDave-Modable/assets/92703353/321ccc06-a418-4220-bb90-fa2b96e61744)
 
+Recommended to use Visual Code Studio
 
 ## About the OG mod
 Powered by a heavily modified version of Kade Engine, The mod includes lots of additional improvements such as
