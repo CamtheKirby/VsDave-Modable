@@ -1,4 +1,4 @@
-First off in data folder go to the charts folder and copy the test json file and name it yoursong-settings.json
+First off in data folder go to the charts folder and copy the test-settings json file and name it yoursong-settings.json
 
 Example:
 
