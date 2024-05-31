@@ -37,6 +37,14 @@ Includes:
 
 Recommended to use Visual Code Studio
 
+## How to help
+Stuff to help me with:
+
+- Custom Stages
+- HScript
+- Cleaning Code and Optimizing Code
+- Fixing Custom Dialogue Characters
+
 ## About the OG mod
 Powered by a heavily modified version of Kade Engine, The mod includes lots of additional improvements such as
 - OpenGL Shaders
