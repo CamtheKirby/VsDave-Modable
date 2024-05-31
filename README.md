@@ -45,6 +45,7 @@ Stuff to help me with:
 - Cleaning Code and Optimizing Code
 - Fixing Custom Dialogue Characters
 - Making the guides easier to understand
+- Mac and Linux Support
 
 ## About the OG mod
 Powered by a heavily modified version of Kade Engine, The mod includes lots of additional improvements such as
