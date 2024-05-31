@@ -1,0 +1,14 @@
+First go to data\dialogue
+
+create a txt file and make it the same name of the song you want to add Dialogue to
+
+Example of dialogue:
+
+:bf:Hello I am BF
+:bambi:I am bambi
+:bambi,upset:I'm mad
+:bambi,annoyed:I am every mad
+:dave:I am dave!
+:dave,scared:Nah what's happening
+setfont_code:dave,3d-scared: Oh no I'm 3d and taking werid fisfjsdfodsfsod
+setfont_normal:dave:Nvm I'm back

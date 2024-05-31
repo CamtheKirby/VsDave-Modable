@@ -1,0 +1,72 @@
+First go to charts and put your chart there (make sure to only have the song name)
+
+if your going to have a extra key difficulty as well do this:
+
+songname-extrakeys
+
+Now put your inst and voices into the songs folder (Make sure that files are oggs and they are in a folder that is your song name)
+
+For Freeplay:
+
+Go to data and select customSongs.txt
+
+delete the test song if you want to and replace it with this:
+
+yoursong:1:characternameforicon
+
+you can put multiple to by doing this:
+
+yoursong:1:characternameforicon
+yoursong:1:characternameforicon
+yoursong:1:characternameforicon
+
+The number is a array from 0 to 16:
+
+var songColors:Array<FlxColor> =	[
+    	0xFF00137F,    // GF but its actually dave!
+		0xFF4965FF,    // DAVE
+		0xFF00B515,    // MISTER BAMBI RETARD (thats kinda rude ngl)
+		0xFF00FFFF,    // SPLIT THE THONNNNN
+		0xFF800080,    // FESTIVAL
+		0xFF116E1C,    // MASTA BAMBI
+		0xFFFF0000,    // KABUNGA
+		0xFF0EAE2C,    // SECRET MOD LEAK
+		0xFFFF0000,    // TRISTAN
+		FlxColor.fromRGB(162, 150, 188), // PLAYROBOT
+		FlxColor.fromRGB(44, 44, 44),    // RECURSED
+		0xFF31323F,    // MOLDY
+		0xFF35396C,    // FIVE NIGHT
+		0xFF0162F5,    // OVERDRIVE
+		0xFF119A2B,    // CHEATING
+		0xFFFF0000,    // UNFAIRNESS
+		0xFF810000,    // EXPLOITATION 
+    ];
+
+Now your song is playable (open up the chart editor to edit the characters and the stage)
+
+Story Mode:
+
+In the data folder open up weeks.json
+
+you put your songs into the songlist array
+
+the week name is what shows up as a desc of your custom week
+
+the weekBanner is the name of your .png banner in images\weekBanners
+
+in images\storymenu make sure your first custom week is named week6 and the other one week7 and so on
+
+to add more weeks replace the last curly bracket (}) with this:
+
+},
+		{
+			"songList": ["Test", "Test"],
+			"weekName": "Test Week",
+			"bannerName": "testbanner"
+		}
+	  ]
+	}
+
+
+
+

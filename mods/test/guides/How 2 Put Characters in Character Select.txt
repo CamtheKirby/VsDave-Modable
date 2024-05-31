@@ -1,0 +1,39 @@
+First off go to data open the characterSelect json
+
+it should have a example of a character and a character with different forms
+
+you can replace it with this:
+{
+      "characters": [
+        {
+          "newCharacter": [
+            {
+              "playername": "nameofchar",
+              "thecharactername": "Name of Char in Character Select Menu",
+              "thenotems": [1, 1, 1, 1],
+              "notestyle": "3D or just put nothing"
+            }
+          ],
+          "mainName": "Will be the name if you get a highscore with the character",
+          "mainnotems": [1, 1, 1, 1]
+        }
+      ]
+    }
+
+you can add more characters by doing this replacing the last curly bracket (}):
+
+ },
+        {
+          "newCharacter": [
+            {
+              "playername": "nameofchar",
+              "thecharactername": "Name of Char in Character Select Menu",
+              "thenotems": [1, 1, 1, 1],
+              "notestyle": "3D or just put nothing"
+            }
+          ],
+          "mainName": "Will be the name if you get a highscore with the character",
+          "mainnotems": [1, 1, 1, 1]
+        }
+      ]
+    }

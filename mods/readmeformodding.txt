@@ -1,0 +1,1 @@
+Before you go to the guides folder in the test folder make to copy the test folder and rename it.

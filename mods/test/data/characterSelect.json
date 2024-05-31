@@ -9,7 +9,25 @@
               "notestyle": "3D"
             }
           ],
-          "mainName": "testtwo",
+          "mainName": "Bandu Example",
+          "mainnotems": [1, 1, 1, 1]
+        },
+        {
+          "newCharacter": [
+            {
+              "playername": "bf-pixel",
+              "thecharactername": "Example 2",
+              "thenotems": [1, 1, 1, 1],
+              "notestyle": ""
+            },
+            {
+              "playername": "bf-pixel",
+              "thecharactername": "Example 3",
+              "thenotems": [1, 1, 1, 1],
+              "notestyle": ""
+            }
+          ],
+          "mainName": "BF Pixel Example",
           "mainnotems": [1, 1, 1, 1]
         }
       ]

@@ -1,0 +1,5 @@
+In the data folder open up FreeplaySettings
+
+you should see two arrays one named skipSelect and one named noExtraKeys
+
+there are already examples in the json file
