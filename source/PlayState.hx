@@ -114,6 +114,13 @@ typedef BackgroundJson =
 	var antialiasing:Bool;
 }
 
+typedef Settings =
+{
+	var songCreators:String;
+	var songHeadings:String;
+	var creditsTxt:String;
+}
+
 class PlayState extends MusicBeatState
 {
 	public static var mania:Int = 0;
@@ -321,8 +328,6 @@ class PlayState extends MusicBeatState
 
 	var songPosBar:FlxBar;
 	var songPosBG:FlxSprite;
-
-	var custom:Array<String>;
 	
 	var bfNoteCamOffset:Array<Float> = new Array<Float>();
 	var dadNoteCamOffset:Array<Float> = new Array<Float>();
@@ -366,6 +371,9 @@ class PlayState extends MusicBeatState
 
 	public var rawJsonStage:String;
     public var jsonStage:StageJson;
+
+    var rawJsonSettings:String;
+    var jsonSettings:Settings;
 
 	var tristan:BGSprite;
 	var curTristanAnim:String;
@@ -509,8 +517,9 @@ class PlayState extends MusicBeatState
 		resetShader();
 
 		if (FreeplayState.isaCustomSong) {
-			if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.txt')) {
-			custom = CoolUtil.coolTextFile(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.txt');
+			if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.json')) {
+			rawJsonSettings = File.getContent(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.json');
+		    jsonSettings = cast Json.parse(rawJsonSettings);
 			}
 		}
 			
@@ -1388,15 +1397,12 @@ class PlayState extends MusicBeatState
 			case 'kabunga':
 				credits = LanguageManager.getTextString('kabunga_credit');
 			default:
-				if (FreeplayState.isaCustomSong && (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.txt'))) {
-					for (i in 0...custom.length)
-						{
-							var data:Array<String> = custom[i].split(':');
-							if (data[2] == null) {
+				if (FreeplayState.isaCustomSong && (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.json'))) {
+			
+							if (jsonSettings.creditsTxt == '') {
 							credits = '';
 							} else {
-							credits = data[2];
-							}
+							credits = jsonSettings.creditsTxt;
 						}
 				} else {
 				credits = '';

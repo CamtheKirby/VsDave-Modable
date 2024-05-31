@@ -1,8 +1,12 @@
-First off in data folder go to the charts folder and create a txt file named yoursong-settings
+First off in data folder go to the charts folder and copy the test json file and name it yoursong-settings.json
 
 Example:
 
-credit the people who made the song:theHeading:The credit text
+{
+      "songCreators": "The Song Creators",
+      "songHeadings": "theHeading",
+      "creditsTxt": "the txt"
+  }
 
 
 

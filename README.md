@@ -31,6 +31,7 @@ Includes:
 - [MagMan - Extra Keys](https://gamebanana.com/members/1684859)
 - Cam - Making Dave and Bambi Moddable/Fanmade Dave Engine
 - [ShadowMario - Custom Audio Code](https://gamebanana.com/mods/309789)
+- [KadeDev - Kade Engine 1.2](https://gamebanana.com/mods/44291)
 
 ## Dependencies you need to build the Engine
 ![image](https://github.com/CamtheKirby/VsDave-Modable/assets/92703353/321ccc06-a418-4220-bb90-fa2b96e61744)

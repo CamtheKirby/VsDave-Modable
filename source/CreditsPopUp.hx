@@ -1,5 +1,7 @@
 package;
 
+import haxe.Json;
+import sys.io.File;
 import sys.FileSystem;
 import flixel.group.FlxSpriteGroup;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
@@ -15,6 +17,7 @@ typedef SongHeading = {
 	var ?animation:Animation;
 	var iconOffset:Float;
 }
+
 class CreditsPopUp extends FlxSpriteGroup
 {
 	public var bg:FlxSprite;
@@ -24,8 +27,9 @@ class CreditsPopUp extends FlxSpriteGroup
 	public var funnyIcon:FlxSprite;
 	var iconOffset:Float;
 	var curHeading:SongHeading;
-	var custom:Array<String>;
 	public static var songCreator:String = '';
+	var rawJsonSettings:String;
+    var jsonSettings:PlayState.Settings;
 
 	public function new(x:Float, y:Float)
 	{
@@ -35,8 +39,9 @@ class CreditsPopUp extends FlxSpriteGroup
 		var songCreatorIcon:String = '';
 		var headingPath:SongHeading = null;
         if (FreeplayState.isaCustomSong) {
-			if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.txt')) {
-	    custom = CoolUtil.coolTextFile(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.txt');
+			if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.json')) {
+				rawJsonSettings = File.getContent(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.json');
+				jsonSettings = cast Json.parse(rawJsonSettings);
 			}
 		}
 
@@ -69,12 +74,8 @@ class CreditsPopUp extends FlxSpriteGroup
 				songCreator = 'sibottle';
 			default:
 				if (FreeplayState.isaCustomSong) {
-					if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.txt')) {
-					for (i in 0...custom.length)
-						{
-							var data:Array<String> = custom[i].split(':');
-							songCreator = data[0];
-						}
+					if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.json')) {			
+						songCreator = jsonSettings.songCreators;
 					}
 				}
 		}
@@ -119,12 +120,8 @@ class CreditsPopUp extends FlxSpriteGroup
 				animation: new Animation('expunged', 'Expunged', 24, true, [false, false]), iconOffset: 0};
 			default:
 			if (FreeplayState.isaCustomSong) {
-				if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.txt')) {
-				for (i in 0...custom.length)
-					{
-			var data:Array<String> = custom[i].split(':');
-			headingPath = {path: 'songHeadings/' + data[1], antiAliasing: false, iconOffset: 0};
-					}
+				if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.json')) {
+			headingPath = {path: 'songHeadings/' + jsonSettings.songHeadings, antiAliasing: false, iconOffset: 0};
 				}
 		}
 	}
@@ -136,12 +133,9 @@ class CreditsPopUp extends FlxSpriteGroup
 				headingPath = {path: 'songHeadings/interdimensionalHeading', antiAliasing: false, iconOffset: 0};
 			default:
 			if (FreeplayState.isaCustomSong) {
-				if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.txt')) {
-				for (i in 0...custom.length)
-					{
-			var data:Array<String> = custom[i].split(':');
-			headingPath = {path: 'songHeadings/' + data[1], antiAliasing: false, iconOffset: 0};
-					}
+				if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.json')) {
+			headingPath = {path: 'songHeadings/' + jsonSettings.songHeadings, antiAliasing: false, iconOffset: 0};
+					
 				}
 			}
 		}
@@ -158,9 +152,11 @@ class CreditsPopUp extends FlxSpriteGroup
 				if (FileSystem.exists('assets/shared/images/' + headingPath.path + '.png')) {
 					trace('yay');
 				bg.loadGraphic(Paths.image(headingPath.path));
-				} else {
+				} else if (FileSystem.exists(TitleState.modFolder + '/images/' + headingPath.path + '.png')) {
 					trace('nae');
 				bg.loadGraphic(Paths.customImage(TitleState.modFolder + '/images/' + headingPath.path));
+				} else {
+					bg.loadGraphic(Paths.image('songHeadings/daveHeading'));	
 				}
 			}
 			else
@@ -178,10 +174,14 @@ class CreditsPopUp extends FlxSpriteGroup
 		funnyIcon = new FlxSprite(0, 0, Paths.image('songCreators/${songCreatorIcon != '' ? songCreatorIcon : songCreator}'));
 		rescaleIcon();
 		add(funnyIcon);
-		} else {
+		} else if (FileSystem.exists(TitleState.modFolder + '/images/songCreators/' + songCreator + '.png')) {
 		funnyIcon = new FlxSprite(0, 0, Paths.customImage(TitleState.modFolder + '/images/songCreators/' + songCreator));
 		rescaleIcon();
 		add(funnyIcon);
+		} else {
+			funnyIcon = new FlxSprite(0, 0, Paths.image('songCreators/MoldyGH'));
+			rescaleIcon();
+			add(funnyIcon);
 		}
 		
 
