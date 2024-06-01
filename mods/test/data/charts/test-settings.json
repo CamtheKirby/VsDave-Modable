@@ -1,6 +1,10 @@
 {
-      "songCreators": "Kawai Sprite & MtH",
-      "songHeadings": "funkinHeading",
-      "creditsTxt": "The testiest song on the planet",
-      "hasNoGf": false
-  }
+    "songCreators": "Kawai Sprite & MtH",
+    "songHeadings": "funkinHeading",
+    "creditsTxt": "The testiest song on the planet",
+    "hasNoGf": false,
+    "intro": "",
+    "windowName": "",
+    "healthDrain": "",
+    "exploitationEffect": false
+}

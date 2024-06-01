@@ -114,15 +114,15 @@ typedef BackgroundJson =
 	var antialiasing:Bool;
 }
 
-typedef Settings =
-{
-	var songCreators:String;
-	var songHeadings:String;
-	var creditsTxt:String;
-	var hasNoGf:Bool;
-	var intro:String;
-	var windowName:String;
-	var healthDrain:String;
+typedef Settings = {
+    var songCreators:String;
+    var songHeadings:String;
+    var creditsTxt:String;
+    var hasNoGf:Bool;
+    var intro:String;
+    var windowName:String;
+    var healthDrain:String;
+    var exploitationEffect:Bool;
 }
 
 class PlayState extends MusicBeatState
@@ -566,6 +566,12 @@ class PlayState extends MusicBeatState
 				add(blackScreen);
 			case 'five-nights':
 				inFiveNights = true;
+			default:
+				if (FreeplayState.isaCustomSong) {
+			if (jsonSettings.exploitationEffect) {
+			Main.toggleFuckedFPS(true);	
+				}
+			}
 		}
 		scrollType = FlxG.save.data.downscroll ? 'downscroll' : 'upscroll';
 
@@ -836,9 +842,11 @@ class PlayState extends MusicBeatState
 		}
 		var gfVersion:String = 'gf';
 		var noGFSongs = ['memory', 'five-nights', 'bot-trot', 'escape-from-california', 'overdrive'];
+		if (FreeplayState.isaCustomSong) {
 		if (jsonSettings.hasNoGf) {
 			noGFSongs.push(SONG.song.toLowerCase());
 		}
+	}
 		if(SONG.gf != null)
 		{
 			gfVersion = SONG.gf;
@@ -2372,13 +2380,21 @@ class PlayState extends MusicBeatState
 			var introAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
 			var introSoundAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
 			var soundAssetsAlt:Array<String> = new Array<String>();
-
+			if (FreeplayState.isaCustomSong) {
+			if (SONG.song.toLowerCase() == "exploitation" || jsonSettings.intro == "ex")
+				introAssets.set('default', ['ui/ready', "ui/set", "ui/go_glitch"]);
+			else if (SONG.song.toLowerCase() == "overdrive" || jsonSettings.intro == "overdriving")
+				introAssets.set('default', ['ui/spr_start_sprites_0', "ui/spr_start_sprites_1", "ui/spr_start_sprites_2"]);
+			else
+				introAssets.set('default', ['ui/ready', "ui/set", "ui/go"]);
+		} else {
 			if (SONG.song.toLowerCase() == "exploitation")
 				introAssets.set('default', ['ui/ready', "ui/set", "ui/go_glitch"]);
 			else if (SONG.song.toLowerCase() == "overdrive")
 				introAssets.set('default', ['ui/spr_start_sprites_0', "ui/spr_start_sprites_1", "ui/spr_start_sprites_2"]);
 			else
 				introAssets.set('default', ['ui/ready', "ui/set", "ui/go"]);
+		}
 
 			introSoundAssets.set('default', ['default/intro3', 'default/intro2', 'default/intro1', 'default/introGo']);
 			introSoundAssets.set('pixel', ['pixel/intro3-pixel', 'pixel/intro2-pixel', 'pixel/intro1-pixel', 'pixel/introGo-pixel']);
@@ -2400,11 +2416,15 @@ class PlayState extends MusicBeatState
 				case 'overdrive':
 					soundAssetsAlt = introSoundAssets.get('overdriving');	
 				default:
+					if (FreeplayState.isaCustomSong) {
 					if (jsonSettings.intro == '' || jsonSettings.intro == null) {
 					soundAssetsAlt = introSoundAssets.get('default');
 					} else {
 					soundAssetsAlt = introSoundAssets.get(jsonSettings.intro);	
 					}
+				} else {
+					soundAssetsAlt = introSoundAssets.get('default');
+				} 
 			}
 
 			var introAlts:Array<String> = introAssets.get('default');
@@ -2691,6 +2711,14 @@ class PlayState extends MusicBeatState
 				vignette.alpha = 0;
 				add(vignette);
 				FlxTween.tween(vignette, {alpha: 0.7}, 1);
+			default:
+				if (FreeplayState.isaCustomSong) {
+				if (jsonSettings.windowName == "bambiWindowNames") {
+				Application.current.window.title = banbiWindowNames[new FlxRandom().int(0, banbiWindowNames.length - 1)];
+				} else if (jsonSettings.windowName != "" && jsonSettings.windowName != null) {
+					Application.current.window.title = jsonSettings.windowName;
+				}
+			}
 		}
 	}
 
@@ -3758,10 +3786,24 @@ class PlayState extends MusicBeatState
 				" | M1ss3s: " + (misses * (modchartoption ? FlxG.random.int(1,9) : 1)) + 
 				" | Accuracy: " + (truncateFloat(accuracy, 2) * (modchartoption ? FlxG.random.int(1,9) : 1)) + "% ";
 			default:
+				if (FreeplayState.isaCustomSong) {
+				if (jsonSettings.exploitationEffect) {
+					scoreTxt.text = 
+					"Scor3: " + (songScore * (modchartoption ? FlxG.random.int(1,9) : 1)) + 
+					" | M1ss3s: " + (misses * (modchartoption ? FlxG.random.int(1,9) : 1)) + 
+					" | Accuracy: " + (truncateFloat(accuracy, 2) * (modchartoption ? FlxG.random.int(1,9) : 1)) + "% ";
+				} else {
 				scoreTxt.text = 
 				LanguageManager.getTextString('play_score') + Std.string(songScore) + " | " + 
 				LanguageManager.getTextString('play_miss') + misses +  " | " + 
 				LanguageManager.getTextString('play_accuracy') + truncateFloat(accuracy, 2) + "%";
+				}
+			} else {
+				scoreTxt.text = 
+				LanguageManager.getTextString('play_score') + Std.string(songScore) + " | " + 
+				LanguageManager.getTextString('play_miss') + misses +  " | " + 
+				LanguageManager.getTextString('play_accuracy') + truncateFloat(accuracy, 2) + "%";
+			}
 		}
 		if (noMiss)
 		{
@@ -4330,6 +4372,34 @@ class PlayState extends MusicBeatState
 							{
 								health = 0.001;
 							}
+							default:
+								if (FreeplayState.isaCustomSong) {
+							if (jsonSettings.healthDrain == "cheating") {
+								health -= healthtolower;
+							} else if (jsonSettings.healthDrain == "unfairness") {
+								var healthadj = 3;
+								switch (storyDifficulty) {
+									case 0: healthadj = 4;
+								}
+								health -= (healthtolower / healthadj);
+							} else if (jsonSettings.healthDrain == "exploitation") {
+								if (((health + (FlxEase.backInOut(health / 16.5)) - 0.002) >= 0))
+									{
+										health += ((FlxEase.backInOut(health / 16.5)) * (curBeat <= 160 ? 0.25 : 1)) - 0.002; //some training wheels cuz rapparep say mod too hard
+									}
+							} else if (jsonSettings.healthDrain == "mealie") {
+								health -= (healthtolower / 1.5);
+							} else if (jsonSettings.healthDrain == "fn") {
+								if ((health - 0.023) > 0)
+									{
+										health -= 0.023;
+									}
+									else
+									{
+										health = 0.001;
+									}
+							}
+						} 
 					}
 					// boyfriend.playAnim('hit',true);
 					dad.holdTimer = 0;
@@ -4723,6 +4793,7 @@ class PlayState extends MusicBeatState
 			case 'roofs':
 				if (storyDifficulty == 0) CharacterSelectState.unlockCharacter('redshaggy');
 		}
+		
 		if (isStoryMode)
 		{
 			campaignScore += songScore;
@@ -7796,7 +7867,8 @@ class PlayState extends MusicBeatState
 						makeInvisibleNotes(false);
 				}
 		}
-		if (SONG.song.toLowerCase() == 'exploitation' && curStep % 8 == 0)
+		if (FreeplayState.isaCustomSong) {
+		if (SONG.song.toLowerCase() == 'exploitation' || jsonSettings.exploitationEffect && curStep % 8 == 0)
 		{
 			var fonts = ['arial', 'chalktastic', 'openSans', 'pkmndp', 'barcode', 'vcr'];
 			var chosenFont = fonts[FlxG.random.int(0, fonts.length)];
@@ -7810,6 +7882,22 @@ class PlayState extends MusicBeatState
 				songName.font = Paths.font('exploit/${chosenFont}.ttf');
 			}
 		}
+	} else {
+		if (SONG.song.toLowerCase() == 'exploitation' && curStep % 8 == 0)
+			{
+				var fonts = ['arial', 'chalktastic', 'openSans', 'pkmndp', 'barcode', 'vcr'];
+				var chosenFont = fonts[FlxG.random.int(0, fonts.length)];
+				kadeEngineWatermark.font = Paths.font('exploit/${chosenFont}.ttf');
+				kadeEngineWatermark2.font = Paths.font('exploit/${chosenFont}.ttf');
+				creditsWatermark.font = Paths.font('exploit/${chosenFont}.ttf');
+				scoreTxt.font = Paths.font('exploit/${chosenFont}.ttf');
+				botplayTxt.font = Paths.font('exploit/${chosenFont}.ttf');
+				if (songName != null)
+				{
+					songName.font = Paths.font('exploit/${chosenFont}.ttf');
+				}
+			}
+	}
 		#if desktop
 		DiscordClient.changePresence(detailsText
 			+ " "
@@ -8952,3 +9040,4 @@ enum CharacterFunnyEffect
 	None; Dave; Bambi; Tristan; Exbungo; Recurser; Shaggy;
 }
 // You looked
+// btw playstate is long because of the dave and bambi and extra keys source code were already so long

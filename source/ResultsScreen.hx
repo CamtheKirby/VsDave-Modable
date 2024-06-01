@@ -27,6 +27,8 @@ class ResultsScreen extends FlxState
 	{
 		super.create();
 
+		Main.toggleFuckedFPS(false);
+		
 		bg = new FlxSprite(-80).loadGraphic(MainMenuState.randomizeBG());
 		bg.scrollFactor.set();
 		bg.setGraphicSize(Std.int(bg.width * 1.1));
