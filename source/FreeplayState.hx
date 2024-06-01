@@ -59,7 +59,7 @@ class FreeplayState extends MusicBeatState
 	private var InMainFreeplayState:Bool = false;
 
 	private var CurrentSongIcon:FlxSprite;
-	var customSongs = CoolUtil.coolTextFile(TitleState.modFolder + '/data/CustomSongs.txt'); // idk should work
+	var customSongs:Array<String>;
 
 	private var Catagories:Array<String> = ['dave', 'joke', 'extras', 'mod'];
 	var translatedCatagory:Array<String> = [LanguageManager.getTextString('freeplay_dave'), LanguageManager.getTextString('freeplay_joke'), LanguageManager.getTextString('freeplay_extra'), TitleState.currentMod];
@@ -154,6 +154,9 @@ class FreeplayState extends MusicBeatState
 		isaCustomSong = false;
 		rawJsonF = File.getContent(Paths.json('FreeplaySettings'));
         jsonF = cast Json.parse(rawJsonF);
+		if (FileSystem.exists(TitleState.modFolder + '/data/CustomSongs.txt')) {
+		customSongs = CoolUtil.coolTextFile(TitleState.modFolder + '/data/CustomSongs.txt'); // idk should work
+		}
 
 		if (FileSystem.exists(TitleState.modFolder + '/data/FreeplaySettings.json')) {
 		rawJsonFM = File.getContent(TitleState.modFolder + '/data/FreeplaySettings.json');
@@ -418,12 +421,14 @@ class FreeplayState extends MusicBeatState
 				addWeek(['Enter Terminal'], 17, ['terminal']);
 				case 'mod':
 					addWeek(['Random'], 0, ['dave']);
+					if (FileSystem.exists(TitleState.modFolder + '/data/CustomSongs.txt')) {
 					isaCustomSong = true;
 					for (i in 0...customSongs.length)
 						{
 							var data:Array<String> = customSongs[i].split(':');
 							addWeek([data[0]], Std.parseInt(data[1]), [data[2]]);
 						}
+					}
 		}
 	}
 

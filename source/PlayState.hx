@@ -119,6 +119,10 @@ typedef Settings =
 	var songCreators:String;
 	var songHeadings:String;
 	var creditsTxt:String;
+	var hasNoGf:Bool;
+	var intro:String;
+	var windowName:String;
+	var healthDrain:String;
 }
 
 class PlayState extends MusicBeatState
@@ -831,10 +835,10 @@ class PlayState extends MusicBeatState
 				}
 		}
 		var gfVersion:String = 'gf';
-		
 		var noGFSongs = ['memory', 'five-nights', 'bot-trot', 'escape-from-california', 'overdrive'];
-		trace(funnyFloatyBoys);
-		trace('this this false right?: ' + CharacterSelectState.inCS);
+		if (jsonSettings.hasNoGf) {
+			noGFSongs.push(SONG.song.toLowerCase());
+		}
 		if(SONG.gf != null)
 		{
 			gfVersion = SONG.gf;
@@ -2396,7 +2400,11 @@ class PlayState extends MusicBeatState
 				case 'overdrive':
 					soundAssetsAlt = introSoundAssets.get('overdriving');	
 				default:
+					if (jsonSettings.intro == '' || jsonSettings.intro == null) {
 					soundAssetsAlt = introSoundAssets.get('default');
+					} else {
+					soundAssetsAlt = introSoundAssets.get(jsonSettings.intro);	
+					}
 			}
 
 			var introAlts:Array<String> = introAssets.get('default');
