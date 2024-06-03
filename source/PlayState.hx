@@ -497,6 +497,8 @@ class PlayState extends MusicBeatState
 	var shy:Float;
 	var sh_r:Float = 60;
 
+    var settingsExist:Bool;
+
 	public static var rssongScore:Int = 0;
     public static var rsmisses:Int = 0;
     public static var rsaccuracy:Float = 0.00;
@@ -518,13 +520,13 @@ class PlayState extends MusicBeatState
 
 		adminMode = FlxG.save.data.adminMode;
 
+		settingsExist = FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.json');
+
 		resetShader();
 
-		if (FreeplayState.isaCustomSong) {
-			if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.json')) {
+		if (FreeplayState.isaCustomSong && settingsExist) {
 			rawJsonSettings = File.getContent(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.json');
 		    jsonSettings = cast Json.parse(rawJsonSettings);
-			}
 		}
 			
 
@@ -567,7 +569,7 @@ class PlayState extends MusicBeatState
 			case 'five-nights':
 				inFiveNights = true;
 			default:
-				if (FreeplayState.isaCustomSong) {
+				if (FreeplayState.isaCustomSong && settingsExist) {
 			if (jsonSettings.exploitationEffect) {
 			Main.toggleFuckedFPS(true);	
 				}
@@ -842,7 +844,7 @@ class PlayState extends MusicBeatState
 		}
 		var gfVersion:String = 'gf';
 		var noGFSongs = ['memory', 'five-nights', 'bot-trot', 'escape-from-california', 'overdrive'];
-		if (FreeplayState.isaCustomSong) {
+		if (FreeplayState.isaCustomSong && settingsExist) {
 		if (jsonSettings.hasNoGf) {
 			noGFSongs.push(SONG.song.toLowerCase());
 		}
@@ -2380,7 +2382,7 @@ class PlayState extends MusicBeatState
 			var introAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
 			var introSoundAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
 			var soundAssetsAlt:Array<String> = new Array<String>();
-			if (FreeplayState.isaCustomSong) {
+			if (FreeplayState.isaCustomSong && settingsExist) {
 			if (SONG.song.toLowerCase() == "exploitation" || jsonSettings.intro == "ex")
 				introAssets.set('default', ['ui/ready', "ui/set", "ui/go_glitch"]);
 			else if (SONG.song.toLowerCase() == "overdrive" || jsonSettings.intro == "overdriving")
@@ -2416,7 +2418,7 @@ class PlayState extends MusicBeatState
 				case 'overdrive':
 					soundAssetsAlt = introSoundAssets.get('overdriving');	
 				default:
-					if (FreeplayState.isaCustomSong) {
+					if (FreeplayState.isaCustomSong && settingsExist) {
 					if (jsonSettings.intro == '' || jsonSettings.intro == null) {
 					soundAssetsAlt = introSoundAssets.get('default');
 					} else {
@@ -2712,7 +2714,7 @@ class PlayState extends MusicBeatState
 				add(vignette);
 				FlxTween.tween(vignette, {alpha: 0.7}, 1);
 			default:
-				if (FreeplayState.isaCustomSong) {
+				if (FreeplayState.isaCustomSong && settingsExist) {
 				if (jsonSettings.windowName == "bambiWindowNames") {
 				Application.current.window.title = banbiWindowNames[new FlxRandom().int(0, banbiWindowNames.length - 1)];
 				} else if (jsonSettings.windowName != "" && jsonSettings.windowName != null) {
@@ -3786,7 +3788,7 @@ class PlayState extends MusicBeatState
 				" | M1ss3s: " + (misses * (modchartoption ? FlxG.random.int(1,9) : 1)) + 
 				" | Accuracy: " + (truncateFloat(accuracy, 2) * (modchartoption ? FlxG.random.int(1,9) : 1)) + "% ";
 			default:
-				if (FreeplayState.isaCustomSong) {
+				if (FreeplayState.isaCustomSong && settingsExist) {
 				if (jsonSettings.exploitationEffect) {
 					scoreTxt.text = 
 					"Scor3: " + (songScore * (modchartoption ? FlxG.random.int(1,9) : 1)) + 
@@ -4373,7 +4375,7 @@ class PlayState extends MusicBeatState
 								health = 0.001;
 							}
 							default:
-								if (FreeplayState.isaCustomSong) {
+								if (FreeplayState.isaCustomSong && settingsExist) {
 							if (jsonSettings.healthDrain == "cheating") {
 								health -= healthtolower;
 							} else if (jsonSettings.healthDrain == "unfairness") {
@@ -7867,7 +7869,7 @@ class PlayState extends MusicBeatState
 						makeInvisibleNotes(false);
 				}
 		}
-		if (FreeplayState.isaCustomSong) {
+		if (FreeplayState.isaCustomSong && settingsExist) {
 		if (SONG.song.toLowerCase() == 'exploitation' || jsonSettings.exploitationEffect && curStep % 8 == 0)
 		{
 			var fonts = ['arial', 'chalktastic', 'openSans', 'pkmndp', 'barcode', 'vcr'];

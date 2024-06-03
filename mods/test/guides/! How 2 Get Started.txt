@@ -1,6 +1,0 @@
-
-First, if you haven't already, copy the test folder and rename it as you like. (It will appear as the Freeplay pack name.)
-
-You can change the icon and the description to your liking.
-
-Make sure to select the mod by pressing 'm' on the title screen.

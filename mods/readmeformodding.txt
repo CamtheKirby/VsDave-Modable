@@ -1,1 +1,2 @@
-Before you go to the guides folder in the test folder make to copy the test folder and rename it.
+go to the wiki lol
+https://github.com/CamtheKirby/VsDave-Modable/wiki
