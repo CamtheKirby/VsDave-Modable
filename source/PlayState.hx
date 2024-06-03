@@ -122,6 +122,7 @@ typedef Settings = {
     var intro:String;
     var windowName:String;
     var healthDrain:String;
+	var healthBarBG:String;
     var exploitationEffect:Bool;
 }
 
@@ -1367,6 +1368,7 @@ class PlayState extends MusicBeatState
 		}
 		
 		var healthBarPath = '';
+		var customHealthBar = false;
 		switch (SONG.song.toLowerCase())
 		{
 			case 'exploitation':
@@ -1376,10 +1378,23 @@ class PlayState extends MusicBeatState
 			case 'five-nights':
 				healthBarPath = Paths.image('ui/fnafengine');
 			default:
+				if (FreeplayState.isaCustomSong && settingsExist) {
+					if (FileSystem.exists(Paths.image('ui/' + jsonSettings.healthBarBG))) {
+				healthBarPath = Paths.image('ui/' + jsonSettings.healthBarBG);
+					} else {
+						if (jsonSettings.healthBarBG != '' && jsonSettings.healthBarBG != null) {
+				customHealthBar = true;
+				healthBarPath = TitleState.modFolder + '/images/ui/' + jsonSettings.healthBarBG;
+						} else {
+						healthBarPath = Paths.image('ui/healthBar');	
+						}
+					}
+				} else {
 				healthBarPath = Paths.image('ui/healthBar');
+				}
 		}
 
-		healthBarBG = new FlxSprite(0, FlxG.height * 0.9).loadGraphic(healthBarPath);
+		healthBarBG = new FlxSprite(0, FlxG.height * 0.9).loadGraphic(customHealthBar ? Paths.customImage(healthBarPath) : healthBarPath); // I'm learning
 		if (scrollType == 'downscroll')
 			healthBarBG.y = 50;
 		healthBarBG.screenCenter(X);
@@ -3150,8 +3165,16 @@ class PlayState extends MusicBeatState
 		}
 
 		if (songName != null && barType == 'ShowTime')
+			{
+				songName.text = FlxStringUtil.formatTime(FlxG.sound.music.time / 1000) + ' / ' + FlxStringUtil.formatTime(FlxG.sound.music.length / 1000);
+				songName.x = 551;
+			}
+			
+
+		if (barType == 'ShowTimeOld')
 		{
 			songName.text = FlxStringUtil.formatTime((FlxG.sound.music.length - FlxG.sound.music.time) / 1000);
+			songName.x = 615;
 		}
 
 		if (startingSong && startTimer != null && !startTimer.active)

@@ -37,6 +37,7 @@ class OptionsMenu extends MusicBeatState
 	var curLanguage:String = LanguageManager.save.data.language;
 	var songBarOptions = [
 		'ShowTime',
+		'ShowTimeOld',
 		'SongName',
 	];
 	var curSongBarOptionSelected:Int;

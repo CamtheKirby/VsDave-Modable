@@ -90,6 +90,7 @@ option_disable_fps==Disable FPS & Memory Counter
 option_enable_fps==Enable FPS & Memory Counter
 
 option_songBarType_ShowTime==Song Bar Type: Time Left
+option_songBarType_ShowTimeOld==Song Bar Type: Time Left Old
 option_songBarType_SongName==Song Bar Type: Show Song Name
 
 option_enable_compat==Compatibility Mode ON

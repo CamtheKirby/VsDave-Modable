@@ -19,6 +19,9 @@ import lime.utils.Assets;
 #if desktop
 import Discord.DiscordClient;
 #end
+import sys.FileSystem;
+import sys.io.File;
+
 using StringTools;
 
 
@@ -49,6 +52,12 @@ class MusicPlayerState extends MusicBeatState
     {
         FlxG.autoPause = false;
         var initSonglist = CoolUtil.coolTextFile(Paths.txt('djSonglist')); //ah yeah dj song list
+        var customList = [];
+        for (folder in FileSystem.readDirectory(TitleState.modFolder + '/songs')){
+            if (FileSystem.isDirectory(TitleState.modFolder + '/songs/' + folder) && !customList.contains(folder))
+                customList.push('internal,' + folder + ',bf-old,good,true');
+        }
+
         for (i in 0...initSonglist.length)
         {
             var splitstring:Array<String> = initSonglist[i].split(",");
@@ -93,6 +102,21 @@ class MusicPlayerState extends MusicBeatState
                 }
             }
         }
+
+        for (i in 0...customList.length)
+            {
+                var splitstring:Array<String> = customList[i].split(",");
+                  if (FileSystem.exists(TitleState.modFolder + '/songs/' + splitstring[1] + '/Voices.ogg')) {
+                songs.push(new PlaySongMetadata(splitstring[1], splitstring[0] == "external", splitstring[2],splitstring[3] == "bad",splitstring[1] != 'vs-dave-rap', true));
+
+                if (splitstring[0] != "external" && splitstring[1] != 'vs-dave-rap') //remove this later
+                    {
+                        songs.push(new PlaySongMetadata(splitstring[1], splitstring[0] == "external", splitstring[2],splitstring[3] == "bad",false));
+                    }
+                  } else {
+                    songs.push(new PlaySongMetadata(splitstring[1], splitstring[0] == "external", splitstring[2],splitstring[3] == "bad",false, true));
+                  }
+            }
 
         bg = new FlxSprite().loadGraphic(Paths.image('backgrounds/Aadsta'));
         bg.loadGraphic(MainMenuState.randomizeBG());
@@ -299,6 +323,11 @@ class MusicPlayerState extends MusicBeatState
                 ShowBar(songs[curSelected].songCharacter);
                 if (!songs[curSelected].ExternalSong)
                 {
+                    if (songs[curSelected].isCustom) {
+                    FreeplayState.isaCustomSong = true;
+                    } else {
+                    FreeplayState.isaCustomSong = false;
+                    }
                     currentlyplaying = true;
                     if (songs[curSelected].hasVocals)
                     {
@@ -454,13 +483,15 @@ class PlaySongMetadata
     public var ShowBadIcon:Bool = false;
 	public var songCharacter:String = "";
     public var hasVocals:Bool = true;
+    public var isCustom:Bool = false;
 
-	public function new(song:String, external:Bool, songCharacter:String, bad:Bool, vocal:Bool)
+	public function new(song:String, external:Bool, songCharacter:String, bad:Bool, vocal:Bool, isCustom:Bool = false)
 	{
 		this.songName = song;
 		this.ExternalSong = external;
 		this.songCharacter = songCharacter;
         this.ShowBadIcon = bad;
         this.hasVocals = vocal;
+        this.isCustom = isCustom;
 	}
 }

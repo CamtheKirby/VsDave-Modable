@@ -166,7 +166,12 @@ class Paths
 
 		inline static public function customImage(key:String)
 			{
+				if (FileSystem.exists('${key}.png')) {
 				return (FlxGraphic.fromBitmapData(BitmapData.fromFile('${key}.png')));
+				} else {
+				trace('bro that doesn\'t exist ' + '${key}.png');
+				return (FlxGraphic.fromBitmapData(BitmapData.fromFile('assets/shared/images/blank.png')));
+				}
 			}
 	inline static public function music(key:String, ?library:String)
 	{

@@ -671,6 +671,11 @@ class FreeplayState extends MusicBeatState
 				changeDiff(1);
 			if (controls.LEFT_P)
 				changeDiff(-1);
+			if(FlxG.keys.justPressed.M) {
+				#if PRELOAD_ALL
+				FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName), 0);
+				#end
+			}
 			if (controls.BACK && canInteract)
 			{				
 				loadingPack = true;
@@ -954,12 +959,6 @@ class FreeplayState extends MusicBeatState
 		{
 			#if !switch
 			intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);
-			#end
-
-			#if PRELOAD_ALL
-			//if (FileSystem.exists('assets/songs' + songs[curSelected].songName)) {
-			FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName), 0);
-			//}
 			#end
 			
 			curChar = Highscore.getChar(songs[curSelected].songName, curDifficulty);
