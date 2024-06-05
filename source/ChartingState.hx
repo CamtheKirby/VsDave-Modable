@@ -111,6 +111,9 @@ class ChartingState extends MusicBeatState
 	var c:Array<String>;
 	var cm:Array<String>;
 
+	var cStage:Array<String>;
+	var cmStage:Array<String>;
+
 	override function create()
 	{
 		curSection = lastSection;
@@ -342,7 +345,15 @@ class ChartingState extends MusicBeatState
 
 var characters:Array<String> = c.concat(cm);
 
-		var stages:Array<String> = CoolUtil.coolTextFile(Paths.txt('stageList'));
+cStage = CoolUtil.coolTextFile(Paths.txt('stageList'));
+
+         if (FileSystem.exists(TitleState.modFolder + '/data/customStageList.txt')) {
+         cmStage = CoolUtil.coolTextFile(TitleState.modFolder + '/data/customStageList.txt');
+         } else {
+        cmStage = [''];
+        }
+
+		var stages:Array<String> = cStage.concat(cmStage);
 
 		var player1DropDown = new FlxUIDropDownMenu(10, 100, FlxUIDropDownMenu.makeStrIdLabelArray(characters, true), function(character:String)
 		{

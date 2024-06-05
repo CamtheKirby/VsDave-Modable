@@ -17,6 +17,7 @@ import flixel.group.FlxSpriteGroup;
 import lime.tools.ApplicationData;
 import flixel.effects.particles.FlxParticle;
 import hscript.Printer;
+import hscript.*;
 import openfl.desktop.Clipboard;
 import flixel.system.debug.Window;
 #if desktop
@@ -96,7 +97,7 @@ import vlc.MP4Handler;
 
 using StringTools;
 
-typedef StageJson =
+/*typedef StageJson =
 {
 	var bgZoom:Float;
 	var backgrounds:Array<BackgroundJson>;
@@ -112,7 +113,7 @@ typedef BackgroundJson =
 	var scrollX:Float;
 	var scrollY:Float;
 	var antialiasing:Bool;
-}
+} */
 
 typedef Settings = {
     var songCreators:String;
@@ -374,8 +375,8 @@ class PlayState extends MusicBeatState
 	var originBambiPos:FlxPoint;
 	var originBFPos:FlxPoint;
 
-	public var rawJsonStage:String;
-    public var jsonStage:StageJson;
+	/*public var rawJsonStage:String;
+    public var jsonStage:StageJson; */
 
     var rawJsonSettings:String;
     var jsonSettings:Settings;
@@ -2208,22 +2209,14 @@ class PlayState extends MusicBeatState
 				sprites.add(stfu);
 				add(stfu);
 			default:
-				// I don't know how to do this some one help
-				
-				/*if (FileSystem.exists(TitleState.modFolder + '/data/stages/' + bgName + '.json')) {
-				rawJsonStage = File.getContent(TitleState.modFolder + '/data/stages/' + bgName + '.json');
-		        jsonStage = cast Json.parse(rawJsonStage);
+				/*if (FileSystem.exists(TitleState.modFolder + '/data/stages/' + bgName + '.hx')) {
+					// should make a custom stage
+					var parser = new Parser();
+					var interp = new Interp();
 
-				bgZoom = jsonStage.bgZoom;
-				stageName = bgName;
+					var expr = parser.parseString(File.getContent(TitleState.modFolder + '/data/stages/' + bgName + '.hx'));
 
-				for (i in jsonStage.backgrounds) {
-				var spriteName:BGSprite = new BGSprite('spriteName', i.posX, i.posY, TitleState.modFolder + '/images/stages/' + bgName + '/' + i.image, null, i.scrollX, i.scrollY, i.antialiasing);
-				spriteName.setGraphicSize(Std.int(spriteName.width * 0.9));
-				spriteName.updateHitbox();
-				sprites.add(spriteName);
-				add(spriteName);
-				}
+					interp.execute(expr);
 				
 				} else { */
 				bgZoom = 0.9;
@@ -2244,7 +2237,7 @@ class PlayState extends MusicBeatState
 				stageCurtains.updateHitbox();
 				sprites.add(stageCurtains);
 				add(stageCurtains);
-			//	}
+				//}
 		}
 		if (!revertedBG)
 		{
