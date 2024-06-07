@@ -851,6 +851,7 @@ class PlayState extends MusicBeatState
 			noGFSongs.push(SONG.song.toLowerCase());
 		}
 	}
+
 		if(SONG.gf != null)
 		{
 			gfVersion = SONG.gf;
@@ -4327,12 +4328,14 @@ class PlayState extends MusicBeatState
 						{
 							if (daNote.noteStyle != 'guitarHero') {
 								sprite.playAnim('confirm', true);
+								
 								sprite.animation.finishCallback = function(name:String)
 								{
 									sprite.playAnim('static', true);
 								}
 							} else {
 								sprite.animation.play('confirm', true);
+								
 								if (sprite.animation.curAnim.name == 'confirm')
 								{
 									sprite.centerOffsets();

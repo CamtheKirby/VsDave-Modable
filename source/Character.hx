@@ -1291,12 +1291,12 @@ class Character extends FlxSprite
 					if (jsonCustom.effect != '') 
 						{
 							var funnyeffect = jsonCustom.effect;
-							if (funnyeffect == '3dfloat' && !PlayState.funnyFloatyBoys.contains(curCharacter) || !Note.CharactersWith3D.contains(curCharacter)) {
+							if (funnyeffect == '3dfloat' && !PlayState.funnyFloatyBoys.contains(curCharacter )&& !Note.CharactersWith3D.contains(curCharacter)) {
 							PlayState.funnyFloatyBoys.push(curCharacter);
 							Note.CharactersWith3D.push(curCharacter);
 							} else if (funnyeffect == 'float'  && !PlayState.floatyBoysMod.contains(curCharacter)) {
 							PlayState.floatyBoysMod.push(curCharacter);
-						} else if (funnyeffect == '3d' && !PlayState.threedBoysMod.contains(curCharacter) || !Note.CharactersWith3D.contains(curCharacter)) {
+						} else if (funnyeffect == '3d' && !PlayState.threedBoysMod.contains(curCharacter) && !Note.CharactersWith3D.contains(curCharacter)) {
 							PlayState.threedBoysMod.push(curCharacter);
 							Note.CharactersWith3D.push(curCharacter);
 						}
