@@ -29,6 +29,7 @@ Includes:
 
 - [Dave and Bambi Team - Making Dave and Bambi and the Dave Engine](https://gamebanana.com/mods/43201)
 - [MagMan - Extra Keys](https://gamebanana.com/members/1684859)
+- [TheZoroForce240 - Extra Keys Assets](https://gamebanana.com/members/1708748)
 - Cam - Making Dave and Bambi Moddable/Fanmade Dave Engine
 - [ShadowMario - Custom Audio Code](https://gamebanana.com/mods/309789)
 - [KadeDev - Kade Engine 1.2](https://gamebanana.com/mods/44291)
@@ -41,11 +42,10 @@ Recommended to use Visual Code Studio
 ## How to help
 Stuff to help me with:
 
-- Custom Stages
+- Custom Stages (Working on it)
 - HScript
 - Cleaning Code and Optimizing Code
 - Fixing Custom Dialogue Characters
-- Making the guides easier to understand
 - Mac and Linux Support
 
 ## About the OG mod

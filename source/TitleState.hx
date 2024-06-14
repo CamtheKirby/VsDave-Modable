@@ -171,6 +171,12 @@ class TitleState extends MusicBeatState
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		add(bg);
 
+		var versionShit:FlxText = new FlxText(1, FlxG.height - 50, 0, 'Press M to Open the Mod Menu\nPress W to go to the wiki', 20);
+		versionShit.antialiasing = true;
+		versionShit.scrollFactor.set();
+		versionShit.setFormat("Comic Sans MS Bold", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(versionShit);
+
 		logoBl = new FlxSprite(-25, -50);
 		if (!awaitingExploitation)
 		{
@@ -328,6 +334,11 @@ class TitleState extends MusicBeatState
 			{
 				openSubState(new ModSubState(0, 0));
 			}
+
+			if (FlxG.keys.justPressed.W)
+				{
+					fancyOpenURL("https://github.com/CamtheKirby/VsDave-Modable/wiki");
+				}
 		
 		if (pressedEnter && !transitioning && skippedIntro && !ModSubState.inMods)
 		{
@@ -382,6 +393,7 @@ class TitleState extends MusicBeatState
 			if (danceLeft) gfDance.animation.play('danceRight');
 			else gfDance.animation.play('danceLeft');
 		}
+		if (initialized) { // funny fix
 		switch (curBeat)
 		{
 			case 3:
@@ -416,6 +428,7 @@ class TitleState extends MusicBeatState
 			case 16:
 				skipIntro();
 		}
+	}
 	}
 
 	// INTRO TEXT MANIPULATION SHIT

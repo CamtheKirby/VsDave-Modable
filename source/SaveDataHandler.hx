@@ -81,5 +81,17 @@ class SaveDataHandler
 
 		if (FlxG.save.data.ogHold == null)
 			FlxG.save.data.ogHold = true;
+
+		if (FlxG.save.data.susTransparent == null)
+			FlxG.save.data.susTransparent = 1;
+
+		if (FlxG.save.data.vanScoreSys == null)
+			FlxG.save.data.vanScoreSys = true;
+		
+		if (FlxG.save.data.vanMissSys == null)
+			FlxG.save.data.vanMissSys = true;
+		
+		if (FlxG.save.data.noteSplash == null)
+			FlxG.save.data.noteSplash = true;
     }
 }

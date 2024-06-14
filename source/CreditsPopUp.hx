@@ -120,9 +120,13 @@ class CreditsPopUp extends FlxSpriteGroup
 				animation: new Animation('expunged', 'Expunged', 24, true, [false, false]), iconOffset: 0};
 			default:
 			if (FreeplayState.isaCustomSong) {
-				if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.json')) {
+				if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.json') && !FileSystem.exists(TitleState.modFolder + '/images/songHeadings/' + jsonSettings.songHeadings + '.xml')) {
 			headingPath = {path: 'songHeadings/' + jsonSettings.songHeadings, antiAliasing: false, iconOffset: 0};
+				} else {
+				headingPath = {path: 'songHeadings/' + jsonSettings.songHeadings, antiAliasing: false,
+				animation: new Animation('custom', 'Custom', 24, true, [false, false]), iconOffset: 0};
 				}
+				
 		}
 	}
 		switch (PlayState.SONG.song.toLowerCase())
@@ -133,10 +137,12 @@ class CreditsPopUp extends FlxSpriteGroup
 				headingPath = {path: 'songHeadings/interdimensionalHeading', antiAliasing: false, iconOffset: 0};
 			default:
 			if (FreeplayState.isaCustomSong) {
-				if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.json')) {
-			headingPath = {path: 'songHeadings/' + jsonSettings.songHeadings, antiAliasing: false, iconOffset: 0};
-					
-				}
+				if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.json') && !FileSystem.exists(TitleState.modFolder + '/images/songHeadings/' + jsonSettings.songHeadings + '.xml')) {
+					headingPath = {path: 'songHeadings/' + jsonSettings.songHeadings, antiAliasing: false, iconOffset: 0};
+						} else {
+						headingPath = {path: 'songHeadings/' + jsonSettings.songHeadings, antiAliasing: false,
+						animation: new Animation('custom', 'Custom', 24, true, [false, false]), iconOffset: 0};
+						}
 			}
 		}
 		if (PlayState.recursedStaticWeek)
@@ -156,15 +162,25 @@ class CreditsPopUp extends FlxSpriteGroup
 					trace('nae');
 				bg.loadGraphic(Paths.customImage(TitleState.modFolder + '/images/' + headingPath.path));
 				} else {
-					bg.loadGraphic(Paths.image('songHeadings/daveHeading'));	
+				bg.loadGraphic(Paths.image('songHeadings/daveHeading'));	
 				}
 			}
 			else
 			{
 				var info = headingPath.animation;
+				if (FileSystem.exists('assets/shared/images/' + headingPath.path + '.png')) {
 				bg.frames = Paths.getSparrowAtlas(headingPath.path);
 				bg.animation.addByPrefix(info.name, info.prefixName, info.frames, info.looped, info.flip[0], info.flip[1]);
 				bg.animation.play(info.name);
+				} else if (FileSystem.exists(TitleState.modFolder + '/images/' + headingPath.path + '.png')) {
+				bg.frames = Paths.getCustomSparrowAtlas(TitleState.modFolder + '/images/' + headingPath.path);
+				bg.animation.addByPrefix(info.name, info.prefixName, info.frames, info.looped, info.flip[0], info.flip[1]);
+				bg.animation.play(info.name);
+				} else {
+				bg.frames = Paths.getSparrowAtlas('songHeadings/botHeading');
+				bg.animation.addByPrefix(info.name, info.prefixName, info.frames, info.looped, info.flip[0], info.flip[1]);
+				bg.animation.play(info.name);
+				}
 			}
 			bg.antialiasing = headingPath.antiAliasing;
 			curHeading = headingPath;

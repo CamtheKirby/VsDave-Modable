@@ -205,6 +205,8 @@ class PlayState extends MusicBeatState
 	var detailsText:String = "";
 	var detailsPausedText:String = "";
 
+	var lastRating:String = "sick";
+
 	var boyfriendOldIcon:String = 'bf-old';
 
 	public var vocals:FlxSound;
@@ -246,6 +248,7 @@ class PlayState extends MusicBeatState
 
 	private var gfSpeed:Int = 1;
 	public var health:Float = 1;
+	private var curHealth:Float = 1;
 	private var combo:Int = 0;
 	private var maxCombo:Int = 0;
 
@@ -380,6 +383,8 @@ class PlayState extends MusicBeatState
 
     var rawJsonSettings:String;
     var jsonSettings:Settings;
+
+	var holdCover:FlxSprite;
 
 	var tristan:BGSprite;
 	var curTristanAnim:String;
@@ -1405,7 +1410,7 @@ class PlayState extends MusicBeatState
 		add(healthBarBG);
 
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, inFiveNights ? LEFT_TO_RIGHT : RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
-			'health', 0, 2);
+			'curHealth', 0, 2);
 		healthBar.scrollFactor.set();
 		healthBar.createFilledBar(dad.barColor, boyfriend.barColor);
 		insert(members.indexOf(healthBarBG), healthBar);
@@ -3157,6 +3162,8 @@ class PlayState extends MusicBeatState
 				legT.visible = false;
 			}
 		}
+
+		curHealth = FlxMath.lerp(curHealth, health, .2 / (Main.framerate / 60));
 
 		if (songName != null && barType == 'ShowTime')
 			{
@@ -5286,6 +5293,7 @@ class PlayState extends MusicBeatState
 			if (noteDiff > Conductor.safeZoneOffset * 2)
 			{
 				daRating = 'shit';
+				lastRating = 'shitt';
 				totalNotesHit -= 2;
 				score = 10;
 				ss = false;
@@ -5294,6 +5302,7 @@ class PlayState extends MusicBeatState
 			else if (noteDiff < Conductor.safeZoneOffset * -2)
 			{
 				daRating = 'shit';
+				lastRating = 'shit';
 				totalNotesHit -= 2;
 				score = 25;
 				ss = false;
@@ -5302,6 +5311,7 @@ class PlayState extends MusicBeatState
 			else if (noteDiff > Conductor.safeZoneOffset * 0.45)
 			{
 				daRating = 'bad';
+				lastRating = 'bad';
 				score = 100;
 				totalNotesHit += 0.2;
 				ss = false;
@@ -5310,6 +5320,7 @@ class PlayState extends MusicBeatState
 			else if (noteDiff > Conductor.safeZoneOffset * 0.25)
 			{
 				daRating = 'good';
+				lastRating = 'good';
 				totalNotesHit += 0.65;
 				score = 200;
 				ss = false;
@@ -5318,11 +5329,14 @@ class PlayState extends MusicBeatState
 		}
 		if (daRating == 'sick')
 		{
+			lastRating = 'sick';
 			totalNotesHit += 1;
 			sicks++;
+			createNoteSplash(note);
 		}
 		score = cast(FlxMath.roundDecimal(cast(score, Float) * curmultDefine[note.noteData], 0), Int); //this is old code thats stupid Std.Int exists but i dont feel like changing this
 
+		
 		if (!noMiss)
 		{
 			songScore += score;
@@ -5345,10 +5359,99 @@ class PlayState extends MusicBeatState
 		curSection += 1;
 	}
 
+	private function popUpScoreSus(note:Note):Void
+		{
+			vocals.volume = 1;
+	
+			var scoreS:Int = 350;
+
+			if (!botPlay) {
+				if (lastRating == 'shitt')
+				{
+					scoreS = 10;
+				}
+				else if (lastRating == 'shit')
+				{
+					scoreS = 25;
+				}
+				else if (lastRating == 'bad')
+				{
+					scoreS = 100;
+				}
+				else if (lastRating == 'good')
+				{
+					scoreS = 200;
+				}
+			}
+			scoreS = cast(FlxMath.roundDecimal(cast(scoreS, Float) * curmultDefine[note.noteData], 0), Int); //this is old code thats stupid Std.Int exists but i dont feel like changing this
+	
+			if (!noMiss)
+			{
+				songScore += scoreS;
+			}
+		}
+
 	public function NearlyEquals(value1:Float, value2:Float, unimportantDifference:Float = 10):Bool
 	{
 		return Math.abs(FlxMath.roundDecimal(value1, 1) - FlxMath.roundDecimal(value2, 1)) < unimportantDifference;
 	}
+	private function createNoteSplash(note:Note):Void
+	{
+ //   trace('funny note splash');
+	var notesArrayThing = note.notesArray;
+
+	var noteSplash = new FlxSprite(note.x, playerStrums.members[note.noteData].y);
+	noteSplash.frames = Paths.getSparrowAtlas('notes/noteSplash/noteSplashes', 'shared');
+	noteSplash.animation.addByPrefix('blue1', 'note impact 1  blue0', 30, false, false, false);
+	noteSplash.animation.addByPrefix('blue2', 'note impact 2 blue0', 30, false, false, false);
+	noteSplash.animation.addByPrefix('green1', 'note impact 1 green0', 30, false, false, false);
+	noteSplash.animation.addByPrefix('green2', 'note impact 2 green0', 30, false, false, false);
+	noteSplash.animation.addByPrefix('purple1', 'note impact 1 purple0', 30, false, false, false);
+	noteSplash.animation.addByPrefix('purple2', 'note impact 2 purple0', 30, false, false, false);
+	noteSplash.animation.addByPrefix('red1', 'note impact 1 red0', 30, false, false, false);
+	noteSplash.animation.addByPrefix('red2', 'note impact 2 red0', 30, false, false, false);
+	noteSplash.animation.addByPrefix('yellow1', 'note impact 1 yellow0', 30, false, false, false);
+	noteSplash.animation.addByPrefix('yellow2', 'note impact 2 yellow0', 30, false, false, false);
+	noteSplash.animation.addByPrefix('white1', 'note impact 1 white0', 30, false, false, false);
+	noteSplash.animation.addByPrefix('white2', 'note impact 2 white0', 30, false, false, false);
+	noteSplash.animation.addByPrefix('violet1', 'note impact 1 violet0', 30, false, false, false);
+	noteSplash.animation.addByPrefix('violet2', 'note impact 2 violet0', 30, false, false, false);
+	noteSplash.animation.addByPrefix('black1', 'note impact 1 darkred0', 30, false, false, false);
+	noteSplash.animation.addByPrefix('black2', 'note impact 2 darkred0', 30, false, false, false);
+	noteSplash.animation.addByPrefix('dark1', 'note impact 1 dark0', 30, false, false, false);
+	noteSplash.animation.addByPrefix('dark2', 'note impact 2 dark0', 30, false, false, false);
+	noteSplash.animation.addByPrefix('turq1', 'note impact 1  blue0', 30, false, false, false);
+	noteSplash.animation.addByPrefix('turq2', 'note impact 2 blue0', 30, false, false, false);
+	noteSplash.animation.addByPrefix('pink1', 'note impact 1 red0', 30, false, false, false);
+	noteSplash.animation.addByPrefix('pink2', 'note impact 2 red0', 30, false, false, false);
+	noteSplash.animation.addByPrefix('emerald1', 'note impact 1 green0', 30, false, false, false);
+	noteSplash.animation.addByPrefix('emerald2', 'note impact 2 green0', 30, false, false, false);
+	noteSplash.animation.addByPrefix('lightred1', 'note impact 1 red0', 30, false, false, false);
+	noteSplash.animation.addByPrefix('lightred2', 'note impact 2 red0', 30, false, false, false);
+	add(noteSplash);
+
+	noteSplash.setGraphicSize(Std.int(note.width * 2), Std.int(note.height * 2));
+
+	noteSplash.cameras = [camHUD];
+
+	var not = note.noteData % Main.keyAmmo[mania];
+	//trace(not);
+
+	if (noteSplash.animation.exists(notesArrayThing[not]+"1")) {
+    noteSplash.animation.play(notesArrayThing[not] + FlxG.random.int(1, 2));
+	} else {
+	noteSplash.animation.play('red' + FlxG.random.int(1, 2));
+	}
+	noteSplash.offset.x += 90;
+    noteSplash.offset.y += 110;
+	
+	noteSplash.animation.finishCallback = function(name:String) {
+	//trace('finshed ' + name);
+	noteSplash.kill();
+	//trace('killed');
+	}
+	}
+	
 
 	var upHold:Bool = false;
 	var downHold:Bool = false;
@@ -5876,7 +5979,7 @@ class PlayState extends MusicBeatState
 
 	function noteMiss(direction:Int = 1, note:Note):Void
 	{
-		if (true)
+		if (!FlxG.save.data.vanMissSys || !note.isSustainNote)
 		{
 			misses++;	
 			if (inFiveNights)
@@ -6087,10 +6190,12 @@ class PlayState extends MusicBeatState
 
 	function goodNoteHit(note:Note):Void
 	{
+		/*var result:NoteHoldCover = null; */
 		if (!note.wasGoodHit)
 		{
 			if (!note.isSustainNote)
 			{
+			//	trace('note');
 				combo += 1;
 				noteHits += 1;
 				if (combo > maxCombo) {
@@ -6101,9 +6206,19 @@ class PlayState extends MusicBeatState
 				{
 					FlxG.sound.play(Paths.sound('note_click'));
 				}
+			} else {
+				
+
+				/*result = new NoteHoldCover(note, false, playerStrums.members[note.noteData].y); */
+				//result.camera = [camHUD];
+				if (FlxG.save.data.vanScoreSys) {
+					popUpScoreSus(note);
+					//trace('sus');
+				}
+			totalNotesHit += 1;
 			}
-			else
-				totalNotesHit += 1;
+				
+
 
 			if (!isRecursed)
 			{
@@ -6189,6 +6304,9 @@ class PlayState extends MusicBeatState
 						spr.animation.finishCallback = function(name:String)
 						{
 							spr.playAnim('static', true);
+							/*if (note.isSustainNote && result != null) {
+								result = new NoteHoldCover(note, true, playerStrums.members[note.noteData].y);
+							} */
 						}
 					}
 					spr.pressingKey5 = note.noteStyle == 'shape';
@@ -6222,7 +6340,6 @@ class PlayState extends MusicBeatState
 				notes.remove(note, true);
 				note.destroy();
 			}
-
 			updateAccuracy();
 		}
 	}

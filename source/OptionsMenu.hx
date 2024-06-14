@@ -19,6 +19,8 @@ import flixel.util.FlxTimer;
 import Discord.DiscordClient;
 #end
 
+using StringTools;
+
 class OptionsMenu extends MusicBeatState
 {
 	var selector:FlxText;
@@ -42,6 +44,7 @@ class OptionsMenu extends MusicBeatState
 	];
 	var curSongBarOptionSelected:Int;
 	public static var onPlayState:Bool = false;
+	var numberOption:String = "";
 
 	override function create()
 	{
@@ -98,6 +101,9 @@ class OptionsMenu extends MusicBeatState
 			+ "\n" + (FlxG.save.data.lessLag ? 'Less Lag OFF' : 'Less Lag ON')
 			+ "\n" + (FlxG.save.data.freeplayCuts ? "Freeplay Cutscenes ON" : "Freeplay Cutscenes OFF")
 			+ "\n" + (FlxG.save.data.ogHold ? "OG Hold Note Style ON" : "OG Hold Note Style OFF")
+			+ "\n" + ("Sustain Transparency")
+			+ "\n" + (FlxG.save.data.vanScoreSys ? "New Score System ON" : "New Score System OFF")
+			+ "\n" + (FlxG.save.data.vanMissSys ? "New Miss System ON" : "New Miss System OFF")
 			);
 
 		grpControls = new FlxTypedGroup<Alphabet>();
@@ -114,7 +120,7 @@ class OptionsMenu extends MusicBeatState
 			// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
 		}
 
-		versionShit = new FlxText(5, FlxG.height - 18, 0, "Offset (Left, Right): " + FlxG.save.data.offset, 12);
+		versionShit = new FlxText(5, FlxG.height - 35, 0, numberOption + "\nOffset (Left, Right): " + FlxG.save.data.offset, 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
@@ -155,13 +161,13 @@ class OptionsMenu extends MusicBeatState
 		if (controls.RIGHT_R)
 		{
 			FlxG.save.data.offset++;
-			versionShit.text = "Offset (Left, Right): " + FlxG.save.data.offset;
+			versionShit.text = numberOption + "\nOffset (Left, Right): " + FlxG.save.data.offset;
 		}
 
 		if (controls.LEFT_R)
 		{
 			FlxG.save.data.offset--;
-			versionShit.text = "Offset (Left, Right): " + FlxG.save.data.offset;
+			versionShit.text = numberOption + "\nOffset (Left, Right): " + FlxG.save.data.offset;
 		}	
 		if (controls.ACCEPT)
 		{
@@ -225,6 +231,21 @@ class OptionsMenu extends MusicBeatState
 				case 15:
 					FlxG.save.data.ogHold = !FlxG.save.data.ogHold;
 					updateGroupControls(FlxG.save.data.ogHold ? 'OG Hold Note Style ON' : 'OG Hold Note Style OFF', 12, 'Vertical');	
+				case 16:
+					if (FlxG.save.data.susTransparent < 0.9) {
+					FlxG.save.data.susTransparent += 0.1;
+					} else {
+					FlxG.save.data.susTransparent = 0.1;	
+					}
+					updateGroupControls('Sustain Transparency', 12, 'Vertical');
+					numberOption = 'Sustain Transparency: ' + FlxG.save.data.susTransparent;
+					versionShit.text = numberOption + "\nOffset (Left, Right): " + FlxG.save.data.offset;
+				case 17:
+					FlxG.save.data.vanScoreSys = !FlxG.save.data.vanScoreSys;
+					updateGroupControls(FlxG.save.data.vanScoreSys ? 'New Score System ON' : 'New Score System OFF', 12, 'Vertical');	
+				case 18:
+					FlxG.save.data.vanMissSys = !FlxG.save.data.vanMissSys;
+					updateGroupControls(FlxG.save.data.vanMissSys ? 'New Miss System ON' : 'New Miss System OFF', 12, 'Vertical');	
 			}
 		}
 

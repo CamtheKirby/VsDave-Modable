@@ -13,6 +13,7 @@ import flixel.math.FlxMath;
 import flixel.util.FlxColor;
 import PlayState;
 
+
 using StringTools;
 import StringTools;
 
@@ -61,7 +62,7 @@ class Note extends FlxSprite
 	public var alphaMult:Float = 1.0;
 	public var noteOffset:Float = 0;
 
-	var notes = ['purple', 'blue', 'green', 'red'];
+	public var notesArray = ['purple', 'blue', 'green', 'red'];
 
 	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?musthit:Bool = true, noteStyle:String = "normal", inCharter:Bool = false, guitarSection:Bool = false)
 	{
@@ -98,12 +99,12 @@ class Note extends FlxSprite
 		{
 			this.strumTime += FlxG.save.data.offset;
 		}		
-		if (mania == 1) notes = ['purple', 'blue', 'white', 'green', 'red'];
-		if (mania == 2) notes = ['purple', 'green', 'red', 'yellow', 'blue', 'dark'];
-		if (mania == 3) notes = ['purple', 'green', 'red', 'white', 'yellow', 'blue', 'dark'];
-		if (mania == 4) notes = ['purple', 'blue', 'green', 'red', 'white', 'yellow', 'violet', 'black', 'dark'];
-		if (mania == 5) notes = ['purple', 'blue', 'green', 'red', 'pink', 'turq', 'emerald', 'lightred', 'yellow', 'violet', 'black', 'dark'];
-		if ((guitarSection && inCharter && noteData < 5) || (guitarSection)) notes = ['green', 'red', 'yellow', 'blue', 'orange'];
+		if (mania == 1) notesArray = ['purple', 'blue', 'white', 'green', 'red'];
+		if (mania == 2) notesArray = ['purple', 'green', 'red', 'yellow', 'blue', 'dark'];
+		if (mania == 3) notesArray = ['purple', 'green', 'red', 'white', 'yellow', 'blue', 'dark'];
+		if (mania == 4) notesArray = ['purple', 'blue', 'green', 'red', 'white', 'yellow', 'violet', 'black', 'dark'];
+		if (mania == 5) notesArray = ['purple', 'blue', 'green', 'red', 'pink', 'turq', 'emerald', 'lightred', 'yellow', 'violet', 'black', 'dark'];
+		if ((guitarSection && inCharter && noteData < 5) || (guitarSection)) notesArray = ['green', 'red', 'yellow', 'blue', 'orange'];
 
 		var notePathLol:String = 'notes/NOTE_assets';
 		noteSize = scales[mania];
@@ -389,7 +390,7 @@ class Note extends FlxSprite
 			if (guitarSection) not = originalType;
 			x += swagWidth * not;
 			notetolookfor = not;
-			animation.play(notes[not] + 'Scroll');
+			animation.play(notesArray[not] + 'Scroll');
 		}
 		if (isInState('PlayState'))
 		{
@@ -438,11 +439,13 @@ class Note extends FlxSprite
 
 		if (isSustainNote && prevNote != null)
 		{
-			alphaMult = 0.6;
+			alphaMult = FlxG.save.data.susTransparent;
 
 			noteOffset += width / 2;
 
-			animation.play(notes[noteData % Main.keyAmmo[mania]] + 'holdend');
+			animation.play(notesArray[noteData % Main.keyAmmo[mania]] + 'holdend');
+
+		
 
 			if (PlayState.scrollType == 'downscroll')
 			{
@@ -459,7 +462,7 @@ class Note extends FlxSprite
 
 			if (prevNote.isSustainNote)
 			{
-				prevNote.animation.play(notes[prevNote.noteData] + 'hold');
+				prevNote.animation.play(notesArray[prevNote.noteData] + 'hold');
 
 				if (noteStyle != 'shape')
 				{
@@ -475,6 +478,10 @@ class Note extends FlxSprite
 					// prevNote.scale.y *= (Conductor.stepCrochet / 100) * PlayState.SONG.speed * 0.75;
 					// prevNote.scale.x *= (Conductor.stepCrochet / 100) * PlayState.SONG.speed * 0.5;
 					prevNote.offset.y += prevNote.height / 3;
+					if (animation.curAnim.name == notesArray[noteData % Main.keyAmmo[mania]] + 'holdend') {
+						prevNote.scale.y = 0.7 + Conductor.stepCrochet / 100 + 0.75 + PlayState.SONG.speed + noteSpeed + (0.7 / noteSize);
+						prevNote.offset.y = 10;	
+					}
 					prevNote.updateHitbox();
 				}
 			}
