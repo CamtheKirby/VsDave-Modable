@@ -328,7 +328,15 @@ class Paths
 
 	inline static public function getSparrowAtlas(key:String, ?library:String)
 	{
+		var what = library == null ? 'assets' : 'assets/' + library;
+		var short = what + '/images/' + key;
+		//trace(TitleState.modFolder + '/' + short + '.png');
+		if (FileSystem.exists(TitleState.modFolder + '/' + short + '.png') && FileSystem.exists(TitleState.modFolder + '/' + short + '.xml')) {
+		trace('custom exists');
+		return FlxAtlasFrames.fromSparrow(customImage(TitleState.modFolder + '/' + short), customFile(TitleState.modFolder + '/' + short + '.xml'));	
+		} else {
 		return FlxAtlasFrames.fromSparrow(image(key, library), file('images/$key.xml', library));	
+		}
 	}
 
 	inline static public function getCustomSparrowAtlas(key:String)
@@ -338,7 +346,7 @@ class Paths
 
 	inline static public function getPackerAtlas(key:String, ?library:String)
 	{
-		return FlxAtlasFrames.fromSpriteSheetPacker(image(key, library), file('images/$key.txt', library));
+		return FlxAtlasFrames.fromSpriteSheetPacker(image(key, library), file('images/$key.txt', library));	
 	}
 
 	inline static public function getCustomPackerAtlas(key:String)

@@ -24,13 +24,7 @@ class BGSprite extends FlxSprite
 		{
 			if (hasAnimations)
 			{
-				var theActualPath:String = '';
-				if (FileSystem.exists(TitleState.modFolder + '/' + customPath)) {
-				theActualPath = customPath;
-				} else {
-				theActualPath = path;
-				}
-				frames = Paths.getSparrowAtlas(theActualPath);
+				frames = Paths.getSparrowAtlas(path);
 				for (i in 0...animations.length)
 				{
 					var curAnim = animations[i];
