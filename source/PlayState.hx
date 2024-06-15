@@ -5332,6 +5332,8 @@ class PlayState extends MusicBeatState
 			lastRating = 'sick';
 			totalNotesHit += 1;
 			sicks++;
+
+			if (FlxG.save.data.noteSplash)
 			createNoteSplash(note);
 		}
 		score = cast(FlxMath.roundDecimal(cast(score, Float) * curmultDefine[note.noteData], 0), Int); //this is old code thats stupid Std.Int exists but i dont feel like changing this

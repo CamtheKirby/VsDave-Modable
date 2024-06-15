@@ -98,6 +98,7 @@ class OptionsMenu extends MusicBeatState
 			+ "\n" + (FlxG.save.data.disableFps ? LanguageManager.getTextString('option_enable_fps') : LanguageManager.getTextString('option_disable_fps'))
 			+ "\n" + (CompatTool.save.data.compatMode ? LanguageManager.getTextString('option_enable_compat') : LanguageManager.getTextString('option_disable_compat'))
 			+ "\n" + (FlxG.save.data.modchart ? 'Mod Chart OFF' : 'Mod Chart ON')
+			+ "\n" + (FlxG.save.data.noteSplash ? 'Note Splash ON' : 'Note Splash OFF') 
 			+ "\n" + (FlxG.save.data.lessLag ? 'Less Lag OFF' : 'Less Lag ON')
 			+ "\n" + (FlxG.save.data.freeplayCuts ? "Freeplay Cutscenes ON" : "Freeplay Cutscenes OFF")
 			+ "\n" + (FlxG.save.data.ogHold ? "OG Hold Note Style ON" : "OG Hold Note Style OFF")
@@ -182,7 +183,7 @@ class OptionsMenu extends MusicBeatState
 					updateGroupControls(LanguageManager.getTextString('option_change_keybinds'), 0, 'Vertical');
 				case 1:
 					FlxG.save.data.newInput = !FlxG.save.data.newInput;
-					updateGroupControls((FlxG.save.data.newInput ? LanguageManager.getTextString('option_ghostTapping_on') : LanguageManager.getTextString('option_ghostTapping_off')), 1, 'Vertical');	
+					updateGroupControls((FlxG.save.data.newInput ? LanguageManager.getTextString('option_ghostTapping_on') : LanguageManager.getTextString('option_ghostTapping_off')), 1, 'Vertical');		
 				case 2:
 					FlxG.save.data.downscroll = !FlxG.save.data.downscroll;
 					updateGroupControls((FlxG.save.data.downscroll ? LanguageManager.getTextString('option_downscroll') : LanguageManager.getTextString('option_upscroll')), 2, 'Vertical');
@@ -221,17 +222,20 @@ class OptionsMenu extends MusicBeatState
 					updateGroupControls(CompatTool.save.data.compatMode ? LanguageManager.getTextString('option_enable_compat') : LanguageManager.getTextString('option_disable_compat'), 11, 'Vertical');
 				case 12:
 					if (!awaitingExploitation) FlxG.save.data.modchart = !FlxG.save.data.modchart;
-					updateGroupControls(FlxG.save.data.modchart ? 'Mod Chart OFF' : 'Mod Chart ON', 12, 'Vertical');			
+					updateGroupControls(FlxG.save.data.modchart ? 'Mod Chart OFF' : 'Mod Chart ON', 12, 'Vertical');	
 				case 13:
+					FlxG.save.data.noteSplash = !FlxG.save.data.noteSplash;
+					updateGroupControls((FlxG.save.data.noteSplash ? 'Note Splash ON' : 'Note Splash OFF'), 1, 'Vertical');		
+				case 14:
 					FlxG.save.data.lessLag = !FlxG.save.data.lessLag;
 					updateGroupControls(FlxG.save.data.lessLag ? 'Less Lag OFF' : 'Less Lag ON', 12, 'Vertical');	
-				case 14:
+				case 15:
 					FlxG.save.data.freeplayCuts = !FlxG.save.data.freeplayCuts;
 					updateGroupControls(FlxG.save.data.freeplayCuts ? 'Freeplay Cutscenes ON' : 'Freeplay Cutscenes OFF', 12, 'Vertical');	
-				case 15:
+				case 16:
 					FlxG.save.data.ogHold = !FlxG.save.data.ogHold;
 					updateGroupControls(FlxG.save.data.ogHold ? 'OG Hold Note Style ON' : 'OG Hold Note Style OFF', 12, 'Vertical');	
-				case 16:
+				case 17:
 					if (FlxG.save.data.susTransparent < 0.9) {
 					FlxG.save.data.susTransparent += 0.1;
 					} else {
@@ -240,10 +244,10 @@ class OptionsMenu extends MusicBeatState
 					updateGroupControls('Sustain Transparency', 12, 'Vertical');
 					numberOption = 'Sustain Transparency: ' + FlxG.save.data.susTransparent;
 					versionShit.text = numberOption + "\nOffset (Left, Right): " + FlxG.save.data.offset;
-				case 17:
+				case 18:
 					FlxG.save.data.vanScoreSys = !FlxG.save.data.vanScoreSys;
 					updateGroupControls(FlxG.save.data.vanScoreSys ? 'New Score System ON' : 'New Score System OFF', 12, 'Vertical');	
-				case 18:
+				case 19:
 					FlxG.save.data.vanMissSys = !FlxG.save.data.vanMissSys;
 					updateGroupControls(FlxG.save.data.vanMissSys ? 'New Miss System ON' : 'New Miss System OFF', 12, 'Vertical');	
 			}

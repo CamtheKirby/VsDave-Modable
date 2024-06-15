@@ -10,6 +10,8 @@ import openfl.utils.Assets as OpenFlAssets;
 import flash.media.Sound;
 import sys.io.File;
 
+using StringTools;
+
 class Paths
 {
 	inline public static var SOUND_EXT = #if web "mp3" #else "ogg" #end;
@@ -177,12 +179,22 @@ class Paths
 	{
 		return getPath('music/$key.$SOUND_EXT', MUSIC, library);
 	}
+	public static var replaceSong = false;
 
 	inline static public function voices(song:String, addon:String = "")
 	{
 		if (!FreeplayState.isaCustomSong) {
-		var songKey:String = '${(song)}/Voices${(addon)}';
+	var songKey:String = '${(song)}/Voices${(addon)}';
+	
 	var voices = returnSound(null, songKey, 'songs');
+
+	trace(TitleState.modFolder + '/' + 'assets/songs/${(song)}/Voices${(addon)}' + '.ogg');
+		if (FileSystem.exists(TitleState.modFolder + '/' + 'assets/songs/${(song.toLowerCase())}/Voices${(addon)}' + '.ogg')) {
+			replaceSong = true;
+			trace(replaceSong);
+			voices = returnSound(null, '${(song.toLowerCase())}/Voices${(addon)}', 'songs');
+		}
+	
 	return voices;
 		} else {
 	var songKey:String = 'mods/' + TitleState.currentMod + '/songs/${(song)}/Voices${(addon)}';
@@ -195,7 +207,14 @@ class Paths
 	{
 		if (!FreeplayState.isaCustomSong) {
 			var songKey:String = '${(song)}/Inst';
-		var inst = returnSound(null, songKey, 'songs');
+			var inst = returnSound(null, songKey, 'songs');
+
+            trace(TitleState.modFolder + '/' + 'assets/songs/${(song.toLowerCase())}/Inst' + '.ogg');
+			if (FileSystem.exists(TitleState.modFolder + '/' + 'assets/songs/${(song.toLowerCase())}/Inst' + '.ogg')) {
+			replaceSong = true;
+			trace(replaceSong);
+			inst = returnSound(null, '${(song.toLowerCase())}/Inst', 'songs');
+			}
 		return inst;
 			} else {
 		var songKey:String = 'mods/' + TitleState.currentMod + '/songs/${(song)}/Inst';
@@ -252,7 +271,15 @@ class Paths
 		 if(path != null) gottenPath = '$path/$gottenPath';
 		 if (!FreeplayState.isaCustomSong)
 			{
+				trace(replaceSong);
+				if (replaceSong) {
+					trace('asd');
+                var kay = StringTools.replace(getPath(gottenPath, SOUND, library), 'songs:', '');
+				var kay2 = StringTools.trim(kay);
+				gottenPath = TitleState.modFolder + '/' + kay2;
+				} else {
 		 gottenPath = getPath(gottenPath, SOUND, library);
+				}
 			}
 		 gottenPath = gottenPath.substring(gottenPath.indexOf(':') + 1, gottenPath.length);
 		 if(!currentTrackedSounds.exists(gottenPath))
@@ -260,6 +287,7 @@ class Paths
 			 currentTrackedSounds.set(gottenPath, Sound.fromFile('./' + gottenPath));
 		
 		 localTrackedAssets.push(gottenPath);
+		 trace(gottenPath);
 		 return currentTrackedSounds.get(gottenPath);
 	 }
 	/*
