@@ -232,6 +232,12 @@ class FreeplayState extends MusicBeatState
 		} else {
 			descriptions.push('A mod');
 		}
+
+		if (FlxG.save.data.Mod == '') {
+			Catagories.remove('mod');
+			translatedCatagory.remove(TitleState.currentMod);
+			descriptions.remove('A mod');
+		}
 		
 		for (i in 0...Catagories.length)
 		{

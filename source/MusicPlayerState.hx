@@ -53,10 +53,12 @@ class MusicPlayerState extends MusicBeatState
         FlxG.autoPause = false;
         var initSonglist = CoolUtil.coolTextFile(Paths.txt('djSonglist')); //ah yeah dj song list
         var customList = [];
+        if (FileSystem.exists(TitleState.modFolder + '/songs')) {
         for (folder in FileSystem.readDirectory(TitleState.modFolder + '/songs')){
             if (FileSystem.isDirectory(TitleState.modFolder + '/songs/' + folder) && !customList.contains(folder))
                 customList.push('internal,' + folder + ',bf-old,good,true');
         }
+    }
 
         for (i in 0...initSonglist.length)
         {

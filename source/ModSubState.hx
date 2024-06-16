@@ -42,6 +42,7 @@ for (i in TitleState.mods) {
     menuItems.push(new ModOption(i));
 }
 
+menuItems.push(new ModOption('Disable Mods'));
 
 menuItems.push(new ModOption('Exit'));
 
@@ -117,9 +118,20 @@ menuItems.push(new ModOption('Exit'));
 
 		switch (daSelected)
 		{
+			case "Disable Mods":
+			FlxG.save.data.Mod = '';
+			FlxG.save.flush();
+			trace(FlxG.save.data.Mod);
+			close();
+			inMods = false;
+			if(FlxG.sound.music != null)
+				FlxG.sound.music.stop();
+			TitleState.initialized = false;
+			FlxG.switchState(new StartStateSelector());
+
 			case "Exit":
-				close();
-				inMods = false;
+			close();
+			inMods = false;
 
 			default:
 			FlxG.save.data.Mod = daSelected;
