@@ -296,6 +296,8 @@ class PlayState extends MusicBeatState
 
 	var talking:Bool = true;
 	var songScore:Int = 0;
+	public static var chartEditorMode:Bool = false;
+	public static var cantSaveScore:Bool = false;
 
 	public static var blueBalls:Int = 0;
 
@@ -628,7 +630,7 @@ class PlayState extends MusicBeatState
 
 		pMode = FlxG.save.data.practiceMode;
 
-	    notbeingalittleCheater = !botPlay && !pMode && !oppM;
+	    notbeingalittleCheater = !botPlay && !pMode && !oppM && !cantSaveScore;
 		trace(notbeingalittleCheater);
 
 		modchartoption = !FlxG.save.data.modchart;
@@ -4028,6 +4030,8 @@ class PlayState extends MusicBeatState
 					FlxG.switchState(new PlayState());
 					return;
 				default:
+					chartEditorMode = true;
+					cantSaveScore = true;
 					#if SHADERS_ENABLED
 					resetShader();
 					#end
@@ -4041,6 +4045,8 @@ class PlayState extends MusicBeatState
 		if (adminMode) {
 		if (FlxG.keys.justPressed.THREE)
 		{
+			chartEditorMode = true;
+			cantSaveScore = true;
 			if(FlxTransitionableState.skipNextTransIn)
 			{
 				Transition.nextCamera = null;
@@ -4141,6 +4147,7 @@ class PlayState extends MusicBeatState
 			FlxG.switchState(new AnimationDebug(boyfriend.curCharacter));
 		if (FlxG.keys.justPressed.TWO) //Go 10 seconds into the future :O
 		{
+			cantSaveScore = true;
 			FlxG.sound.music.pause();
 			vocals.pause();
 			boyfriend.stunned = true;
@@ -4632,7 +4639,17 @@ class PlayState extends MusicBeatState
 
 		if (adminMode) {
 		if (FlxG.keys.justPressed.ONE)
+			if (!chartEditorMode) {
 			endSong();
+			} else {
+				#if SHADERS_ENABLED
+					resetShader();
+					#end
+					FlxG.switchState(new ChartingState());
+					#if desktop
+					DiscordClient.changePresence("Chart Editor", null, null, true);
+					#end
+			}
 	      }
 
 		if (updatevels)
@@ -4848,11 +4865,32 @@ class PlayState extends MusicBeatState
 		new FlxTimer().start(5.5, function(timer:FlxTimer)
 		{ 
 			if(isStoryMode) {
+				if (!chartEditorMode) {
 				FlxG.sound.music.stop();
 				nextSong();
+				} else {
+					FlxG.sound.music.stop();
+					#if SHADERS_ENABLED
+					resetShader();
+					#end
+					FlxG.switchState(new ChartingState());
+					#if desktop
+					DiscordClient.changePresence("Chart Editor", null, null, true);
+					#end
+				}
 			}
 			else {
-				FlxG.switchState(new FreeplayState());
+				if (!chartEditorMode) {
+				FlxG.switchState(new ResultsScreen());
+				} else {
+					#if SHADERS_ENABLED
+					resetShader();
+					#end
+					FlxG.switchState(new ChartingState());
+					#if desktop
+					DiscordClient.changePresence("Chart Editor", null, null, true);
+					#end
+				}
 			}
 		});
 	}
@@ -4931,6 +4969,8 @@ class PlayState extends MusicBeatState
 			case 'roofs':
 				if (storyDifficulty == 0) CharacterSelectState.unlockCharacter('redshaggy');
 		}
+
+		
 		
 		if (isStoryMode)
 		{
@@ -4972,6 +5012,7 @@ class PlayState extends MusicBeatState
 				switch (curSong.toLowerCase())
 				{
 					case 'polygonized':
+						if (!chartEditorMode) {
 						CharacterSelectState.unlockCharacter('tristan');
 						if (health >= 0.1)
 						{
@@ -4990,6 +5031,15 @@ class PlayState extends MusicBeatState
 						{
 							FlxG.switchState(new EndingState('badEnding', 'badEnding'));
 						}
+					} else {
+						#if SHADERS_ENABLED
+							resetShader();
+							#end
+							FlxG.switchState(new ChartingState());
+							#if desktop
+							DiscordClient.changePresence("Chart Editor", null, null, true);
+							#end
+					}
 					case 'maze':
 						canPause = false;
 						FlxG.sound.music.volume = 0;
@@ -5000,9 +5050,19 @@ class PlayState extends MusicBeatState
 						doof.scrollFactor.set();
 						doof.finishThing = function()
 						{
+							if (!chartEditorMode) {
 							CharacterSelectState.unlockCharacter('bambi-new');
 							FlxG.sound.playMusic(Paths.music('freakyMenu'));
 							FlxG.switchState(new StoryMenuState());
+							} else {
+								#if SHADERS_ENABLED
+							resetShader();
+							#end
+							FlxG.switchState(new ChartingState());
+							#if desktop
+							DiscordClient.changePresence("Chart Editor", null, null, true);
+							#end
+							}
 						};
 						doof.cameras = [camDialogue];
 						schoolIntro(doof, false);
@@ -5016,18 +5076,48 @@ class PlayState extends MusicBeatState
 						doof.scrollFactor.set();
 						doof.finishThing = function()
 						{
+							if (!chartEditorMode) {
 							FlxG.sound.playMusic(Paths.music('freakyMenu'));
 							FlxG.switchState(new StoryMenuState());
+							} else {
+								#if SHADERS_ENABLED
+							resetShader();
+							#end
+							FlxG.switchState(new ChartingState());
+							#if desktop
+							DiscordClient.changePresence("Chart Editor", null, null, true);
+							#end
+							}
 						};
 						doof.cameras = [camDialogue];
 						schoolIntro(doof, false);
 					case 'rano':
+						if (!chartEditorMode) {
 						var menu:CreditsMenuState = new CreditsMenuState();
 						menu.DoFunnyScroll = true;
 						FlxG.switchState(menu);
+						} else {
+							#if SHADERS_ENABLED
+							resetShader();
+							#end
+							FlxG.switchState(new ChartingState());
+							#if desktop
+							DiscordClient.changePresence("Chart Editor", null, null, true);
+							#end
+						}
 					default:
+						if (!chartEditorMode) {
 						FlxG.sound.playMusic(Paths.music('freakyMenu'));
 						FlxG.switchState(new StoryMenuState());
+						} else {
+							#if SHADERS_ENABLED
+					resetShader();
+					#end
+					FlxG.switchState(new ChartingState());
+					#if desktop
+					DiscordClient.changePresence("Chart Editor", null, null, true);
+					#end
+						}
 				}
 				transIn = FlxTransitionableState.defaultTransIn;
 				transOut = FlxTransitionableState.defaultTransOut;
@@ -5102,12 +5192,32 @@ class PlayState extends MusicBeatState
 						STUPDVARIABLETHATSHOULDNTBENEEDED = marcello;
 						new FlxTimer().start(5.5, THROWPHONEMARCELLO);
 					default:
+						if (!chartEditorMode) {
 						nextSong();
+						} else {
+								#if SHADERS_ENABLED
+								resetShader();
+								#end
+								FlxG.switchState(new ChartingState());
+								#if desktop
+								DiscordClient.changePresence("Chart Editor", null, null, true);
+								#end
+						}
 				}
 			}
 		}
 		else
 		{
+			rssongScore = songScore;
+			rsmisses = misses;
+			rsaccuracy = truncateFloat(accuracy, 2);
+			rsshits = shits;
+			rsbads = bads;
+			rsgoods = goods;
+			rssicks = sicks;
+			rscombo = maxCombo;
+			rstotalNotesHit = noteHits;
+			rssong = kadeEngineWatermark.text;
 			if (storyDifficulty == 0) {
 				var completedSongs:Array<String> = [];
 				var mustCompleteSongs:Array<String> = ['House', 'Insanity', 'Polygonized', 'Blocked', 'Corn-Theft', 'Maze', 'Splitathon', 'Shredder', 'Greetings', 'Interdimensional', 'Rano'];
@@ -5163,18 +5273,17 @@ class PlayState extends MusicBeatState
 						}
 						return;
 					}
-					rssongScore = songScore;
-					rsmisses = misses;
-					rsaccuracy = truncateFloat(accuracy, 2);
-					rsshits = shits;
-					rsbads = bads;
-					rsgoods = goods;
-					rssicks = sicks;
-					rscombo = maxCombo;
-					rstotalNotesHit = noteHits;
-					rssong = kadeEngineWatermark.text;
-
+             if (!chartEditorMode) {
 					FlxG.switchState(new ResultsScreen());
+			 } else {
+				#if SHADERS_ENABLED
+								resetShader();
+								#end
+								FlxG.switchState(new ChartingState());
+								#if desktop
+								DiscordClient.changePresence("Chart Editor", null, null, true);
+								#end
+			 }
 			}
 			if(FlxTransitionableState.skipNextTransIn)
 			{

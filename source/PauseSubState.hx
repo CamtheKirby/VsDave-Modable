@@ -275,6 +275,8 @@ class PauseSubState extends MusicBeatSubstate
 				FlxG.mouse.visible = false;
 				FreeplayState.isaCustomSong = false;
 				PlayState.blueBalls = 0;
+				PlayState.chartEditorMode = false;
+				PlayState.cantSaveScore = false;
 				if (PlayState.isStoryMode) {
 				FlxG.switchState(new StoryMenuState());
 				} else {
