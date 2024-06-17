@@ -297,6 +297,8 @@ class PlayState extends MusicBeatState
 	var talking:Bool = true;
 	var songScore:Int = 0;
 
+	public static var blueBalls:Int = 0;
+
 	var scoreTxt:FlxText;
 	var kadeEngineWatermark:FlxText;
 	var kadeEngineWatermark2:FlxText;
@@ -4830,6 +4832,7 @@ class PlayState extends MusicBeatState
 	{
 		inCutscene = false;
 		canPause = false;
+		blueBalls = 0;
 		if (MathGameState.failedGame)
 		{
 			MathGameState.failedGame = false;
@@ -6154,9 +6157,9 @@ if (FlxG.save.data.oppM) {
 						switch (noteToPlay)
 						{
 							case 'LEFT':
-								noteToPlay = 'RIGHT';
-							case 'RIGHT':
 								noteToPlay = 'LEFT';
+							case 'RIGHT':
+								noteToPlay = 'RIGHT';
 						}
 					}
 					if (dad.animation.getByName('sing${noteToPlay}miss') != null)
@@ -8901,6 +8904,11 @@ if (FlxG.save.data.oppM) {
 		}
 		#end
 		var deathSkinCheck = formoverride == "bf" || formoverride == "none" ? SONG.player1 : isRecursed ? boyfriend.curCharacter : formoverride;
+		if (FlxG.save.data.oppM) {
+			deathSkinCheck = formoverride == "bf" || formoverride == "none" ? SONG.player2 : isRecursed ? dad.curCharacter : formoverride;
+		}
+		blueBalls += 1;
+		
 		var chance = FlxG.random.int(0, 99);
 		if (chance <= 2 && eyesoreson)
 		{
@@ -8955,11 +8963,14 @@ if (FlxG.save.data.oppM) {
 			{
 				if (funnyFloatyBoys.contains(boyfriend.curCharacter))
 				{
+
 					openSubState(new GameOverPolygonizedSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y, deathSkinCheck));
+					
 				}
 				else
 				{
 					openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y, deathSkinCheck));
+
 				}
 			}
 			else

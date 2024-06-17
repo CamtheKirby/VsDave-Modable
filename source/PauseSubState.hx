@@ -83,14 +83,14 @@ class PauseSubState extends MusicBeatSubstate
 		levelInfo.updateHitbox();
 		add(levelInfo);
 
-		var levelDifficulty:FlxText = new FlxText(20, 15 + 32, 0, "", 32);
-		levelDifficulty.text += CoolUtil.difficultyString();
+		var levelDifficulty:FlxText = new FlxText(25, 15 + 32, 0, "", 32);
+		levelDifficulty.text += CoolUtil.difficultyString() + '\nBy ' + CreditsPopUp.songCreator + '\n' + PlayState.blueBalls + ' Blue Balls';
 		levelDifficulty.scrollFactor.set();
 		levelDifficulty.setFormat(Paths.font('comic.ttf'), 32, FlxColor.WHITE, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		levelDifficulty.antialiasing = true;
 		levelDifficulty.borderSize = 2.5;
 		levelDifficulty.updateHitbox();
-		if ((PlayState.SONG.song.toLowerCase() == 'exploitation' && !PlayState.isGreetingsCutscene) || PlayState.storyDifficulty != 1)
+		if (!PlayState.isGreetingsCutscene)
 		{
 			add(levelDifficulty);
 		}
@@ -274,6 +274,7 @@ class PauseSubState extends MusicBeatSubstate
 				PlayState.instance.camZooming = false;
 				FlxG.mouse.visible = false;
 				FreeplayState.isaCustomSong = false;
+				PlayState.blueBalls = 0;
 				if (PlayState.isStoryMode) {
 				FlxG.switchState(new StoryMenuState());
 				} else {

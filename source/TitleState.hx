@@ -340,15 +340,18 @@ class TitleState extends MusicBeatState
 					fancyOpenURL("https://github.com/CamtheKirby/VsDave-Modable/wiki");
 				}
 		
-		if (pressedEnter && !transitioning && skippedIntro && !ModSubState.inMods)
+		if (pressedEnter && skippedIntro && !ModSubState.inMods)
 		{
+			if (transitioning) {
+			FlxG.switchState(FlxG.save.data.alreadyGoneToWarningScreen && FlxG.save.data.exploitationState != 'playing' ? new MainMenuState() : new OutdatedSubState());
+			} else {
 			titleText.animation.play('press');
 
 			FlxG.camera.flash(FlxColor.WHITE, 0.5);
 			FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 
 			transitioning = true;
-
+    
 			new FlxTimer().start(2, function(tmr:FlxTimer)
 			{
 			/*	#if debug
@@ -356,6 +359,7 @@ class TitleState extends MusicBeatState
 				#end */
 				FlxG.switchState(FlxG.save.data.alreadyGoneToWarningScreen && FlxG.save.data.exploitationState != 'playing' ? new MainMenuState() : new OutdatedSubState());
 			});
+		}
 		}
 
 		if (pressedEnter && !skippedIntro)

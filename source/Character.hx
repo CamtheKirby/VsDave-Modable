@@ -1366,7 +1366,12 @@ class Character extends FlxSprite
 
 	function loadOffsetFile(character:String)
 	{
-		var offsetStuffs:Array<String> = CoolUtil.coolTextFile(Paths.offsetFile(character));
+		var offsetStuffs:Array<String>;
+		if (FileSystem.exists(Paths.offsetFile(character))) {
+	    offsetStuffs = CoolUtil.coolTextFile(Paths.offsetFile(character));
+		} else {
+		offsetStuffs = CoolUtil.coolTextFile(Paths.offsetFile('bf'));
+		}
 		
 		for (offsetText in offsetStuffs)
 		{
@@ -1378,7 +1383,13 @@ class Character extends FlxSprite
 
 	function loadCustomOffsetFile(character:String)
 		{
-			var offsetStuffs:Array<String> = CoolUtil.coolTextFile(TitleState.modFolder + '/offsets/' + character + '.txt');
+			var offsetStuffs:Array<String>;
+
+			if (FileSystem.exists(TitleState.modFolder + '/offsets/' + character + '.txt')) {
+				offsetStuffs = CoolUtil.coolTextFile(TitleState.modFolder + '/offsets/' + character + '.txt');
+				} else {
+				offsetStuffs = CoolUtil.coolTextFile(Paths.offsetFile('bf'));
+				}
 			
 			for (offsetText in offsetStuffs)
 			{
@@ -1390,7 +1401,13 @@ class Character extends FlxSprite
 
 		function loadSkinOffsetFile(character:String)
 			{
-				var offsetStuffs:Array<String> = CoolUtil.coolTextFile('mods/global characters/offsets/' + character + '.txt');
+				var offsetStuffs:Array<String>;
+
+				if (FileSystem.exists('mods/global characters/offsets/' + character + '.txt')) {
+					offsetStuffs = CoolUtil.coolTextFile('mods/global characters/offsets/' + character + '.txt');
+					} else {
+					offsetStuffs = CoolUtil.coolTextFile(Paths.offsetFile('bf'));
+					}
 				
 				for (offsetText in offsetStuffs)
 				{

@@ -78,6 +78,7 @@ class GameOverFNAF extends MusicBeatSubstate
 		{
 			FlxG.sound.music.stop();
 			FlxG.sound.playMusic(Paths.music('freakyMenu'));
+			PlayState.blueBalls = 0;
 			FlxG.switchState(new FreeplayState());
 		}
 	}

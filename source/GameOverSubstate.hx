@@ -113,6 +113,7 @@ class GameOverSubstate extends MusicBeatSubstate
 			{
 				Sys.exit(0);
 			}
+			PlayState.blueBalls = 0;
 			if (PlayState.isStoryMode)
 				FlxG.switchState(new StoryMenuState());
 			else
