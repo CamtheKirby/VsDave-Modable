@@ -105,7 +105,7 @@ class OptionsMenu extends MusicBeatState
 			+ "\n" + ("Sustain Transparency")
 			+ "\n" + (FlxG.save.data.vanScoreSys ? "New Score System ON" : "New Score System OFF")
 			+ "\n" + (FlxG.save.data.vanMissSys ? "New Miss System ON" : "New Miss System OFF")
-			+ "\n" + (FlxG.save.data.middeScroll ? "Middescroll ON" : "Middescroll OFF")
+			+ "\n" + (FlxG.save.data.middleScroll ? "Middlescroll ON" : "Middlescroll OFF")
 			);
 
 		grpControls = new FlxTypedGroup<Alphabet>();
@@ -252,8 +252,8 @@ class OptionsMenu extends MusicBeatState
 					FlxG.save.data.vanMissSys = !FlxG.save.data.vanMissSys;
 					updateGroupControls(FlxG.save.data.vanMissSys ? 'New Miss System ON' : 'New Miss System OFF', 12, 'Vertical');	
 				case 20:
-					FlxG.save.data.middeScroll = !FlxG.save.data.middeScroll;
-					updateGroupControls(FlxG.save.data.middeScroll ? 'Middescroll ON' : 'Middescroll OFF', 12, 'Vertical');	
+					FlxG.save.data.middleScroll = !FlxG.save.data.middleScroll;
+					updateGroupControls(FlxG.save.data.middleScroll ? 'Middlescroll ON' : 'Middlescroll OFF', 12, 'Vertical');	
 			}
 		}
 

@@ -2399,7 +2399,7 @@ class PlayState extends MusicBeatState
 		Conductor.songPosition -= Conductor.crochet * 5;
 		var swagCounter:Int = 0;
 
-        if (FlxG.save.data.middeScroll) {
+        if (FlxG.save.data.middleScroll) {
 		playerStrums.forEach(function(spr:StrumNote)
 			{
 				spr.centerStrum();
