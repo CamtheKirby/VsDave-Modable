@@ -2383,15 +2383,36 @@ class PlayState extends MusicBeatState
 	}
 	function startCountdown():Void
 	{
-		if (!adminMode) { // For some reason I couldn't put with botplay and practice mode
+
 		if (SONG.song.toLowerCase() == 'cheating' || SONG.song.toLowerCase() == 'unfairness' || SONG.song.toLowerCase() == 'exploitation')
 			{
-				if(botPlay || pMode)
+				if(botPlay && !adminMode)
 				{
-					FlxG.switchState(new SusState()); // hehe get jumpscared non-admins
+					FlxG.switchState(new YouCheatedSomeoneIsComing()); // hehe get jumpscared non-admins
 				}
 			}
-		}
+
+			
+		if (SONG.song.toLowerCase() == 'recursed')
+			{
+				if(botPlay && !adminMode)
+				{
+					ChartingState.hahaFunnyRecursed();
+				}
+			}
+
+				if (SONG.song.toLowerCase() == 'supernovae' || SONG.song.toLowerCase() == 'glitch' || SONG.song.toLowerCase() == 'master' || SONG.song.toLowerCase() == 'roofs')
+					{
+						if(botPlay && !adminMode)
+						{
+							var deathSound:FlxSound = new FlxSound();
+							deathSound.loadEmbedded(Paths.soundRandom('missnote', 1, 3));
+							deathSound.volume = FlxG.random.float(0.6, 1);
+							deathSound.play();
+							botPlay = false;
+							health = 0;
+						}
+					}
 
 		inCutscene = false;
 
@@ -4268,6 +4289,9 @@ class PlayState extends MusicBeatState
 			}
 
 			// FlxG.switchState(new GameOverState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+		} else {
+			if (health < 0)
+			health = 0;
 		}
 
 		if (unspawnNotes[0] != null)

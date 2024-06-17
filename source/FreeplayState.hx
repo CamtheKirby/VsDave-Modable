@@ -71,6 +71,8 @@ class FreeplayState extends MusicBeatState
 	public var rawJsonFM:String;
     public var jsonFM:FreeplaySettings;
 	var oppOption:FlxText;
+	var botplayOption:FlxText;
+	var pModeOption:FlxText;
 
 	var loadingPack:Bool = false;
 	
@@ -495,6 +497,22 @@ class FreeplayState extends MusicBeatState
 		add(oppOption);
 		modeArray.push(oppOption);
 
+		pModeOption = new FlxText(settingsBG.x, settingsBG.y + 230, FlxG.save.data.practiceMode ? "Practice Mode: On (P)" : "Practice Mode: Off (P)", 5);
+		pModeOption.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, RIGHT);
+		pModeOption.antialiasing = true;
+		pModeOption.scrollFactor.set();
+		pModeOption.alpha = 0; 
+		add(pModeOption);
+		modeArray.push(pModeOption);
+
+		botplayOption = new FlxText(settingsBG.x, settingsBG.y + 260, FlxG.save.data.botplay ? "Botplay: On (B)" : "Botplay: Off (B)", 5);
+		botplayOption.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, RIGHT);
+		botplayOption.antialiasing = true;
+		botplayOption.scrollFactor.set();
+		botplayOption.alpha = 0; 
+		add(botplayOption);
+		modeArray.push(botplayOption);
+
 		if (showCharText)
 		{
 			characterSelectText = new FlxText(FlxG.width - 6, FlxG.height, 0, LanguageManager.getTextString("freeplay_skipChar"), 18);
@@ -706,6 +724,16 @@ class FreeplayState extends MusicBeatState
 					FlxG.save.data.oppM = !FlxG.save.data.oppM;
 					oppOption.text = FlxG.save.data.oppM ? "Oppenent Mode: On (O)" : "Oppenent Mode: Off (O)";
 				}
+				if (FlxG.keys.justPressed.B)
+				{
+					FlxG.save.data.botplay = !FlxG.save.data.botplay;
+					botplayOption.text = FlxG.save.data.botplay ? "Botplay: On (B)" : "Botplay: Off (B)";
+				}
+				if (FlxG.keys.justPressed.P)
+				{
+					FlxG.save.data.practiceMode = !FlxG.save.data.practiceMode;
+					pModeOption.text = FlxG.save.data.practiceMode ? "Practice Mode: On (P)" : "Practice Mode: Off (P)";
+				}
 			if (controls.BACK && canInteract)
 			{				
 				loadingPack = true;
@@ -722,7 +750,7 @@ class FreeplayState extends MusicBeatState
 
 						for (item in icons) { item.visible = true; FlxTween.tween(item, {alpha: 1, y: item.y + 200}, 0.2, {ease: FlxEase.cubeInOut}); }
 						for (item in titles) { item.visible = true; FlxTween.tween(item, {alpha: 1, y: item.y + 200}, 0.2, {ease: FlxEase.cubeInOut}); }
-						for (item in modeArray) { item.visible = true; FlxTween.tween(item, {alpha: 0}, 0.2, {ease: FlxEase.cubeInOut}); if (item != null) {item = null;}}
+						for (item in modeArray) { item.visible = false; FlxTween.tween(item, {alpha: 0}, 0.2, {ease: FlxEase.cubeInOut}); if (item != null) {item = null;}}
 
 					    curOptDesc.visible = true; 
 						FlxTween.tween(curOptDesc, {alpha: 1, y: curOptDesc.y + 200}, 0.2, {ease: FlxEase.cubeInOut});
