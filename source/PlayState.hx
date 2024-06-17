@@ -335,10 +335,13 @@ class PlayState extends MusicBeatState
 
 	var adminMode:Bool;
 
+	var oppM:Bool;
+
 	var tweenTime:Float;
 
 	var songPosBar:FlxBar;
 	var songPosBG:FlxSprite;
+	var noMiddleScrollSongs:Array<String> = ['cheating', 'unfairness', 'shredder', 'exploitation'];
 	
 	var bfNoteCamOffset:Array<Float> = new Array<Float>();
 	var dadNoteCamOffset:Array<Float> = new Array<Float>();
@@ -531,6 +534,8 @@ class PlayState extends MusicBeatState
 
 		adminMode = FlxG.save.data.adminMode;
 
+		oppM = FlxG.save.data.oppM && SONG.song.toLowerCase() != 'shredder' && !isStoryMode;
+
 		settingsExist = FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.json');
 
 		resetShader();
@@ -623,7 +628,7 @@ class PlayState extends MusicBeatState
 
 		pMode = FlxG.save.data.practiceMode;
 
-	    notbeingalittleCheater = !botPlay && !pMode && !FlxG.save.data.oppM;
+	    notbeingalittleCheater = !botPlay && !pMode && !oppM;
 		trace(notbeingalittleCheater);
 
 		modchartoption = !FlxG.save.data.modchart;
@@ -1417,10 +1422,10 @@ class PlayState extends MusicBeatState
 		healthBarBG.antialiasing = true;
 		add(healthBarBG);
 
-		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, inFiveNights || FlxG.save.data.oppM ? LEFT_TO_RIGHT : RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
+		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, inFiveNights || oppM ? LEFT_TO_RIGHT : RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
 			'curHealth', 0, 2);
 		healthBar.scrollFactor.set();
-		if (FlxG.save.data.oppM) {
+		if (oppM) {
 		healthBar.createFilledBar(boyfriend.barColor, dad.barColor);
 		} else {
 		healthBar.createFilledBar(dad.barColor, boyfriend.barColor);
@@ -2399,7 +2404,7 @@ class PlayState extends MusicBeatState
 		Conductor.songPosition -= Conductor.crochet * 5;
 		var swagCounter:Int = 0;
 
-        if (FlxG.save.data.middleScroll) {
+        if (FlxG.save.data.middleScroll && !noMiddleScrollSongs.contains(SONG.song.toLowerCase())) {
 		playerStrums.forEach(function(spr:StrumNote)
 			{
 				spr.centerStrum();
@@ -2825,7 +2830,7 @@ class PlayState extends MusicBeatState
 					gottaHitNote = !section.mustHitSection;
 				}
 
-				if (FlxG.save.data.oppM) {
+				if (oppM) {
 					gottaHitNote = !gottaHitNote;
 				}
 
@@ -4045,7 +4050,7 @@ class PlayState extends MusicBeatState
 
 		var iconOffset:Int = 26;
 
-		if (inFiveNights || FlxG.save.data.oppM)
+		if (inFiveNights || oppM)
 		{
 			iconP1.x = (healthBar.x + healthBar.width) - (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) + iconOffset);
 			iconP2.x = (healthBar.x + healthBar.width) - (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
@@ -4061,7 +4066,7 @@ class PlayState extends MusicBeatState
 
 		if (SONG.song.toLowerCase() != "five-nights")
 		{
-			if (FlxG.save.data.oppM) {
+			if (oppM) {
 				if (healthBar.percent < 20)
 					iconP2.changeState('losing');
 				else
@@ -4356,7 +4361,7 @@ class PlayState extends MusicBeatState
 					{
 						case 'phone':
 							if (!daNote.isSustainNote || !FlxG.save.data.ogHold) {
-								if (FlxG.save.data.oppM) {
+								if (oppM) {
 									var hitAnimation:Bool = boyfriend.animation.getByName("dodge") != null;
 									var heyAnimation:Bool = boyfriend.animation.getByName("hey") != null;
 									if (!daNote.isSustainNote || !FlxG.save.data.ogHold) {
@@ -4368,7 +4373,7 @@ class PlayState extends MusicBeatState
 								}		
 							}
 						default:
-							if (FlxG.save.data.oppM) {
+							if (oppM) {
 							if (boyfriend.nativelyPlayable)
 							{
 								switch (noteToPlay)
@@ -5446,24 +5451,24 @@ class PlayState extends MusicBeatState
 		{
 			vocals.volume = 1;
 	
-			var scoreS:Int = 350;
+			var scoreS:Int = 35;
 
 			if (!botPlay) {
 				if (lastRating == 'shitt')
 				{
-					scoreS = 10;
+					scoreS = 1;
 				}
 				else if (lastRating == 'shit')
 				{
-					scoreS = 25;
+					scoreS = 2;
 				}
 				else if (lastRating == 'bad')
 				{
-					scoreS = 100;
+					scoreS = 10;
 				}
 				else if (lastRating == 'good')
 				{
-					scoreS = 200;
+					scoreS = 20;
 				}
 			}
 			scoreS = cast(FlxMath.roundDecimal(cast(scoreS, Float) * curmultDefine[note.noteData], 0), Int); //this is old code thats stupid Std.Int exists but i dont feel like changing this
@@ -6019,7 +6024,7 @@ class PlayState extends MusicBeatState
 				}
 			});
 		}
-if (FlxG.save.data.oppM) {
+if (oppM) {
 	if (dad.holdTimer > Conductor.stepCrochet * 4 * 0.001 && !condition)
 		{
 			if ((dad.animation.curAnim.name.startsWith('sing')) && !dad.animation.curAnim.name.endsWith('miss'))
@@ -6059,7 +6064,7 @@ if (FlxG.save.data.oppM) {
 	private function keyShitBotPlay():Void
 		{
 	
-			if (FlxG.save.data.oppM) {
+			if (oppM) {
 				if (dad.holdTimer > Conductor.stepCrochet * 4 * 0.001)
 					{
 						if ((dad.animation.curAnim.name.startsWith('sing')) && !dad.animation.curAnim.name.endsWith('miss'))
@@ -6100,7 +6105,7 @@ if (FlxG.save.data.oppM) {
 			}
 			if (combo > 5)
 			{
-				if (FlxG.save.data.oppM) {
+				if (oppM) {
 				gf.playAnim('cheer'); // funny
 				} else {
 				gf.playAnim('sad');
@@ -6116,7 +6121,7 @@ if (FlxG.save.data.oppM) {
 					case 'text':
 						recursedNoteMiss();
 					case 'phone':
-						if  (!FlxG.save.data.oppM) {
+						if  (!oppM) {
 						var hitAnimation:Bool = boyfriend.animation.getByName("hit") != null;
 						if (!note.isSustainNote || !FlxG.save.data.ogHold) {
 						boyfriend.playAnim(hitAnimation ? 'hit' : (isShaggy ? 'singDOWNmiss' : 'singRIGHTmiss'), true);
@@ -6151,7 +6156,7 @@ if (FlxG.save.data.oppM) {
 			
 			var noteTypes = guitarSection ? notestuffsGuitar : notestuffs;
 			var noteToPlay:String = noteTypes[Math.round(Math.abs(direction)) % playerStrumAmount];
-			if (FlxG.save.data.oppM) {
+			if (oppM) {
 				if (!dad.nativelyPlayable)
 					{
 						switch (noteToPlay)
@@ -6226,13 +6231,13 @@ if (FlxG.save.data.oppM) {
 		switch (character)
 		{
 			case 'dad':
-				if (!FlxG.save.data.oppM) {
+				if (!oppM) {
 				dadNoteCamOffset = amount;
 				} else {
 				bfNoteCamOffset = amount;
 				}
 			case 'bf':
-				if (!FlxG.save.data.oppM) {
+				if (!oppM) {
 				bfNoteCamOffset = amount;
 				} else {
 				dadNoteCamOffset = amount;
@@ -6382,7 +6387,7 @@ if (FlxG.save.data.oppM) {
 			}
 			if (darkLevels.contains(curStage) && SONG.song.toLowerCase() != "polygonized" && formoverride != 'tristan-golden-glowing' && bfTween == null)
 			{
-				if (FlxG.save.data.oppM) {
+				if (oppM) {
 				dad.color = nightColor;
 				} else {
 				boyfriend.color = nightColor;
@@ -6390,7 +6395,7 @@ if (FlxG.save.data.oppM) {
 			}
 			else if (sunsetLevels.contains(curStage) && bfTween == null)
 			{
-				if (FlxG.save.data.oppM) {
+				if (oppM) {
 					dad.color = sunsetColor;
 					} else {
 					boyfriend.color = sunsetColor;
@@ -6398,7 +6403,7 @@ if (FlxG.save.data.oppM) {
 			}
 			else if (bfTween == null)
 			{
-				if (FlxG.save.data.oppM) {
+				if (oppM) {
 					dad.color = FlxColor.WHITE;
 					} else {
 					boyfriend.color = FlxColor.WHITE;
@@ -6410,7 +6415,7 @@ if (FlxG.save.data.oppM) {
 				{
 					bfTween.active = true;
 				}
-				if (FlxG.save.data.oppM) {
+				if (oppM) {
 					dad.color = bfTween.color;
 					} else {
 					boyfriend.color = bfTween.color;
@@ -6426,7 +6431,7 @@ if (FlxG.save.data.oppM) {
 					var fuckingDumbassBullshitFuckYou:String;
 					var noteTypes = guitarSection ? notestuffsGuitar : notestuffs;
 					fuckingDumbassBullshitFuckYou = noteTypes[Math.round(Math.abs(note.originalType)) % playerStrumAmount];
-					if (FlxG.save.data.oppM) {
+					if (oppM) {
 					if (dad.nativelyPlayable)
 					{
 						switch (noteTypes[Math.round(Math.abs(note.originalType)) % playerStrumAmount])
@@ -6462,7 +6467,7 @@ if (FlxG.save.data.oppM) {
 					cameraMoveOnNote(fuckingDumbassBullshitFuckYou, 'bf');
 				}
 				case 'phone':
-					if (FlxG.save.data.oppM) {
+					if (oppM) {
 					dad.playAnim('singSmash', true);
 					} else {
 					var hitAnimation:Bool = boyfriend.animation.getByName("dodge") != null;
@@ -6477,7 +6482,7 @@ if (FlxG.save.data.oppM) {
 				}
 			}
 			case 'phone-alt':
-				if (FlxG.save.data.oppM) {
+				if (oppM) {
 				var fuckingDumbassBullshitFuckYou:String;
 				var noteTypes = guitarSection ? notestuffsGuitar : notestuffs;
 				fuckingDumbassBullshitFuckYou = noteTypes[Math.round(Math.abs(note.originalType)) % playerStrumAmount];
@@ -8320,7 +8325,7 @@ if (FlxG.save.data.oppM) {
 			// else
 			// Conductor.changeBPM(SONG.bpm);
 		}
-		if (FlxG.save.data.oppM) {
+		if (oppM) {
 			if (boyfriend.animation.finished)
 				{
 					switch (SONG.song.toLowerCase())
@@ -8370,7 +8375,7 @@ if (FlxG.save.data.oppM) {
 						dadmirror.dance();
 					}
 				default:
-					if (FlxG.save.data.oppM) {
+					if (oppM) {
 						if (boyfriend.holdTimer <= 0 && curBeat % 2 == 0)
 							{
 								dad.dance();
@@ -8837,7 +8842,7 @@ if (FlxG.save.data.oppM) {
 
 		if(curBeat % 2 == 0)
 		{
-			if (FlxG.save.data.oppM) {
+			if (oppM) {
 				if (!dad.animation.curAnim.name.startsWith("sing") && dad.canDance && (dad.animation.curAnim.name == "hit" ? dad.animation.curAnim.finished : true) && (dad.animation.curAnim.name == "dodge" ? dad.animation.curAnim.finished : true))
 					{
 						dad.dance();
@@ -8904,7 +8909,7 @@ if (FlxG.save.data.oppM) {
 		}
 		#end
 		var deathSkinCheck = formoverride == "bf" || formoverride == "none" ? SONG.player1 : isRecursed ? boyfriend.curCharacter : formoverride;
-		if (FlxG.save.data.oppM) {
+		if (oppM) {
 			deathSkinCheck = formoverride == "bf" || formoverride == "none" ? SONG.player2 : isRecursed ? dad.curCharacter : formoverride;
 		}
 		blueBalls += 1;
@@ -9269,7 +9274,11 @@ if (FlxG.save.data.oppM) {
 		{
 			iconP2.changeIcon(dad.curCharacter);
 		}
-		healthBar.createFilledBar(dad.barColor, boyfriend.barColor);
+		if (oppM) {
+			healthBar.createFilledBar(boyfriend.barColor, dad.barColor);
+			} else {
+			healthBar.createFilledBar(dad.barColor, boyfriend.barColor);
+			}
 		
 		if (updateColor)
 		{
@@ -9294,7 +9303,11 @@ if (FlxG.save.data.oppM) {
 		{
 			iconP1.changeIcon(boyfriend.curCharacter);
 		}
-		healthBar.createFilledBar(dad.barColor, boyfriend.barColor);
+		if (oppM) {
+			healthBar.createFilledBar(boyfriend.barColor, dad.barColor);
+			} else {
+			healthBar.createFilledBar(dad.barColor, boyfriend.barColor);
+			}
 		
 		if (updateColor)
 		{
@@ -9328,7 +9341,7 @@ if (FlxG.save.data.oppM) {
 
 	function makeInvisibleNotes(invisible:Bool)
 	{
-		if (!FlxG.save.data.oppM) {
+		if (!oppM) {
 		if (invisible)
 		{
 			for (strumNote in strumLineNotes)
