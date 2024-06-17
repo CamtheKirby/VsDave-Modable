@@ -729,6 +729,7 @@ class PlayState extends MusicBeatState
 
 		var crazyNumber:Int;
 		crazyNumber = FlxG.random.int(0, 5);
+		
 
 		switch (crazyNumber)
 		{
@@ -2395,6 +2396,21 @@ class PlayState extends MusicBeatState
 		Conductor.songPosition = 0;
 		Conductor.songPosition -= Conductor.crochet * 5;
 		var swagCounter:Int = 0;
+
+        if (FlxG.save.data.middeScroll) {
+		playerStrums.forEach(function(spr:StrumNote)
+			{
+				spr.centerStrum();
+				spr.x -= (noteWidth / 4);
+			});
+
+			dadStrums.forEach(function(spr:StrumNote)
+				{
+					spr.visible = false;
+					spr.y = -9000;
+					spr.x = 9000;
+				});
+		}
 
 		startTimer = new FlxTimer().start(Conductor.crochet / 1000, function(tmr:FlxTimer)
 		{
@@ -4284,6 +4300,7 @@ class PlayState extends MusicBeatState
 				}
 				else
 				{
+					
 					daNote.visible = true;
 					daNote.active = true;
 				}
@@ -4297,6 +4314,10 @@ class PlayState extends MusicBeatState
 					daNote.health = 2;
 					dad.playAnim(dad.animation.getByName("singThrow") == null ? 'singSmash' : 'singThrow', true);
 				}
+
+				
+				
+				
 				if (!daNote.mustPress && daNote.wasGoodHit && !daNote.hitByOpponent)
 				{
 					if (SONG.song != 'Warmup')
@@ -4326,7 +4347,7 @@ class PlayState extends MusicBeatState
 						dadCombo++;
 						createScorePopUp(0, 0, true, FlxG.random.int(0,10) == 0 ? "good" : "sick", dadCombo, "3D");
 					}
-
+					
 					var noteTypes = guitarSection ? notestuffsGuitar : notestuffs;
 					var noteToPlay:String = noteTypes[Math.round(Math.abs(daNote.originalType)) % dadStrumAmount];
 					switch (daNote.noteStyle)
@@ -4503,6 +4524,7 @@ class PlayState extends MusicBeatState
 						boyfriend.holdTimer = 0;
 					}
 				}
+				
 
 				var strumY:Float = 0;
 				if (!guitarSection) strumY = playerStrums.members[daNote.noteData].y;
@@ -6075,7 +6097,11 @@ if (FlxG.save.data.oppM) {
 			}
 			if (combo > 5)
 			{
+				if (FlxG.save.data.oppM) {
+				gf.playAnim('cheer'); // funny
+				} else {
 				gf.playAnim('sad');
+				}
 			}
 			combo = 0;
 			songScore -= 100;

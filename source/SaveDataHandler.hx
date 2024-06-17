@@ -96,5 +96,8 @@ class SaveDataHandler
 		
 		if (FlxG.save.data.oppM == null)
 			FlxG.save.data.oppM = false;
+		
+		if (FlxG.save.data.middeScroll == null)
+			FlxG.save.data.middeScroll = false;
     }
 }
