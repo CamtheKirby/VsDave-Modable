@@ -93,5 +93,8 @@ class SaveDataHandler
 		
 		if (FlxG.save.data.noteSplash == null)
 			FlxG.save.data.noteSplash = true;
+		
+		if (FlxG.save.data.oppM == null)
+			FlxG.save.data.oppM = false;
     }
 }

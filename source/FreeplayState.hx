@@ -70,6 +70,7 @@ class FreeplayState extends MusicBeatState
     public var jsonF:FreeplaySettings;
 	public var rawJsonFM:String;
     public var jsonFM:FreeplaySettings;
+	var oppOption:FlxText;
 
 	var loadingPack:Bool = false;
 	
@@ -119,7 +120,7 @@ class FreeplayState extends MusicBeatState
 	private static var prevCamFollow:FlxObject;
 
 	private var iconArray:Array<HealthIcon> = [];
-
+    var modeArray:Array<FlxText> = [];
 	var titles:Array<Alphabet> = [];
 	var icons:Array<FlxSprite> = [];
 
@@ -439,6 +440,7 @@ class FreeplayState extends MusicBeatState
 	}
 
 	var scoreBG:FlxSprite;
+	var settingsBG:FlxSprite;
 
 	public function GoToActualFreeplay()
 	{
@@ -480,9 +482,22 @@ class FreeplayState extends MusicBeatState
 		diffText.antialiasing = true;
 		diffText.scrollFactor.set();
 
+		settingsBG = new FlxSprite(FlxG.width * 0.7 - 6, 400).makeGraphic(Std.int(FlxG.width * 0.35), 300, 0xFF000000);
+		settingsBG.alpha = 0; 
+		settingsBG.scrollFactor.set();
+		add(settingsBG);
+
+		oppOption = new FlxText(settingsBG.x, settingsBG.y, FlxG.save.data.oppM ? "Oppenent Mode: On (O)" : "Oppenent Mode: Off (O)", 20);
+		oppOption.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, RIGHT);
+		oppOption.antialiasing = true;
+		oppOption.scrollFactor.set();
+		oppOption.alpha = 0; 
+		add(oppOption);
+		modeArray.push(oppOption);
+
 		if (showCharText)
 		{
-			characterSelectText = new FlxText(FlxG.width, FlxG.height, 0, LanguageManager.getTextString("freeplay_skipChar"), 18);
+			characterSelectText = new FlxText(FlxG.width - 6, FlxG.height, 0, LanguageManager.getTextString("freeplay_skipChar"), 18);
 			characterSelectText.setFormat("Comic Sans MS Bold", 18, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			characterSelectText.borderSize = 1.5;
 			characterSelectText.antialiasing = true;
@@ -499,8 +514,11 @@ class FreeplayState extends MusicBeatState
 		add(scoreText);
 
 		FlxTween.tween(scoreBG,{y: 0},0.5,{ease: FlxEase.expoInOut});
+		FlxTween.tween(settingsBG,{alpha: 0.6},0.5,{ease: FlxEase.expoInOut});
 		FlxTween.tween(scoreText,{y: -5},0.5,{ease: FlxEase.expoInOut});
 		FlxTween.tween(diffText,{y: 30},0.5,{ease: FlxEase.expoInOut});
+
+		for (item in modeArray) {FlxTween.tween(item,{alpha: 1},0.5,{ease: FlxEase.expoInOut});}
 		
 		for (song in 0...grpSongs.length)
 		{
@@ -607,6 +625,7 @@ class FreeplayState extends MusicBeatState
 		if (!InMainFreeplayState) 
 		{
 			scoreBG = null;
+			settingsBG = null;
 			scoreText = null;
 			diffText = null;
 			characterSelectText = null;
@@ -682,6 +701,11 @@ class FreeplayState extends MusicBeatState
 				FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName), 0);
 				#end
 			}
+			if (FlxG.keys.justPressed.O)
+				{
+					FlxG.save.data.oppM = !FlxG.save.data.oppM;
+					oppOption.text = FlxG.save.data.oppM ? "Oppenent Mode: On (O)" : "Oppenent Mode: Off (O)";
+				}
 			if (controls.BACK && canInteract)
 			{				
 				loadingPack = true;
@@ -698,6 +722,7 @@ class FreeplayState extends MusicBeatState
 
 						for (item in icons) { item.visible = true; FlxTween.tween(item, {alpha: 1, y: item.y + 200}, 0.2, {ease: FlxEase.cubeInOut}); }
 						for (item in titles) { item.visible = true; FlxTween.tween(item, {alpha: 1, y: item.y + 200}, 0.2, {ease: FlxEase.cubeInOut}); }
+						for (item in modeArray) { item.visible = true; FlxTween.tween(item, {alpha: 0}, 0.2, {ease: FlxEase.cubeInOut}); if (item != null) {item = null;}}
 
 					    curOptDesc.visible = true; 
 						FlxTween.tween(curOptDesc, {alpha: 1, y: curOptDesc.y + 200}, 0.2, {ease: FlxEase.cubeInOut});
@@ -710,6 +735,15 @@ class FreeplayState extends MusicBeatState
 								scoreBG = null;
 							}});
 						}
+
+						if (settingsBG != null)
+							{
+								FlxTween.tween(settingsBG,{alpha: 0},0.5,{ease: FlxEase.expoInOut, onComplete: 
+								function(spr:FlxTween)
+								{
+									settingsBG = null;
+								}});
+							}
 
 						if (scoreText != null)
 						{

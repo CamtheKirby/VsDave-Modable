@@ -188,10 +188,10 @@ class Paths
 	
 	var voices = returnSound(null, songKey, 'songs');
 
-	trace(TitleState.modFolder + '/' + 'assets/songs/${(song)}/Voices${(addon)}' + '.ogg');
+	//trace(TitleState.modFolder + '/' + 'assets/songs/${(song)}/Voices${(addon)}' + '.ogg');
 		if (FileSystem.exists(TitleState.modFolder + '/' + 'assets/songs/${(song.toLowerCase())}/Voices${(addon)}' + '.ogg')) {
 			replaceSong = true;
-			trace(replaceSong);
+		//	trace(replaceSong);
 			voices = returnSound(null, '${(song.toLowerCase())}/Voices${(addon)}', 'songs');
 		}
 	
@@ -209,10 +209,10 @@ class Paths
 			var songKey:String = '${(song)}/Inst';
 			var inst = returnSound(null, songKey, 'songs');
 
-            trace(TitleState.modFolder + '/' + 'assets/songs/${(song.toLowerCase())}/Inst' + '.ogg');
+           // trace(TitleState.modFolder + '/' + 'assets/songs/${(song.toLowerCase())}/Inst' + '.ogg');
 			if (FileSystem.exists(TitleState.modFolder + '/' + 'assets/songs/${(song.toLowerCase())}/Inst' + '.ogg')) {
 			replaceSong = true;
-			trace(replaceSong);
+			//trace(replaceSong);
 			inst = returnSound(null, '${(song.toLowerCase())}/Inst', 'songs');
 			}
 		return inst;
@@ -271,9 +271,9 @@ class Paths
 		 if(path != null) gottenPath = '$path/$gottenPath';
 		 if (!FreeplayState.isaCustomSong)
 			{
-				trace(replaceSong);
+			//	trace(replaceSong);
 				if (replaceSong) {
-					trace('asd');
+				//	trace('asd');
                 var kay = StringTools.replace(getPath(gottenPath, SOUND, library), 'songs:', '');
 				var kay2 = StringTools.trim(kay);
 				gottenPath = TitleState.modFolder + '/' + kay2;
@@ -287,7 +287,7 @@ class Paths
 			 currentTrackedSounds.set(gottenPath, Sound.fromFile('./' + gottenPath));
 		
 		 localTrackedAssets.push(gottenPath);
-		 trace(gottenPath);
+		// trace(gottenPath);
 		 return currentTrackedSounds.get(gottenPath);
 	 }
 	/*
@@ -332,7 +332,7 @@ class Paths
 		var short = what + '/images/' + key;
 		//trace(TitleState.modFolder + '/' + short + '.png');
 		if (FileSystem.exists(TitleState.modFolder + '/' + short + '.png') && FileSystem.exists(TitleState.modFolder + '/' + short + '.xml')) {
-		trace('custom exists');
+		//trace('custom exists');
 		return FlxAtlasFrames.fromSparrow(customImage(TitleState.modFolder + '/' + short), customFile(TitleState.modFolder + '/' + short + '.xml'));	
 		} else {
 		return FlxAtlasFrames.fromSparrow(image(key, library), file('images/$key.xml', library));	
