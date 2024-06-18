@@ -54,6 +54,7 @@ class TitleState extends MusicBeatState
 	public static var mods:Array<String> = [];
 	public static var currentMod:String = 'test';
 	public static var modFolder:String = '';
+	public static var onlyforabug:Bool = false;
 
 	
 	override public function create():Void
@@ -144,6 +145,8 @@ class TitleState extends MusicBeatState
 	var gfDance:FlxSprite;
 	var danceLeft:Bool = false;
 	var titleText:FlxSprite;
+	var versionShit:FlxText;
+	var shaderThing = FlxG.save.data.wantShaders ? 'On' : 'Off';
 
 	function startIntro()
 	{
@@ -170,8 +173,10 @@ class TitleState extends MusicBeatState
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		add(bg);
+		
+        
 
-		var versionShit:FlxText = new FlxText(1, FlxG.height - 50, 0, 'Press M to Open the Mod Menu\nPress W to go to the wiki', 20);
+		versionShit = new FlxText(1, FlxG.height - 70, 0, 'Press M to Open the Mod Menu\nPress W to go to the wiki\nPress S to turn on or off Shaders: ' + shaderThing, 20);
 		versionShit.antialiasing = true;
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("Comic Sans MS Bold", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -339,12 +344,25 @@ class TitleState extends MusicBeatState
 				{
 					fancyOpenURL("https://github.com/CamtheKirby/VsDave-Modable/wiki");
 				}
+
+				if (FlxG.keys.justPressed.S)
+					{
+						FlxG.save.data.wantShaders = !FlxG.save.data.wantShaders;
+						if (versionShit != null) {
+					shaderThing = FlxG.save.data.wantShaders ? 'On' : 'Off';
+					versionShit.text = 'Press M to Open the Mod Menu\nPress W to go to the wiki\nPress S to turn on or off Shaders: ' + shaderThing;
+						}
+					}
 		
 		if (pressedEnter && skippedIntro && !ModSubState.inMods)
 		{
 			if (transitioning) {
+				onlyforabug = true;
+				trace(onlyforabug);
 			FlxG.switchState(FlxG.save.data.alreadyGoneToWarningScreen && FlxG.save.data.exploitationState != 'playing' ? new MainMenuState() : new OutdatedSubState());
 			} else {
+			onlyforabug = true;
+			trace(onlyforabug);
 			titleText.animation.play('press');
 
 			FlxG.camera.flash(FlxColor.WHITE, 0.5);
@@ -397,7 +415,8 @@ class TitleState extends MusicBeatState
 			if (danceLeft) gfDance.animation.play('danceRight');
 			else gfDance.animation.play('danceLeft');
 		}
-		if (initialized) { // funny fix
+		if (!onlyforabug) { // funny fix
+			trace('beat ' + onlyforabug);
 		switch (curBeat)
 		{
 			case 3:

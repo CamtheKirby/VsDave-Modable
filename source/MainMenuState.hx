@@ -164,14 +164,14 @@ class MainMenuState extends MusicBeatState
 			bg.color = FlxColor.multiply(bg.color, FlxColor.fromRGB(50, 50, 50));
 			add(bg);
 			
-			#if SHADERS_ENABLED
+			if (FlxG.save.data.wantShaders) {
 			voidShader = new Shaders.GlitchEffect();
 			voidShader.waveAmplitude = 0.1;
 			voidShader.waveFrequency = 5;
 			voidShader.waveSpeed = 2;
 			
 			bg.shader = voidShader.shader;
-			#end
+			}
 
 			magenta = new FlxSprite(-600, -200).loadGraphic(bg.graphic);
 			magenta.scrollFactor.set();
@@ -180,9 +180,9 @@ class MainMenuState extends MusicBeatState
 			magenta.color = FlxColor.multiply(0xFFfd719b, FlxColor.fromRGB(50, 50, 50));
 			add(magenta);
 
-			#if SHADERS_ENABLED
+			if (FlxG.save.data.wantShaders) {
 			magenta.shader = voidShader.shader;
-			#end
+			}
 		}
 		else
 		{
@@ -323,12 +323,12 @@ class MainMenuState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		#if SHADERS_ENABLED
+		if (FlxG.save.data.wantShaders) {
 		if (voidShader != null)
 		{
 			voidShader.shader.uTime.value[0] += elapsed;
 		}
-		#end
+	}
 		if (FlxG.sound.music.volume < 0.8)
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;

@@ -114,5 +114,8 @@ class SaveDataHandler
 
 		if (FlxG.save.data.bothSides == null)
 			FlxG.save.data.bothSides = false;
+		
+		if (FlxG.save.data.wantShaders == null)
+			FlxG.save.data.wantShaders = true;
     }
 }

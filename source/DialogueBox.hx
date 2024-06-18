@@ -270,12 +270,12 @@ class DialogueBox extends FlxSpriteGroup
 
 	override function update(elapsed:Float)
 	{
-		#if SHADERS_ENABLED
+		if (FlxG.save.data.wantShaders) {
 		if (curshader != null)
 		{
 			curshader.shader.uTime.value[0] += elapsed;
 		}
-		#end
+	}
 		dropText.text = swagDialogue.text;
 		switch (curCharacter)
 		{
@@ -462,15 +462,15 @@ class DialogueBox extends FlxSpriteGroup
 				shad.waveSpeed = 1;
 				shad.shader.uTime.value[0] = new flixel.math.FlxRandom().float(-100000,100000);
 				shad.shader.uampmul.value[0] = 1;*/
-				#if SHADERS_ENABLED
+				if (FlxG.save.data.wantShaders) {
 				PlayState.screenshader.Enabled = true;
-				#end
+				}
 			case 'undistort':
-				#if SHADERS_ENABLED
+				if (FlxG.save.data.wantShaders) {
 				PlayState.screenshader.Enabled = false;
-				#end
+				}
 			case 'distortbg':
-				#if SHADERS_ENABLED
+				if (FlxG.save.data.wantShaders) {
 				var shad:Shaders.DistortBGEffect = new Shaders.DistortBGEffect();
 				curshader = shad;
 				shad.waveAmplitude = 0.1;
@@ -481,7 +481,7 @@ class DialogueBox extends FlxSpriteGroup
 					portraitLeft.shader = shad.shader;
 					portraitRight.shader = shad.shader;
 				}
-				#end
+			}
 			case 'setfont_normal':
 				dropText.font = 'Comic Sans MS Bold';
 				swagDialogue.font = 'Comic Sans MS Bold';

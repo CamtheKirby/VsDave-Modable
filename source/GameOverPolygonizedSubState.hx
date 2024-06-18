@@ -59,14 +59,14 @@ class GameOverPolygonizedSubState extends MusicBeatSubstate
 		bg.setGraphicSize(Std.int(bg.width * 1.5));
 		add(bg);
 		
-		#if SHADERS_ENABLED
+		if (FlxG.save.data.wantShaders) {
 		voidShader = new Shaders.GlitchEffect();
 		voidShader.waveAmplitude = 0.1;
 		voidShader.waveFrequency = 5;
 		voidShader.waveSpeed = 2;
 		
 		bg.shader = voidShader.shader;
-		#end
+		}
 
 		Conductor.songPosition = 0;
 
@@ -146,9 +146,9 @@ class GameOverPolygonizedSubState extends MusicBeatSubstate
 	{
 		super.update(elapsed);
 
-		#if SHADERS_ENABLED
+		if (FlxG.save.data.wantShaders) {
 		voidShader.shader.uTime.value[0] += elapsed;
-		#end
+		}
 
 		if (controls.ACCEPT)
 		{

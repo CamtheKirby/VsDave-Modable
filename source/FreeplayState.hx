@@ -204,14 +204,14 @@ class FreeplayState extends MusicBeatState
 			bg.color = FlxColor.multiply(bg.color, FlxColor.fromRGB(50, 50, 50));
 			add(bg);
 			
-			#if SHADERS_ENABLED
+			if (FlxG.save.data.wantShaders) {
 			bgShader = new Shaders.GlitchEffect();
 			bgShader.waveAmplitude = 0.1;
 			bgShader.waveFrequency = 5;
 			bgShader.waveSpeed = 2;
 			
 			bg.shader = bgShader.shader;
-			#end
+			}
 			defColor = bg.color;
 		}
 		else
@@ -655,12 +655,12 @@ class FreeplayState extends MusicBeatState
 	{
 		super.update(elapsed);
 
-		#if SHADERS_ENABLED
+		if (FlxG.save.data.wantShaders) {
 		if (bgShader != null)
 		{
 			bgShader.shader.uTime.value[0] += elapsed;
 		}
-		#end
+	}
 		cantEarn = FlxG.save.data.botplay || FlxG.save.data.practiceMode || FlxG.save.data.oppM || FlxG.save.data.randomNotes || rPNT[FlxG.save.data.randomNoteTypes] != 'Off' || FlxG.save.data.bothSides;
        
 		if (cantEarn && cantEarnText != null) {

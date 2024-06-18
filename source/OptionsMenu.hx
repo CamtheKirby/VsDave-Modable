@@ -62,14 +62,14 @@ class OptionsMenu extends MusicBeatState
 			menuBG.antialiasing = false;
 			add(menuBG);
 			
-			#if SHADERS_ENABLED
+			if (FlxG.save.data.wantShaders) {
 			bgShader = new Shaders.GlitchEffect();
 			bgShader.waveAmplitude = 0.1;
 			bgShader.waveFrequency = 5;
 			bgShader.waveSpeed = 2;
 			
 			menuBG.shader = bgShader.shader;
-			#end
+			}
 		}
 		else
 		{
@@ -106,6 +106,7 @@ class OptionsMenu extends MusicBeatState
 			+ "\n" + (FlxG.save.data.vanScoreSys ? "New Score System ON" : "New Score System OFF")
 			+ "\n" + (FlxG.save.data.vanMissSys ? "New Miss System ON" : "New Miss System OFF")
 			+ "\n" + (FlxG.save.data.middleScroll ? "Middlescroll ON" : "Middlescroll OFF")
+			+ "\n" + (FlxG.save.data.wantShaders ? "Shaders ON" : "Shaders OFF")
 			);
 
 		grpControls = new FlxTypedGroup<Alphabet>();
@@ -134,12 +135,12 @@ class OptionsMenu extends MusicBeatState
 	{
 		super.update(elapsed);
 
-		#if SHADERS_ENABLED
+		if (FlxG.save.data.wantShaders) {
 		if (bgShader != null)
 		{
 			bgShader.shader.uTime.value[0] += elapsed;
 		}
-		#end
+	}
 
 		if (controls.BACK)
 		{
@@ -254,6 +255,9 @@ class OptionsMenu extends MusicBeatState
 				case 20:
 					FlxG.save.data.middleScroll = !FlxG.save.data.middleScroll;
 					updateGroupControls(FlxG.save.data.middleScroll ? 'Middlescroll ON' : 'Middlescroll OFF', 12, 'Vertical');	
+					case 21:
+					FlxG.save.data.wantShaders = !FlxG.save.data.wantShaders;
+					updateGroupControls(FlxG.save.data.wantShaders ? 'Shaders ON' : 'Shaders OFF', 12, 'Vertical');	
 			}
 		}
 

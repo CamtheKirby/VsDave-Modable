@@ -909,12 +909,12 @@ class PlayState extends MusicBeatState
 			gfVersion = 'gf-none';
 		}
 
-		#if SHADERS_ENABLED
+		if (FlxG.save.data.wantShaders) {
 		screenshader.waveAmplitude = 0.5;
 		screenshader.waveFrequency = 1;
 		screenshader.waveSpeed = 1;
 		screenshader.shader.uTime.value[0] = new flixel.math.FlxRandom().float(-100000, 100000);
-		#end
+		}
 
 		gfGroup = new FlxGroup();
 		dadGroup = new FlxGroup();
@@ -1646,7 +1646,7 @@ class PlayState extends MusicBeatState
 		}
 		doof.cameras = [camDialogue];
 		
-		#if SHADERS_ENABLED
+		if (FlxG.save.data.wantShaders) {
 		if ((SONG.song.toLowerCase() == 'kabunga' || localFunny == CharacterFunnyEffect.Exbungo) && modchartoption) //i desperately wanted it so if you use downscroll it switches it to upscroll and flips the entire hud upside down but i never got to it
 		{
 			lazychartshader.waveAmplitude = 0.03;
@@ -1659,7 +1659,7 @@ class PlayState extends MusicBeatState
 		{
 			blockedShader = new BlockedGlitchEffect(1280, 1, 1, true);
 		}
-		#end
+	}
 		startingSong = true;
 		if (startTimer != null && !startTimer.active)
 		{
@@ -2342,14 +2342,14 @@ class PlayState extends MusicBeatState
 
 	function voidShader(background:BGSprite)
 	{
-		#if SHADERS_ENABLED
+		if (FlxG.save.data.wantShaders) {
 		var testshader:Shaders.GlitchEffect = new Shaders.GlitchEffect();
 		testshader.waveAmplitude = 0.1;
 		testshader.waveFrequency = 5;
 		testshader.waveSpeed = 2;
 		
 		background.shader = testshader.shader;
-		#end
+		}
 		curbg = background;
 	}
 	function changeInterdimensionBg(type:String)
@@ -3374,10 +3374,10 @@ class PlayState extends MusicBeatState
 		{
 			if (curbg.active) // only the polygonized background is active
 			{
-				#if SHADERS_ENABLED
+				if (FlxG.save.data.wantShaders) {
 				var shad = cast(curbg.shader, Shaders.GlitchShader);
 				shad.uTime.value[0] += elapsed;
-				#end
+				}
 			}
 		}
 		if (SONG.song.toLowerCase() == 'escape-from-california')
@@ -3954,16 +3954,16 @@ class PlayState extends MusicBeatState
 			}
 		}
         
-		#if SHADERS_ENABLED
+		if (FlxG.save.data.wantShaders) {
 		FlxG.camera.setFilters([new ShaderFilter(screenshader.shader)]); // this is very stupid but doesn't effect memory all that much so
-		#end
+		}
 		if (shakeCam && eyesoreson)
 		{
 			// var shad = cast(FlxG.camera.screen.shader,Shaders.PulseShader);
 			FlxG.camera.shake(0.010, 0.010);
 		}
 
-		#if SHADERS_ENABLED
+		if (FlxG.save.data.wantShaders) {
 		screenshader.shader.uTime.value[0] += elapsed;
 		lazychartshader.shader.uTime.value[0] += elapsed;
 		if (blockedShader != null)
@@ -3979,7 +3979,7 @@ class PlayState extends MusicBeatState
 			screenshader.shader.uampmul.value[0] -= (elapsed / 2);
 		}
 		screenshader.Enabled = shakeCam && eyesoreson;
-		#end
+	}
 
 		super.update(elapsed);
 
@@ -4066,9 +4066,9 @@ class PlayState extends MusicBeatState
 					], function()
 					{
 						shakeCam = false;
-						#if SHADERS_ENABLED
+						if (FlxG.save.data.wantShaders) {
 						screenshader.Enabled = false;
-						#end
+						}
 
 						isStoryMode = false;
 						PlayState.SONG = Song.loadFromJson("cheating"); // you dun fucked up
@@ -4088,9 +4088,9 @@ class PlayState extends MusicBeatState
 						storyPlaylist = [];
 						
 						shakeCam = false;
-						#if SHADERS_ENABLED
+						if (FlxG.save.data.wantShaders) {
 						screenshader.Enabled = false;
-						#end
+						}
 
 						PlayState.SONG = Song.loadFromJson("unfairness"); // you dun fucked up again
 						PlayState.storyWeek = 15;
@@ -4111,9 +4111,9 @@ class PlayState extends MusicBeatState
 						storyPlaylist = [];
 						
 						shakeCam = false;
-						#if SHADERS_ENABLED
+						if (FlxG.save.data.wantShaders) {
 						screenshader.Enabled = false;
-						#end
+						}
 
 						FlxG.switchState(new TerminalState());
 					}));
@@ -4133,9 +4133,9 @@ class PlayState extends MusicBeatState
 					isStoryMode = false;
 					FlxG.save.data.exbungoFound = true;
 					shakeCam = false;
-					#if SHADERS_ENABLED
+					if (FlxG.save.data.wantShaders) {
 					screenshader.Enabled = false;
-					#end
+					}
 					FlxG.switchState(new PlayState());
 					return;
 				case 'kabunga':
@@ -4145,16 +4145,16 @@ class PlayState extends MusicBeatState
 					PlayState.SONG = Song.loadFromJson("vs-dave-rap-two");
 					FlxG.save.data.vsDaveRapTwoFound = true;
 					shakeCam = false;
-					#if SHADERS_ENABLED
+					if (FlxG.save.data.wantShaders) {
 					screenshader.Enabled = false;
-					#end
+					}
 					FlxG.switchState(new PlayState());
 					return;
 				default:
 					chartEditorMode = true;
-					#if SHADERS_ENABLED
+					if (FlxG.save.data.wantShaders) {
 					resetShader();
-					#end
+					}
 					FlxG.switchState(new ChartingState());
 					#if desktop
 					DiscordClient.changePresence("Chart Editor", null, null, true);
@@ -4171,9 +4171,9 @@ class PlayState extends MusicBeatState
 				Transition.nextCamera = null;
 			}
 			
-			#if SHADERS_ENABLED
+			if (FlxG.save.data.wantShaders) {
 			resetShader();
-			#end
+			}
 			FlxG.switchState(new ChartingState());
 			#if desktop
 			DiscordClient.changePresence("Chart Editor", null, null, true);
@@ -4370,10 +4370,10 @@ class PlayState extends MusicBeatState
 				vocals.stop();
 				FlxG.sound.music.stop();
 				
-				#if SHADERS_ENABLED
+				if (FlxG.save.data.wantShaders) {
 				screenshader.shader.uampmul.value[0] = 0;
 				screenshader.Enabled = false;
-				#end
+				}
 			}
 
 			if (!shakeCam)
@@ -4780,9 +4780,9 @@ class PlayState extends MusicBeatState
 			if (!chartEditorMode) {
 			endSong();
 			} else {
-				#if SHADERS_ENABLED
+				if (FlxG.save.data.wantShaders) {
 					resetShader();
-					#end
+				}
 					FlxG.switchState(new ChartingState());
 					#if desktop
 					DiscordClient.changePresence("Chart Editor", null, null, true);
@@ -5008,9 +5008,9 @@ class PlayState extends MusicBeatState
 				nextSong();
 				} else {
 					FlxG.sound.music.stop();
-					#if SHADERS_ENABLED
+					if (FlxG.save.data.wantShaders) {
 					resetShader();
-					#end
+					}
 					FlxG.switchState(new ChartingState());
 					#if desktop
 					DiscordClient.changePresence("Chart Editor", null, null, true);
@@ -5021,9 +5021,9 @@ class PlayState extends MusicBeatState
 				if (!chartEditorMode) {
 				FlxG.switchState(new ResultsScreen());
 				} else {
-					#if SHADERS_ENABLED
+					if (FlxG.save.data.wantShaders) {
 					resetShader();
-					#end
+					}
 					FlxG.switchState(new ChartingState());
 					#if desktop
 					DiscordClient.changePresence("Chart Editor", null, null, true);
@@ -5170,9 +5170,9 @@ class PlayState extends MusicBeatState
 							FlxG.switchState(new EndingState('badEnding', 'badEnding'));
 						}
 					} else {
-						#if SHADERS_ENABLED
+						if (FlxG.save.data.wantShaders) {
 							resetShader();
-							#end
+						}
 							FlxG.switchState(new ChartingState());
 							#if desktop
 							DiscordClient.changePresence("Chart Editor", null, null, true);
@@ -5193,9 +5193,9 @@ class PlayState extends MusicBeatState
 							FlxG.sound.playMusic(Paths.music('freakyMenu'));
 							FlxG.switchState(new StoryMenuState());
 							} else {
-								#if SHADERS_ENABLED
+								if (FlxG.save.data.wantShaders) {
 							resetShader();
-							#end
+								}
 							FlxG.switchState(new ChartingState());
 							#if desktop
 							DiscordClient.changePresence("Chart Editor", null, null, true);
@@ -5218,9 +5218,9 @@ class PlayState extends MusicBeatState
 							FlxG.sound.playMusic(Paths.music('freakyMenu'));
 							FlxG.switchState(new StoryMenuState());
 							} else {
-								#if SHADERS_ENABLED
+								if (FlxG.save.data.wantShaders) {
 							resetShader();
-							#end
+								}
 							FlxG.switchState(new ChartingState());
 							#if desktop
 							DiscordClient.changePresence("Chart Editor", null, null, true);
@@ -5235,9 +5235,9 @@ class PlayState extends MusicBeatState
 						menu.DoFunnyScroll = true;
 						FlxG.switchState(menu);
 						} else {
-							#if SHADERS_ENABLED
+							if (FlxG.save.data.wantShaders) {
 							resetShader();
-							#end
+							}
 							FlxG.switchState(new ChartingState());
 							#if desktop
 							DiscordClient.changePresence("Chart Editor", null, null, true);
@@ -5248,9 +5248,9 @@ class PlayState extends MusicBeatState
 						FlxG.sound.playMusic(Paths.music('freakyMenu'));
 						FlxG.switchState(new StoryMenuState());
 						} else {
-							#if SHADERS_ENABLED
+							if (FlxG.save.data.wantShaders) {
 					resetShader();
-					#end
+							}
 					FlxG.switchState(new ChartingState());
 					#if desktop
 					DiscordClient.changePresence("Chart Editor", null, null, true);
@@ -5333,9 +5333,9 @@ class PlayState extends MusicBeatState
 						if (!chartEditorMode) {
 						nextSong();
 						} else {
-								#if SHADERS_ENABLED
+							if (FlxG.save.data.wantShaders) {
 								resetShader();
-								#end
+							}
 								FlxG.switchState(new ChartingState());
 								#if desktop
 								DiscordClient.changePresence("Chart Editor", null, null, true);
@@ -5414,9 +5414,9 @@ class PlayState extends MusicBeatState
              if (!chartEditorMode) {
 					FlxG.switchState(new ResultsScreen());
 			 } else {
-				#if SHADERS_ENABLED
+				if (FlxG.save.data.wantShaders) {
 								resetShader();
-								#end
+				}
 								FlxG.switchState(new ChartingState());
 								#if desktop
 								DiscordClient.changePresence("Chart Editor", null, null, true);
@@ -7245,12 +7245,12 @@ if (oppM) {
 						FlxTween.tween(black, {alpha: 0.4}, 1);
 						defaultCamZoom += 0.3;
 					case 1200:
-						#if SHADERS_ENABLED
+						if (FlxG.save.data.wantShaders) {
 						if(CompatTool.save.data.compatMode != null && CompatTool.save.data.compatMode == false)
 							{
 								camHUD.setFilters([new ShaderFilter(blockedShader.shader)]);
 							}
-						#end
+						}
 						FlxTween.tween(black, {alpha: 0.7}, (Conductor.stepCrochet / 1000) * 8);
 					case 1216:
 						FlxG.camera.flash(FlxColor.WHITE, 0.5);
@@ -8134,9 +8134,9 @@ if (oppM) {
 						FlxTween.tween(black, {alpha: 0}, 1);
 						makeInvisibleNotes(false);
 					case 784 | 816 | 912 | 944:
-						#if SHADERS_ENABLED
+						if (FlxG.save.data.wantShaders) {
 						camHUD.setFilters([new ShaderFilter(blockedShader.shader)]);
-						#end
+						}
 						defaultCamZoom += 0.2;
 						FlxTween.tween(black, {alpha: 0.6}, 1);
 					case 800 | 832 | 928:
@@ -8285,46 +8285,46 @@ if (oppM) {
 						regenerateStaticArrows(0);
 
 						defaultCamZoom += 0.2;
-						#if SHADERS_ENABLED
+						if (FlxG.save.data.wantShaders) {
 						if(CompatTool.save.data.compatMode != null && CompatTool.save.data.compatMode == false)
 						{
 							camHUD.setFilters([new ShaderFilter(blockedShader.shader)]);
 						}
-						#end
+					}
 						FlxTween.tween(black, {alpha: 0.6}, 1);
 						makeInvisibleNotes(true);
 					case 1552:
 						camHUD.setFilters([]);
 						defaultCamZoom += 0.1;
 					case 1568:
-						#if SHADERS_ENABLED
+						if (FlxG.save.data.wantShaders) {
 						if(CompatTool.save.data.compatMode != null && CompatTool.save.data.compatMode == false)
 							{
 								camHUD.setFilters([new ShaderFilter(blockedShader.shader)]);
 							}
-						#end
+						}
 						defaultCamZoom += 0.1;
 					case 1584:
 						camHUD.setFilters([]);
 						defaultCamZoom += 0.1;
 					case 1600:
-						#if SHADERS_ENABLED
+						if (FlxG.save.data.wantShaders) {
 						if(CompatTool.save.data.compatMode != null && CompatTool.save.data.compatMode == false)
 							{
 								camHUD.setFilters([new ShaderFilter(blockedShader.shader)]);
 							}
-						#end
+						}
 						defaultCamZoom += 0.1;
 					case 1616:
 						camHUD.setFilters([]);
 						defaultCamZoom += 0.1;
 					case 1632:
-						#if SHADERS_ENABLED
+						if (FlxG.save.data.wantShaders) {
 						if(CompatTool.save.data.compatMode != null && CompatTool.save.data.compatMode == false)
 							{
 								camHUD.setFilters([new ShaderFilter(blockedShader.shader)]);
 							}
-						#end
+						}
 						defaultCamZoom += 0.1;
 					case 1648:
 						FlxTween.tween(black, {alpha: 1}, 1);
@@ -8728,9 +8728,9 @@ if (oppM) {
 	}
 
 		// FlxG.log.add('change bpm' + SONG.notes[Std.int(curStep / 16)].changeBPM);
-		#if SHADERS_ENABLED
+		if (FlxG.save.data.wantShaders) {
 		wiggleShit.update(Conductor.crochet);
-		#end
+		}
 		
 		if (curBeat % gfSpeed == 0)
 		{
@@ -9506,10 +9506,10 @@ if (oppM) {
 	{
 		PlayState.instance.shakeCam = false;
 		PlayState.instance.camZooming = false;
-		#if SHADERS_ENABLED
+		if (FlxG.save.data.wantShaders) {
 		screenshader.shader.uampmul.value[0] = 0;
 		screenshader.Enabled = false;
-		#end
+		}
 	}
 
 	function sectionStartTime(section:Int):Float
