@@ -339,6 +339,8 @@ class PlayState extends MusicBeatState
 
 	var oppM:Bool;
 
+	var bothS:Bool;
+
 	var tweenTime:Float;
 
 	var songPosBar:FlxBar;
@@ -538,6 +540,8 @@ class PlayState extends MusicBeatState
 
 		oppM = FlxG.save.data.oppM && SONG.song.toLowerCase() != 'shredder' && !isStoryMode;
 
+		bothS = FlxG.save.data.bothSides && SONG.song.toLowerCase() != 'shredder' && !isStoryMode;
+
 		settingsExist = FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.json');
 
 		resetShader();
@@ -596,9 +600,12 @@ class PlayState extends MusicBeatState
 		scrollType = FlxG.save.data.downscroll ? 'downscroll' : 'upscroll';
 
 		mania = SONG.mania;
-		if (FlxG.save.data.maniabutyeah > 0 && FlxG.save.data.randomNotes) {
-			trace('uhh ' + FlxG.save.data.maniabutyeah);
+		if (FlxG.save.data.maniabutyeah > 0 && FlxG.save.data.randomNotes && !bothS) {
 				mania = FlxG.save.data.maniabutyeah; 
+			}
+
+			if (bothS) {
+				mania = 4; 
 			}
 
 		if (mania == 1) {
@@ -633,6 +640,10 @@ class PlayState extends MusicBeatState
 		botPlay = FlxG.save.data.botplay;
 
 		pMode = FlxG.save.data.practiceMode;
+
+		if (FlxG.save.data.randomNoteTypes > 0 || bothS || chartEditorMode) {
+			cantSaveScore = true;
+		}
 
 	    notbeingalittleCheater = !botPlay && !pMode && !oppM && !cantSaveScore && !FlxG.save.data.randomNotes;
 		trace(notbeingalittleCheater);
@@ -2431,7 +2442,7 @@ class PlayState extends MusicBeatState
 		Conductor.songPosition -= Conductor.crochet * 5;
 		var swagCounter:Int = 0;
 
-        if (FlxG.save.data.middleScroll && !noMiddleScrollSongs.contains(SONG.song.toLowerCase())) {
+        if (FlxG.save.data.middleScroll || bothS && !noMiddleScrollSongs.contains(SONG.song.toLowerCase())) {
 		playerStrums.forEach(function(spr:StrumNote)
 			{
 				spr.centerStrum();
@@ -2851,7 +2862,6 @@ class PlayState extends MusicBeatState
 				}
 
 				if (FlxG.save.data.randomNoteTypes > 0) {
-					cantSaveScore = true;
 
 					var random = 0;
 				  if (FlxG.save.data.randomNoteTypes = 1) {
@@ -2881,7 +2891,7 @@ class PlayState extends MusicBeatState
 					gottaHitNote = !section.mustHitSection;
 				}
 
-				if(FlxG.save.data.randomNotes){
+				if(FlxG.save.data.randomNotes && !bothS){
 					if (mania == 1)
 						daNoteData = FlxG.random.int(0, 4);
 					else if (mania == 2)
@@ -2896,9 +2906,71 @@ class PlayState extends MusicBeatState
 						daNoteData = FlxG.random.int(0, 3);
 				}
 
-				if (oppM) {
+				if (bothS)
+					{
+						if (!gottaHitNote)
+						{
+							switch(daNoteData)
+							{
+								case 0: 
+									trace('0');
+								daNoteData = 5;
+							case 1: 
+								trace('1');
+								daNoteData = 6;
+							case 2: 
+								trace('2');
+								daNoteData = 7;
+							case 3:
+								trace('3');
+								daNoteData = 12;
+							case 4: 
+								trace('4');
+								daNoteData = 0;
+							case 5: 
+								trace('5');
+								daNoteData = 1;
+							case 6: 
+								trace('6');
+								daNoteData = 2;
+							case 7:
+								trace('7');
+								daNoteData = 4;
+							}
+						}
+						else
+							{
+								switch(daNoteData)
+								{
+									case 0: 
+										daNoteData = 0;
+									case 1: 
+										daNoteData = 1;
+									case 2: 
+										daNoteData = 2;
+									case 3:
+										daNoteData = 3;
+									case 4: 
+										daNoteData = 4;
+									case 5: 
+										daNoteData = 5;
+									case 6: 
+										daNoteData = 6;
+									case 7:
+										daNoteData = 7;
+								}
+							}
+						if (daNoteData > 7) 
+							daNoteData -= 4;
+					}
+
+				if (oppM && !bothS) {
 					gottaHitNote = !gottaHitNote;
 				}
+				if (bothS)
+					{
+						gottaHitNote = true; 
+					}
 
 				var oldNote:Note;
 				if (unspawnNotes.length > 0)
@@ -3337,7 +3409,7 @@ class PlayState extends MusicBeatState
 		{
 			
 			var scrollSpeed = 150;
-			if (FlxG.save.data.randomNoteTypes < 0 && SONG.song.toLowerCase() != 'recursed') {
+			if (curStage == 'freeplay') {
 			charBackdrop.x -= scrollSpeed * elapsed;
 			charBackdrop.y += scrollSpeed * elapsed;
 
@@ -3944,6 +4016,9 @@ class PlayState extends MusicBeatState
 		{
 			scoreTxt.text += " | NO MISS!!";
 		}
+		if (!notbeingalittleCheater) {
+			scoreTxt.text += " | Can\'t Save Score";
+		}
 		if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
 		{
 			persistentUpdate = false;
@@ -4077,7 +4152,6 @@ class PlayState extends MusicBeatState
 					return;
 				default:
 					chartEditorMode = true;
-					cantSaveScore = true;
 					#if SHADERS_ENABLED
 					resetShader();
 					#end
@@ -4092,7 +4166,6 @@ class PlayState extends MusicBeatState
 		if (FlxG.keys.justPressed.THREE)
 		{
 			chartEditorMode = true;
-			cantSaveScore = true;
 			if(FlxTransitionableState.skipNextTransIn)
 			{
 				Transition.nextCamera = null;
@@ -4193,7 +4266,7 @@ class PlayState extends MusicBeatState
 			FlxG.switchState(new AnimationDebug(boyfriend.curCharacter));
 		if (FlxG.keys.justPressed.TWO) //Go 10 seconds into the future :O
 		{
-			cantSaveScore = true;
+			chartEditorMode = true;
 			FlxG.sound.music.pause();
 			vocals.pause();
 			boyfriend.stunned = true;
@@ -6644,7 +6717,6 @@ if (oppM) {
 					}
 			}
 
-
 			switch (note.noteStyle)
 			{
 				default:
@@ -8290,7 +8362,9 @@ if (oppM) {
 					switch (curStep)
 					{
 						case 60:
+							
 							switchNoteSide();
+						
 						case 64 | 320 | 480 | 576 | 704 | 832 | 1024:
 							nofriendAttack();
 						case 992:
@@ -9474,6 +9548,7 @@ if (oppM) {
 
 	function switchNoteSide()
 	{
+		if (!FlxG.save.data.middleScroll && !bothS) {
 		for (i in 0...Main.keyAmmo[mania])
 		{
 			var curOpponentNote = dadStrums.members[i];
@@ -9483,6 +9558,7 @@ if (oppM) {
 			FlxTween.tween(curPlayerNote, {x: curOpponentNote.x}, 0.6, {ease: FlxEase.expoOut, startDelay: 0.01 * i});
 		}
 		switchSide = !switchSide;
+	}
 	}
 
 	function switchNotePositions(order:Array<Int>)
@@ -9590,7 +9666,7 @@ if (oppM) {
 
 	function makeInvisibleNotes(invisible:Bool)
 	{
-		if (!oppM) {
+		if (!oppM && !bothS) {
 		if (invisible)
 		{
 			for (strumNote in strumLineNotes)

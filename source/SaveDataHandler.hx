@@ -111,5 +111,8 @@ class SaveDataHandler
 
 		if (FlxG.save.data.randomNoteTypes == null)
 			FlxG.save.data.randomNoteTypes = 0;
+
+		if (FlxG.save.data.bothSides == null)
+			FlxG.save.data.bothSides = false;
     }
 }

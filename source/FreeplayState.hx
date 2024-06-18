@@ -77,6 +77,7 @@ class FreeplayState extends MusicBeatState
 	var keyOption:FlxText;
 	var cantEarnText:FlxText;
 	var rNText:FlxText;
+	var bothSidesText:FlxText;
 	var rPNT:Array<String> = ['Off', 'Low Chance', 'Medium Chance', 'High Chance', 'Unfair'];
 
 	var loadingPack:Bool = false;
@@ -545,6 +546,14 @@ class FreeplayState extends MusicBeatState
 		add(rNText);
 		modeArray.push(rNText);
 
+		bothSidesText = new FlxText(settingsBG.x, settingsBG.y + 150, FlxG.save.data.bothSides ? "Both Sides: On (S)" : "Both Sides: Off (S)", 20);
+		bothSidesText.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, RIGHT);
+		bothSidesText.antialiasing = true;
+		bothSidesText.scrollFactor.set();
+		bothSidesText.alpha = 0; 
+		add(bothSidesText);
+		modeArray.push(bothSidesText);
+
 		pModeOption = new FlxText(settingsBG.x, settingsBG.y + 230, FlxG.save.data.practiceMode ? "Practice Mode: On (P)" : "Practice Mode: Off (P)", 5);
 		pModeOption.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, RIGHT);
 		pModeOption.antialiasing = true;
@@ -652,7 +661,7 @@ class FreeplayState extends MusicBeatState
 			bgShader.shader.uTime.value[0] += elapsed;
 		}
 		#end
-		cantEarn = FlxG.save.data.botplay || FlxG.save.data.practiceMode || FlxG.save.data.oppM || FlxG.save.data.randomNotes || rPNT[FlxG.save.data.randomNoteTypes] != 'Off';
+		cantEarn = FlxG.save.data.botplay || FlxG.save.data.practiceMode || FlxG.save.data.oppM || FlxG.save.data.randomNotes || rPNT[FlxG.save.data.randomNoteTypes] != 'Off' || FlxG.save.data.bothSides;
        
 		if (cantEarn && cantEarnText != null) {
 			cantEarnText.visible = true;
@@ -774,6 +783,17 @@ class FreeplayState extends MusicBeatState
 				FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName), 0);
 				#end
 			}
+			if (FlxG.keys.justPressed.S)
+				{
+					FlxG.save.data.bothSides = !FlxG.save.data.bothSides;
+					bothSidesText.text = FlxG.save.data.bothSides ? "Both Sides: On (S)" : "Both Sides: Off (S)";
+					if (FlxG.save.data.bothSides) {
+						FlxG.save.data.maniabutyeah = 0;
+						keyOption.text = "Keys Added: " + FlxG.save.data.maniabutyeah + " (U)";
+						FlxG.save.data.randomNotes = false;
+						randomOption.text = FlxG.save.data.randomNotes ? "Randomize Notes: On (R)" : "Randomize Notes: Off (R)";
+					}
+				}
 			if (FlxG.keys.justPressed.O)
 				{
 					FlxG.save.data.oppM = !FlxG.save.data.oppM;
@@ -803,11 +823,10 @@ class FreeplayState extends MusicBeatState
 								FlxG.save.data.randomNoteTypes += 1;
 								if (FlxG.save.data.randomNoteTypes > 4) 
 								FlxG.save.data.randomNoteTypes = 0;
-
-								trace(FlxG.save.data.randomNoteTypes);
 							
 								rNText.text = "Randomly Place Note Types: " + rPNT[FlxG.save.data.randomNoteTypes] + " (I)";
 							}
+
 				if (FlxG.keys.justPressed.B)
 				{
 					FlxG.save.data.botplay = !FlxG.save.data.botplay;

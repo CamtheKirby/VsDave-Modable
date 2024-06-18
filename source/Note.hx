@@ -67,8 +67,11 @@ class Note extends FlxSprite
 	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?musthit:Bool = true, noteStyle:String = "normal", inCharter:Bool = false, guitarSection:Bool = false)
 	{
 		mania = PlayState.SONG.mania;
-		if (FlxG.save.data.maniabutyeah > 0 && FlxG.save.data.randomNotes) {
+		if (FlxG.save.data.maniabutyeah > 0 && FlxG.save.data.randomNotes && !FlxG.save.data.bothSides) {
 			mania = FlxG.save.data.maniabutyeah; 
+		}
+		if (FlxG.save.data.bothSides) {
+			mania = 4; 
 		}
 
 		swagWidth = widths[mania] * 0.7; //factor not the same as noteScale

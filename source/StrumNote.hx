@@ -21,8 +21,11 @@ class StrumNote extends FlxSprite
 
 		alittleThing = PlayState.SONG.mania;
 
-		if (FlxG.save.data.maniabutyeah > 0 && FlxG.save.data.randomNotes) {
+		if (FlxG.save.data.maniabutyeah > 0 && FlxG.save.data.randomNotes && !FlxG.save.data.bothSides) {
 			alittleThing = FlxG.save.data.maniabutyeah;
+		}
+		if (FlxG.save.data.bothSides) {
+			alittleThing = 4; 
 		}
 
 		// get the frames and stuff
