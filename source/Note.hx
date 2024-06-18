@@ -67,6 +67,10 @@ class Note extends FlxSprite
 	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?musthit:Bool = true, noteStyle:String = "normal", inCharter:Bool = false, guitarSection:Bool = false)
 	{
 		mania = PlayState.SONG.mania;
+		if (FlxG.save.data.maniabutyeah > 0 && FlxG.save.data.randomNotes) {
+			mania = FlxG.save.data.maniabutyeah; 
+		}
+
 		swagWidth = widths[mania] * 0.7; //factor not the same as noteScale
 
 		super();
@@ -80,6 +84,9 @@ class Note extends FlxSprite
 		this.originalType = noteData;
 		this.guitarSection = guitarSection;
 		this.noteData = noteData;
+
+		
+		
 
 		x += 78 - posRest[mania];
 		// MAKE SURE ITS DEFINITELY OFF SCREEN?
@@ -109,20 +116,67 @@ class Note extends FlxSprite
 		var notePathLol:String = 'notes/NOTE_assets';
 		noteSize = scales[mania];
 
+		var random = 0;
+
+		if (FlxG.save.data.randomNoteTypes > 0) {
+		  if (FlxG.save.data.randomNoteTypes = 1) {
+			random = new FlxRandom().int(1, 20);
+		  }
+		  if (FlxG.save.data.randomNoteTypes = 2) {
+			random = new FlxRandom().int(1, 15);
+		  }
+
+		  if (FlxG.save.data.randomNoteTypes = 3) {
+			random = new FlxRandom().int(1, 5);
+		  }
+
+		  if (FlxG.save.data.randomNoteTypes = 4) {
+			random = new FlxRandom().int(1, 2);
+		  }
+		}
+
 		if ((((CharactersWith3D.contains(PlayState.SONG.player2) && !musthit) || ((CharactersWith3D.contains(PlayState.SONG.player1)
 				|| CharactersWith3D.contains(PlayState.characteroverride) || CharactersWith3D.contains(PlayState.formoverride)) && musthit))
-				|| ((CharactersWith3D.contains(PlayState.SONG.player2) || CharactersWith3D.contains(PlayState.SONG.player1)) && ((this.strumTime / 50) % 20 > 10)))
+				|| ((CharactersWith3D.contains(PlayState.SONG.player2) || CharactersWith3D.contains(PlayState.SONG.player1)) && ((this.strumTime / 50) % 20 > 10))) 
+				|| random == 1
 				&& this.noteStyle == 'normal')
 		{
 			this.noteStyle = '3D';
 			notePathLol = 'notes/NOTE_assets_3D';
 		}
+
+		if (FlxG.save.data.randomNoteTypes > 0) {
+			if (FlxG.save.data.randomNoteTypes = 1) {
+			  random = new FlxRandom().int(1, 20);
+			}
+			if (FlxG.save.data.randomNoteTypes = 2) {
+			  random = new FlxRandom().int(1, 15);
+			}
+  
+			if (FlxG.save.data.randomNoteTypes = 3) {
+			  random = new FlxRandom().int(1, 5);
+			}
+  
+			if (FlxG.save.data.randomNoteTypes = 4) {
+			  random = new FlxRandom().int(1, 2);
+			}
+			if	(random == 1 && this.noteStyle == 'normal') {
+				if (new FlxRandom().int(1, 2) == 1) {
+				this.noteStyle = 'recursed';
+				notePathLol = 'notes/NOTE_recursed';
+				} else {
+				notePathLol = 'notes/OMGtop10awesomehi';	
+				}
+			}
+		  }
 		switch (noteStyle)
 		{
 			case 'phone':
 				notePathLol = 'notes/NOTE_phone';
 			case 'shape':
 				notePathLol = 'notes/NOTE_assets_Shape';
+			//case 'text':
+			//	notePathLol = 'notes/NOTE_recursed';
 		}
 		switch (PlayState.SONG.song.toLowerCase())
 		{
@@ -193,7 +247,14 @@ class Note extends FlxSprite
 				antialiasing = noteStyle != '3D';
 			
 			case 'shape':
-				frames = Paths.getSparrowAtlas(notePathLol, 'shared');
+				if (!isSustainNote)
+					{
+						frames = Paths.getSparrowAtlas(notePathLol, 'shared');
+					}
+					else
+					{
+						frames = Paths.getSparrowAtlas('notes/NOTE_assets_3D', 'shared');
+					}
 
 				animation.addByPrefix('greenScroll', 'green0');
 				animation.addByPrefix('redScroll', 'red0');
@@ -203,18 +264,24 @@ class Note extends FlxSprite
 				animation.addByPrefix('darkScroll', 'dark0');
 
 
-				animation.addByPrefix('purpleholdend', 'purple hold piece');
-				animation.addByPrefix('greenholdend', 'green hold piece');
-				animation.addByPrefix('redholdend', 'red hold piece');
-				animation.addByPrefix('blueholdend', 'blue hold piece');
-				animation.addByPrefix('yellowholdend', 'yellow hold piece');
-				animation.addByPrefix('darkholdend', 'dark hold piece');
+				animation.addByPrefix('purpleholdend', 'pruple end hold');
+				animation.addByPrefix('greenholdend', 'green hold end');
+				animation.addByPrefix('redholdend', 'red hold end');
+				animation.addByPrefix('blueholdend', 'blue hold end');
+				animation.addByPrefix('whiteholdend', 'white hold end');
+				animation.addByPrefix('yellowholdend', 'yellow hold end');
+				animation.addByPrefix('violetholdend', 'violet hold end');
+				animation.addByPrefix('blackholdend', 'black hold end');
+				animation.addByPrefix('darkholdend', 'dark hold end');
 
 				animation.addByPrefix('purplehold', 'purple hold piece');
 				animation.addByPrefix('greenhold', 'green hold piece');
 				animation.addByPrefix('redhold', 'red hold piece');
 				animation.addByPrefix('bluehold', 'blue hold piece');
+				animation.addByPrefix('whitehold', 'white hold piece');
 				animation.addByPrefix('yellowhold', 'yellow hold piece');
+				animation.addByPrefix('violethold', 'violet hold piece');
+				animation.addByPrefix('blackhold', 'black hold piece');
 				animation.addByPrefix('darkhold', 'dark hold piece');
 
 				setGraphicSize(Std.int(width * noteSize));
@@ -222,7 +289,14 @@ class Note extends FlxSprite
 				antialiasing = false;
 
 			case 'text':
-				frames = Paths.getSparrowAtlas('ui/alphabet');
+				if (!isSustainNote)
+					{
+						frames = Paths.getSparrowAtlas('ui/alphabet');
+					}
+					else
+					{
+						frames = Paths.getSparrowAtlas('notes/NOTE_assets', 'shared');
+					}
 
 				var noteColors = ['purple', 'blue', 'green', 'red', 'white', 'yellow', 'violet', 'black', 'dark'];
 	
@@ -241,6 +315,25 @@ class Note extends FlxSprite
 				{
 					animation.addByPrefix('${note}Scroll', prefix, 24);
 				}
+				animation.addByPrefix('purpleholdend', 'pruple end hold');
+				animation.addByPrefix('greenholdend', 'green hold end');
+				animation.addByPrefix('redholdend', 'red hold end');
+				animation.addByPrefix('blueholdend', 'blue hold end');
+				animation.addByPrefix('whiteholdend', 'white hold end');
+				animation.addByPrefix('yellowholdend', 'yellow hold end');
+				animation.addByPrefix('violetholdend', 'violet hold end');
+				animation.addByPrefix('blackholdend', 'black hold end');
+				animation.addByPrefix('darkholdend', 'dark hold end');
+
+				animation.addByPrefix('purplehold', 'purple hold piece');
+				animation.addByPrefix('greenhold', 'green hold piece');
+				animation.addByPrefix('redhold', 'red hold piece');
+				animation.addByPrefix('bluehold', 'blue hold piece');
+				animation.addByPrefix('whitehold', 'white hold piece');
+				animation.addByPrefix('yellowhold', 'yellow hold piece');
+				animation.addByPrefix('violethold', 'violet hold piece');
+				animation.addByPrefix('blackhold', 'black hold piece');
+				animation.addByPrefix('darkhold', 'dark hold piece');
 				setGraphicSize(Std.int(width * 1.2 * (noteSize / 0.7)));
 				updateHitbox();
 				antialiasing = true;
@@ -478,7 +571,7 @@ class Note extends FlxSprite
 					// prevNote.scale.y *= (Conductor.stepCrochet / 100) * PlayState.SONG.speed * 0.75;
 					// prevNote.scale.x *= (Conductor.stepCrochet / 100) * PlayState.SONG.speed * 0.5;
 					prevNote.offset.y += prevNote.height / 3;
-					if (animation.curAnim.name == notesArray[noteData % Main.keyAmmo[mania]] + 'holdend') {
+					if (animation.exists(notesArray[noteData % Main.keyAmmo[mania]] + 'holdend') && animation.curAnim.name == notesArray[noteData % Main.keyAmmo[mania]] + 'holdend') {
 						prevNote.scale.y = 0.7 + Conductor.stepCrochet / 100 + 0.75 + PlayState.SONG.speed + noteSpeed + (0.7 / noteSize);
 						prevNote.offset.y = 10;	
 					}

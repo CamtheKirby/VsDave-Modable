@@ -596,6 +596,10 @@ class PlayState extends MusicBeatState
 		scrollType = FlxG.save.data.downscroll ? 'downscroll' : 'upscroll';
 
 		mania = SONG.mania;
+		if (FlxG.save.data.maniabutyeah > 0 && FlxG.save.data.randomNotes) {
+			trace('uhh ' + FlxG.save.data.maniabutyeah);
+				mania = FlxG.save.data.maniabutyeah; 
+			}
 
 		if (mania == 1) {
 			notestuffs = ['LEFT', 'DOWN', 'UP', 'UP', 'RIGHT'];
@@ -630,7 +634,7 @@ class PlayState extends MusicBeatState
 
 		pMode = FlxG.save.data.practiceMode;
 
-	    notbeingalittleCheater = !botPlay && !pMode && !oppM && !cantSaveScore;
+	    notbeingalittleCheater = !botPlay && !pMode && !oppM && !cantSaveScore && !FlxG.save.data.randomNotes;
 		trace(notbeingalittleCheater);
 
 		modchartoption = !FlxG.save.data.modchart;
@@ -2846,11 +2850,50 @@ class PlayState extends MusicBeatState
 					daNoteStyle = 'normal';
 				}
 
+				if (FlxG.save.data.randomNoteTypes > 0) {
+					cantSaveScore = true;
+
+					var random = 0;
+				  if (FlxG.save.data.randomNoteTypes = 1) {
+					random = new FlxRandom().int(1, 20);
+				  }
+				  if (FlxG.save.data.randomNoteTypes = 2) {
+					random = new FlxRandom().int(1, 15);
+				  }
+		
+				  if (FlxG.save.data.randomNoteTypes = 3) {
+					random = new FlxRandom().int(1, 5);
+				  }
+		
+				  if (FlxG.save.data.randomNoteTypes = 4) {
+					random = new FlxRandom().int(1, 2);
+				  }
+		
+				  if (random == 1) {
+					daNoteStyle = ['phone', 'phone-alt', 'shape', 'text'][new FlxRandom().int(0, 3)];
+				  }
+				}
+
 				var gottaHitNote:Bool = section.mustHitSection;
 
 				if (songNotes[1] > (isGuitarSection ? 4 : Main.keyAmmo[mania] - 1))
 				{
 					gottaHitNote = !section.mustHitSection;
+				}
+
+				if(FlxG.save.data.randomNotes){
+					if (mania == 1)
+						daNoteData = FlxG.random.int(0, 4);
+					else if (mania == 2)
+						daNoteData = FlxG.random.int(0, 5)
+					else if (mania == 3)
+						daNoteData = FlxG.random.int(0, 6)
+					else if (mania == 4)
+						daNoteData = FlxG.random.int(0, 8)
+					else if (mania == 5)
+						daNoteData = FlxG.random.int(0, 11)
+					else 
+						daNoteData = FlxG.random.int(0, 3);
 				}
 
 				if (oppM) {
@@ -3290,9 +3333,11 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (SONG.song.toLowerCase() == 'recursed')
+		if (SONG.song.toLowerCase() == 'recursed' || FlxG.save.data.randomNoteTypes > 0)
 		{
+			
 			var scrollSpeed = 150;
+			if (FlxG.save.data.randomNoteTypes < 0 && SONG.song.toLowerCase() != 'recursed') {
 			charBackdrop.x -= scrollSpeed * elapsed;
 			charBackdrop.y += scrollSpeed * elapsed;
 
@@ -3313,6 +3358,7 @@ class PlayState extends MusicBeatState
 					letter.alpha = FlxMath.lerp(0, letter.alpha, lerpVal);
 				}
 			}
+		}
 			if (isRecursed)
 			{
 				timeLeft -= elapsed;
@@ -4400,7 +4446,12 @@ class PlayState extends MusicBeatState
 									gf.playAnim('cheer', true);
 								}
 								} else {
+								var hitAnimation:Bool = dad.animation.getByName("singSmash") != null;
+							if (hitAnimation) {
 							dad.playAnim('singSmash', true);
+							} else {
+							dad.playAnim('singDOWN', true);	
+							}
 								}		
 							}
 						default:
@@ -4415,15 +4466,20 @@ class PlayState extends MusicBeatState
 										noteToPlay = 'RIGHT';
 								}
 							}
+							var hitAnimation:Bool = boyfriend.animation.getByName('sing' + noteToPlay + altAnim) != null;
 							if (!daNote.isSustainNote || !FlxG.save.data.ogHold) {
+								if (hitAnimation) {
 								boyfriend.playAnim('sing' + noteToPlay + altAnim, true);
+								} else {
+									boyfriend.playAnim('sing' + noteToPlay, true);
+								}
 							}
 							} else {
 							if (daNote.noteStyle == 'phone-alt') { // I didn't notice bambi's alt animation has only left and right
 								if (noteToPlay == 'UP') noteToPlay = 'RIGHT';
 								if (noteToPlay == 'DOWN') noteToPlay = 'LEFT';
 							}
-							if (boyfriend.nativelyPlayable)
+							if (dad.nativelyPlayable)
 							{
 								switch (noteToPlay)
 								{
@@ -4433,12 +4489,21 @@ class PlayState extends MusicBeatState
 										noteToPlay = 'LEFT';
 								}
 							}
+							var hitAnimation:Bool = dad.animation.getByName('sing' + noteToPlay + altAnim) != null;
 							if (!daNote.isSustainNote || !FlxG.save.data.ogHold) {
+							if (hitAnimation) {
 							dad.playAnim('sing' + noteToPlay + altAnim, true);
 							if (dadmirror != null)
 							{
 								dadmirror.playAnim('sing' + noteToPlay + altAnim, true);
 							}
+						} else {
+							dad.playAnim('sing' + noteToPlay, true);
+							if (dadmirror != null)
+							{
+								dadmirror.playAnim('sing' + noteToPlay, true);
+							}
+						}
 						}
 					}
 					}
@@ -5654,6 +5719,8 @@ class PlayState extends MusicBeatState
 	noteSplash.setGraphicSize(Std.int(note.width * 2), Std.int(note.height * 2));
 
 	noteSplash.cameras = [camHUD];
+	noteSplash.alpha = note.alpha;
+	noteSplash.visible = note.visible;
 
 	var not = note.noteData % Main.keyAmmo[mania];
 	//trace(not);
@@ -5853,7 +5920,7 @@ class PlayState extends MusicBeatState
 		var t10R = controls.T10_R;
 		var t11R = controls.T11_R;
 
-		var key5 = controls.KEY5 && ((SONG.song.toLowerCase() == 'polygonized' || SONG.song.toLowerCase() == 'interdimensional') && localFunny != CharacterFunnyEffect.Recurser);
+		var key5 = controls.KEY5 && ((SONG.song.toLowerCase() == 'polygonized' || SONG.song.toLowerCase() == 'interdimensional') || FlxG.save.data.randomNoteTypes > 0 && localFunny != CharacterFunnyEffect.Recurser);
 
 		/*if (pressingKey5Global != key5)
 		{
@@ -6264,6 +6331,28 @@ if (oppM) {
 						note.MyStrum.alpha = 0.01;
 						var noteTween = FlxTween.tween(note.MyStrum, {alpha: 1}, 7, {ease: FlxEase.expoIn});
 						pauseTweens.push(noteTween);
+					} else {
+						var hitAnimation:Bool = dad.animation.getByName("hit") != null;
+						if (!note.isSustainNote || !FlxG.save.data.ogHold) {
+						dad.playAnim(hitAnimation ? 'hit' : (isShaggy ? 'singDOWNmiss' : 'singRIGHTmiss'), true);
+						}
+						if (dad.animation.getByName(isShaggy ? 'singDOWNmiss' : 'singRIGHTmiss') != null)
+							{
+								if (!note.isSustainNote || !FlxG.save.data.ogHold) {
+								dad.playAnim(isShaggy ? 'singDOWNmiss' : 'singRIGHTmiss', true);
+								}
+							}
+							else
+							{
+								dad.color = 0xFF000084;
+								if (!note.isSustainNote || !FlxG.save.data.ogHold) {
+								dad.playAnim(isShaggy ? 'singDOWN' : 'singRIGHT', true);
+								}
+							}
+						FlxTween.cancelTweensOf(note.MyStrum);
+						note.MyStrum.alpha = 0.01;
+						var noteTween = FlxTween.tween(note.MyStrum, {alpha: 1}, 7, {ease: FlxEase.expoIn});
+						pauseTweens.push(noteTween);
 					}
 						health -= 0.07;
 						updateAccuracy();
@@ -6601,7 +6690,12 @@ if (oppM) {
 				}
 				case 'phone':
 					if (oppM) {
-					dad.playAnim('singSmash', true);
+						var hitAnimation:Bool = dad.animation.getByName("singSmash") != null;
+						if (hitAnimation) {
+						dad.playAnim('singSmash', true);
+						} else {
+						dad.playAnim('singDOWN', true);	
+						}
 					} else {
 					var hitAnimation:Bool = boyfriend.animation.getByName("dodge") != null;
 					var heyAnimation:Bool = boyfriend.animation.getByName("hey") != null;
@@ -6641,6 +6735,28 @@ if (oppM) {
 						dadmirror.playAnim('sing' + fuckingDumbassBullshitFuckYou + altAnim, true);
 					}
 				}
+			} else {
+		
+					var fuckingDumbassBullshitFuckYou:String;
+					var noteTypes = guitarSection ? notestuffsGuitar : notestuffs;
+					fuckingDumbassBullshitFuckYou = noteTypes[Math.round(Math.abs(note.originalType)) % playerStrumAmount];
+					if (noteTypes[Math.round(Math.abs(note.originalType)) % playerStrumAmount] == 'UP') fuckingDumbassBullshitFuckYou = 'RIGHT';
+					if (noteTypes[Math.round(Math.abs(note.originalType)) % playerStrumAmount] == 'DOWN') fuckingDumbassBullshitFuckYou = 'LEFT';
+				if(!boyfriend.nativelyPlayable)
+					{
+						switch(noteTypes[Math.round(Math.abs(note.originalType)) % playerStrumAmount])
+						{
+							case 'LEFT':
+								fuckingDumbassBullshitFuckYou = 'RIGHT';
+							case 'RIGHT':
+								fuckingDumbassBullshitFuckYou = 'LEFT';
+						}
+					}
+			
+					if (!note.isSustainNote || !FlxG.save.data.ogHold) {
+					boyfriend.playAnim('sing' + fuckingDumbassBullshitFuckYou, true);
+					}
+					cameraMoveOnNote(fuckingDumbassBullshitFuckYou, 'bf');
 			}
 			}
 			if (UsingNewCam)
@@ -9092,7 +9208,7 @@ if (oppM) {
 			}
 			#end
 
-			if (SONG.song.toLowerCase() == 'recursed')
+			if (SONG.song.toLowerCase() == 'recursed' || FlxG.save.data.randomNoteTypes > 0)
 			{
 				cancelRecursedCamTween();
 			}

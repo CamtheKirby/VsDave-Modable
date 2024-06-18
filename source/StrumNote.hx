@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxSprite;
 import PlayState;
+import flixel.FlxG;
 
 class StrumNote extends FlxSprite
 {
@@ -9,6 +10,7 @@ class StrumNote extends FlxSprite
 	public var baseY:Float;
 	public var playerStrum:Bool;
 	public var pressingKey5:Bool;
+	public var alittleThing:Int;
 	public function new(x:Float, y:Float, type:String, strumID:Int, playerStrum:Bool)
 	{
 		super(x, y);
@@ -16,6 +18,12 @@ class StrumNote extends FlxSprite
 		pressingKey5 = false;
 
 		ID = strumID;
+
+		alittleThing = PlayState.SONG.mania;
+
+		if (FlxG.save.data.maniabutyeah > 0 && FlxG.save.data.randomNotes) {
+			alittleThing = FlxG.save.data.maniabutyeah;
+		}
 
 		// get the frames and stuff
 		switch (type)
@@ -72,7 +80,7 @@ class StrumNote extends FlxSprite
 
 				var nSuf:Array<String> = ['LEFT0', 'DOWN0', 'UP0', 'RIGHT0'];
 				var pPre:Array<String> = ['left', 'down', 'up', 'right'];
-				switch (PlayState.SONG.mania)
+				switch (alittleThing)
 				{
 					case 1:
 						nSuf = ['LEFT0', 'DOWN0', 'SPACE', 'UP0', 'RIGHT0'];
@@ -123,7 +131,7 @@ class StrumNote extends FlxSprite
         offset.x = frameWidth / 2;
         offset.y = frameHeight / 2;
 
-        offset.x -= 156 * Note.scales[PlayState.SONG.mania] / 2;
-        offset.y -= 156 * Note.scales[PlayState.SONG.mania] / 2;
+        offset.x -= 156 * Note.scales[alittleThing] / 2;
+        offset.y -= 156 * Note.scales[alittleThing] / 2;
 	}
 }

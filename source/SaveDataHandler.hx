@@ -102,5 +102,14 @@ class SaveDataHandler
 		
 		if (FlxG.save.data.middleScroll == null)
 			FlxG.save.data.middleScroll = false;
+
+		if (FlxG.save.data.randomNotes == null)
+			FlxG.save.data.randomNotes = false;
+
+		if (FlxG.save.data.maniabutyeah == null)
+			FlxG.save.data.maniabutyeah = 0;
+
+		if (FlxG.save.data.randomNoteTypes == null)
+			FlxG.save.data.randomNoteTypes = 0;
     }
 }
