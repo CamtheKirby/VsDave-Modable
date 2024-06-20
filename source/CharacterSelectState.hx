@@ -189,6 +189,7 @@ class CharacterSelectState extends MusicBeatState
 			var mainName:String = character.mainName;
 			var thehotemsithink:Array<Float> = character.mainnotems;
 			
+			
 			var newCharacterForms:Array<CharacterForm> = [];
 			for (newChar in character.newCharacter) {
 				newCharacterForms.push(new CharacterForm(newChar.playername, newChar.thecharactername, newChar.thenotems, newChar.notestyle));

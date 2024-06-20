@@ -1,0 +1,61 @@
+{
+  "bgZoom": 0.7,
+  "bfPosX": 843,
+  "bfPosY": 270,
+  "dadPosX": 50,
+  "dadPosY": 270,
+  "gfPosX": 300,
+  "gfPosY": -60,
+  "backgrounds": [
+    {
+      "spriteName": "bg",
+      "posX": -600,
+      "posY": -300,
+      "image": "sky",
+      "size":    1,
+      "scrollX": 0.6,
+      "scrollY": 0.6,
+      "antialiasing": true
+    },
+    {
+      "spriteName": "stageHills",
+      "posX": -834,
+      "posY": -159,
+      "image": "hills",
+      "size":    1,
+      "scrollX": 0.7,
+      "scrollY": 0.7,
+      "antialiasing": true
+    },
+    {
+      "spriteName": "grassbg",
+      "posX": -1205,
+      "posY": 580,
+      "image": "grass bg",
+      "size":    1,
+      "scrollX": 1,
+      "scrollY": 1,
+      "antialiasing": true
+    },
+    {
+      "spriteName": "gate",
+      "posX": -755,
+      "posY": 250,
+      "image": "gate",
+      "size":    1,
+      "scrollX": 1,
+      "scrollY": 1,
+      "antialiasing": true
+    },
+    {
+      "spriteName": "stageFront",
+      "posX": -832,
+      "posY": 505,
+      "image": "grass",
+      "size":    1,
+      "scrollX": 1,
+      "scrollY": 1,
+      "antialiasing": true
+    }
+  ]
+}

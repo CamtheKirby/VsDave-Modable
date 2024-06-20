@@ -250,14 +250,7 @@ class Note extends FlxSprite
 				antialiasing = noteStyle != '3D';
 			
 			case 'shape':
-				if (!isSustainNote)
-					{
-						frames = Paths.getSparrowAtlas(notePathLol, 'shared');
-					}
-					else
-					{
-						frames = Paths.getSparrowAtlas('notes/NOTE_assets_3D', 'shared');
-					}
+				frames = Paths.getSparrowAtlas(notePathLol, 'shared');
 
 				animation.addByPrefix('greenScroll', 'green0');
 				animation.addByPrefix('redScroll', 'red0');
@@ -267,24 +260,18 @@ class Note extends FlxSprite
 				animation.addByPrefix('darkScroll', 'dark0');
 
 
-				animation.addByPrefix('purpleholdend', 'pruple end hold');
-				animation.addByPrefix('greenholdend', 'green hold end');
-				animation.addByPrefix('redholdend', 'red hold end');
-				animation.addByPrefix('blueholdend', 'blue hold end');
-				animation.addByPrefix('whiteholdend', 'white hold end');
-				animation.addByPrefix('yellowholdend', 'yellow hold end');
-				animation.addByPrefix('violetholdend', 'violet hold end');
-				animation.addByPrefix('blackholdend', 'black hold end');
-				animation.addByPrefix('darkholdend', 'dark hold end');
+				animation.addByPrefix('purpleholdend', 'purple hold piece');
+				animation.addByPrefix('greenholdend', 'green hold piece');
+				animation.addByPrefix('redholdend', 'red hold piece');
+				animation.addByPrefix('blueholdend', 'blue hold piece');
+				animation.addByPrefix('yellowholdend', 'yellow hold piece');
+				animation.addByPrefix('darkholdend', 'dark hold piece');
 
 				animation.addByPrefix('purplehold', 'purple hold piece');
 				animation.addByPrefix('greenhold', 'green hold piece');
 				animation.addByPrefix('redhold', 'red hold piece');
 				animation.addByPrefix('bluehold', 'blue hold piece');
-				animation.addByPrefix('whitehold', 'white hold piece');
 				animation.addByPrefix('yellowhold', 'yellow hold piece');
-				animation.addByPrefix('violethold', 'violet hold piece');
-				animation.addByPrefix('blackhold', 'black hold piece');
 				animation.addByPrefix('darkhold', 'dark hold piece');
 
 				setGraphicSize(Std.int(width * noteSize));
@@ -574,7 +561,7 @@ class Note extends FlxSprite
 					// prevNote.scale.y *= (Conductor.stepCrochet / 100) * PlayState.SONG.speed * 0.75;
 					// prevNote.scale.x *= (Conductor.stepCrochet / 100) * PlayState.SONG.speed * 0.5;
 					prevNote.offset.y += prevNote.height / 3;
-					if (animation.exists(notesArray[noteData % Main.keyAmmo[mania]] + 'holdend') && animation.curAnim.name == notesArray[noteData % Main.keyAmmo[mania]] + 'holdend') {
+					if (noteStyle != 'shape' && animation.exists(notesArray[noteData % Main.keyAmmo[mania]] + 'holdend') && animation.curAnim.name == notesArray[noteData % Main.keyAmmo[mania]] + 'holdend') {
 						prevNote.scale.y = 0.7 + Conductor.stepCrochet / 100 + 0.75 + PlayState.SONG.speed + noteSpeed + (0.7 / noteSize);
 						prevNote.offset.y = 10;	
 					}

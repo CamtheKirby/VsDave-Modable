@@ -12,7 +12,7 @@ class BGSprite extends FlxSprite
 {
 	public var spriteName:String;
 	var customPath:String;
-	public function new(spriteName:String, posX:Float, posY:Float, path:String = '', animations:Array<Animation>, scrollX:Float = 1, scrollY:Float = 1, antialiasing:Bool = true, active:Bool = false)
+	public function new(spriteName:String, posX:Float, posY:Float, path:String = '', animations:Array<Animation>, scrollX:Float = 1, scrollY:Float = 1, antialiasing:Bool = true, active:Bool = false, custom:Bool = false)
 	{
 		super(posX, posY);
 		
@@ -24,7 +24,11 @@ class BGSprite extends FlxSprite
 		{
 			if (hasAnimations)
 			{
+				if (custom) {
+				frames = Paths.getCustomSparrowAtlas(path);
+				} else {
 				frames = Paths.getSparrowAtlas(path);
+				}
 				for (i in 0...animations.length)
 				{
 					var curAnim = animations[i];
@@ -45,11 +49,15 @@ class BGSprite extends FlxSprite
 			{
 				//trace(TitleState.modFolder + '/' + customPath);
 				//trace(path);
+				if (custom) {
+				loadGraphic(Paths.customImage(path));
+				} else {
 				if (FileSystem.exists(TitleState.modFolder + '/' + customPath)) {
 				loadGraphic((FlxGraphic.fromBitmapData(BitmapData.fromFile(TitleState.modFolder + '/' + customPath))));
 				} else {
 				loadGraphic(path);
 				}
+			}
 			}
 		}
 		this.antialiasing = antialiasing;

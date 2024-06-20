@@ -231,14 +231,18 @@ class MusicPlayerState extends MusicBeatState
         }
 
         if (healthBar.percent < 20)
-			iconP1.changeState('losing');
-		else
-			iconP1.changeState('normal');
+            iconP1.changeState('losing');
+        else if (healthBar.percent > 80)
+            iconP1.changeState('winning');
+        else
+            iconP1.changeState('normal');
 
-		if (healthBar.percent > 80)
-			iconP2.changeState('losing');
-		else
-			iconP2.changeState('normal');
+        if (healthBar.percent > 80)
+            iconP2.changeState('losing');
+        else if (healthBar.percent < 20)
+            iconP2.changeState('winning');
+        else
+            iconP2.changeState('normal');
 
 		if (upP)
 		{

@@ -24,6 +24,7 @@ class HealthIcon extends FlxSprite
 	var char:String;
 	var state:String;
 	public var isPlayer:Bool;
+	var winningIcon:Bool;
 	
 	public function new(char:String = 'bf', isPlayer:Bool = false)
 	{
@@ -37,28 +38,45 @@ class HealthIcon extends FlxSprite
 	{
 		if (this.char != char)
 		{
+			var file:Dynamic = '';
+
 			if (char != "none") {
 				if (FileSystem.exists('assets/images/ui/iconGrid/' + char + '.png')) {
                 if (FileSystem.exists(TitleState.modFolder + '/assets/images/ui/iconGrid/' + char + '.png')) {
-				loadGraphic(Paths.customImage(TitleState.modFolder + '/assets/images/ui/iconGrid/' + char), true, 150, 150);
+					//trace('found');
+					file = Paths.customImage(TitleState.modFolder + '/assets/images/ui/iconGrid/' + char);
 				} else {
-				loadGraphic(FlxGraphic.fromBitmapData(BitmapData.fromFile(Paths.image('ui/iconGrid/' + char, 'preload'))), true, 150, 150);	
+					file = FlxGraphic.fromBitmapData(BitmapData.fromFile(Paths.image('ui/iconGrid/' + char, 'preload')));
 				}
 				} else if (FileSystem.exists('mods/global characters/images/icons/' + char + '.png')) {
-				loadGraphic(Paths.customImage('mods/global characters/images/icons/' + char), true, 150, 150);
+				file = Paths.customImage('mods/global characters/images/icons/' + char);
 				} else if  (FileSystem.exists(TitleState.modFolder + '/images/icons/' + char + '.png')) {
-				loadGraphic(Paths.customImage(TitleState.modFolder + '/images/icons/' + char), true, 150, 150);
+				file = Paths.customImage(TitleState.modFolder + '/images/icons/' + char);
 				} else {
-				loadGraphic(Paths.image('blank', 'shared'));
+					file = Paths.image('blank', 'shared');
 				}
 			} else {
-				loadGraphic(Paths.image('blank', 'shared'));
+				file = Paths.image('blank', 'shared');
 			}
-	
+
+			loadGraphic(file);	
+			if (width == 450) {
+			loadGraphic(file, true, Math.floor(width / 3), 150);	
+			winningIcon = true;
+			} else {
+			loadGraphic(file, true, 150, 150);	
+			}
+			
 			if (char != "none")
 			{
 				antialiasing = !noAaChars.contains(char);
-				animation.add(char, [0, 1], 0, false, isPlayer);
+				//trace('Graphic width before setting: ' + width);
+				if (winningIcon) {
+				//trace('winning :) added');
+				animation.add(char, [0, 1, 2], 0, false, isPlayer);
+				} else {
+				animation.add(char, [0, 1], 0, false, isPlayer);	
+				}
 				animation.play(char);
 			}
 		}
@@ -74,12 +92,20 @@ class HealthIcon extends FlxSprite
 	}
 	public function changeState(charState:String)
 	{
+		//trace('Graphic width before setting: ' + width);
 		switch (charState)
 		{
 			case 'normal':
 				animation.curAnim.curFrame = 0;
 			case 'losing':
 				animation.curAnim.curFrame = 1;
+			case 'winning':
+				if (winningIcon) {
+				//trace('winning :)');
+				animation.curAnim.curFrame = 2;
+				} else {
+				animation.curAnim.curFrame = 0;	
+				}
 		}
 		state = charState;
 	}

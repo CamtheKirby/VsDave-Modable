@@ -358,11 +358,11 @@ class TitleState extends MusicBeatState
 		{
 			if (transitioning) {
 				onlyforabug = true;
-				trace(onlyforabug);
+				//trace(onlyforabug);
 			FlxG.switchState(FlxG.save.data.alreadyGoneToWarningScreen && FlxG.save.data.exploitationState != 'playing' ? new MainMenuState() : new OutdatedSubState());
 			} else {
 			onlyforabug = true;
-			trace(onlyforabug);
+			//trace(onlyforabug);
 			titleText.animation.play('press');
 
 			FlxG.camera.flash(FlxColor.WHITE, 0.5);

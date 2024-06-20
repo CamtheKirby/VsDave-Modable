@@ -97,9 +97,15 @@ import vlc.MP4Handler;
 
 using StringTools;
 
-/*typedef StageJson =
+typedef StageJson =
 {
 	var bgZoom:Float;
+	var bfPosX:Float;
+	var bfPosY:Float;
+	var dadPosX:Float;
+	var dadPosY:Float;
+	var gfPosX:Float;
+	var gfPosY:Float;
 	var backgrounds:Array<BackgroundJson>;
 }
 
@@ -108,12 +114,12 @@ typedef BackgroundJson =
 	var spriteName:String;
 	var posX:Float;
 	var posY:Float;
-	var image:Float;
+	var image:String;
 	var size:Float;
 	var scrollX:Float;
 	var scrollY:Float;
 	var antialiasing:Bool;
-} */
+} 
 
 typedef Settings = {
     var songCreators:String;
@@ -387,8 +393,8 @@ class PlayState extends MusicBeatState
 	var originBambiPos:FlxPoint;
 	var originBFPos:FlxPoint;
 
-	/*public var rawJsonStage:String;
-    public var jsonStage:StageJson; */
+	public var rawJsonStage:String;
+    public var jsonStage:StageJson;
 
     var rawJsonSettings:String;
     var jsonSettings:Settings;
@@ -1235,6 +1241,17 @@ class PlayState extends MusicBeatState
 					boyfriend.x += 150;
 					boyfriend.y += 150;
 				}
+			default:
+				//trace(stageCheck);
+				if (FileSystem.exists(TitleState.modFolder + '/data/stages/' + stageCheck + '.json')) {
+					//trace('yeah');
+				rawJsonStage = File.getContent(TitleState.modFolder + '/data/stages/' + stageCheck + '.json');
+				jsonStage = cast Json.parse(rawJsonStage);
+
+				dad.setPosition(jsonStage.dadPosX, jsonStage.dadPosY);
+				boyfriend.setPosition(jsonStage.bfPosX, jsonStage.bfPosY);
+				gf.setPosition(jsonStage.gfPosX, jsonStage.gfPosY);
+				}
 		}
 
 		switch (stageCheck)
@@ -1698,10 +1715,11 @@ class PlayState extends MusicBeatState
 
 		Transition.nextCamera = camTransition;
 	}
+
+	var sprites:FlxTypedGroup<BGSprite> = new FlxTypedGroup<BGSprite>();
 	
 	public function createBackgroundSprites(bgName:String, revertedBG:Bool):FlxTypedGroup<BGSprite>
 	{
-		var sprites:FlxTypedGroup<BGSprite> = new FlxTypedGroup<BGSprite>();
 		var bgZoom:Float = 0.7;
 		var stageName:String = '';
 		switch (bgName)
@@ -2253,16 +2271,18 @@ class PlayState extends MusicBeatState
 				sprites.add(stfu);
 				add(stfu);
 			default:
-				/*if (FileSystem.exists(TitleState.modFolder + '/data/stages/' + bgName + '.hx')) {
-					// should make a custom stage
-					var parser = new Parser();
-					var interp = new Interp();
-
-					var expr = parser.parseString(File.getContent(TitleState.modFolder + '/data/stages/' + bgName + '.hx'));
-
-					interp.execute(expr);
+				if (FileSystem.exists(TitleState.modFolder + '/data/stages/' + bgName + '.json')) {
+					rawJsonStage = File.getContent(TitleState.modFolder + '/data/stages/' + bgName + '.json');
+					jsonStage = cast Json.parse(rawJsonStage);
+	
+					bgZoom = jsonStage.bgZoom;
+					stageName = bgName;
+	
+					for (i in jsonStage.backgrounds) {
+			       createCustomBackground(i.spriteName, i.posX, i.posY, i.image, i.size, i.scrollX, i.scrollY, i.antialiasing, bgName);
+					}
 				
-				} else { */
+				} else { 
 				bgZoom = 0.9;
 				stageName = 'stage';
 
@@ -2281,7 +2301,7 @@ class PlayState extends MusicBeatState
 				stageCurtains.updateHitbox();
 				sprites.add(stageCurtains);
 				add(stageCurtains);
-				//}
+				}
 		}
 		if (!revertedBG)
 		{
@@ -2291,6 +2311,15 @@ class PlayState extends MusicBeatState
 
 		return sprites;
 	}
+	private function createCustomBackground(spriteName:String = 'test', posX:Float = 1, posY:Float = 1, imageName:String = 'none', size:Float = 1, scrollX:Float = 1, scrollY:Float = 1, antialiasing:Bool = true, bgName:String):Void 
+	{
+		var customBG:BGSprite = new BGSprite(spriteName, posX, posX, TitleState.modFolder + '/images/stages/' + bgName + '/' + imageName, null, scrollX, scrollY, antialiasing, false, true);
+		customBG.setGraphicSize(Std.int(customBG.width * size));
+		customBG.updateHitbox();
+		sprites.add(customBG);
+		add(customBG);
+	}
+
 	public function getBackgroundColor(stage:String):FlxColor
 	{
 		var variantColor:FlxColor = FlxColor.WHITE;
@@ -4215,23 +4244,31 @@ class PlayState extends MusicBeatState
 			if (oppM) {
 				if (healthBar.percent < 20)
 					iconP2.changeState('losing');
+				else if (healthBar.percent > 80)
+					iconP2.changeState('winning');
 				else
 					iconP2.changeState('normal');
 	
 				if (healthBar.percent > 80)
 					iconP1.changeState('losing');
+				else if (healthBar.percent < 20)
+					iconP1.changeState('winning');
 				else
 					iconP1.changeState('normal');
 			} else {
-			if (healthBar.percent < 20)
-				iconP1.changeState('losing');
-			else
-				iconP1.changeState('normal');
-
-			if (healthBar.percent > 80)
-				iconP2.changeState('losing');
-			else
-				iconP2.changeState('normal');
+				if (healthBar.percent < 20)
+					iconP1.changeState('losing');
+				else if (healthBar.percent > 80)
+					iconP1.changeState('winning');
+				else
+					iconP1.changeState('normal');
+	
+				if (healthBar.percent > 80)
+					iconP2.changeState('losing');
+				else if (healthBar.percent < 20)
+					iconP2.changeState('winning');
+				else
+					iconP2.changeState('normal');
 		}
 		}
 		else
@@ -5993,7 +6030,7 @@ class PlayState extends MusicBeatState
 		var t10R = controls.T10_R;
 		var t11R = controls.T11_R;
 
-		var key5 = controls.KEY5 && ((SONG.song.toLowerCase() == 'polygonized' || SONG.song.toLowerCase() == 'interdimensional') || FlxG.save.data.randomNoteTypes > 0 && localFunny != CharacterFunnyEffect.Recurser);
+		var key5 = controls.KEY5 && ((SONG.song.toLowerCase() == 'polygonized' || SONG.song.toLowerCase() == 'interdimensional' || FlxG.save.data.randomNoteTypes > 0) && localFunny != CharacterFunnyEffect.Recurser);
 
 		/*if (pressingKey5Global != key5)
 		{

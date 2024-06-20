@@ -142,6 +142,7 @@ menuItems.push(new ModOption('Exit'));
 			if(FlxG.sound.music != null)
 				FlxG.sound.music.stop();
 			TitleState.initialized = false;
+			TitleState.onlyforabug = false;
 			FlxG.switchState(new StartStateSelector());
 		}
 	}
