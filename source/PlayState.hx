@@ -119,6 +119,12 @@ typedef BackgroundJson =
 	var scrollX:Float;
 	var scrollY:Float;
 	var antialiasing:Bool;
+	var alpha:Float;
+	var updateHitBox:Bool;
+	var flying:Bool;
+	var animated:Bool;
+	var animation:String;
+	var voidShader:Bool;
 } 
 
 typedef Settings = {
@@ -131,6 +137,7 @@ typedef Settings = {
     var healthDrain:String;
 	var healthBarBG:String;
     var exploitationEffect:Bool;
+	var recursedEffect:Bool;
 }
 
 class PlayState extends MusicBeatState
@@ -396,8 +403,8 @@ class PlayState extends MusicBeatState
 	public var rawJsonStage:String;
     public var jsonStage:StageJson;
 
-    var rawJsonSettings:String;
-    var jsonSettings:Settings;
+	public static var rawJsonSettings:String;
+	public static var jsonSettings:Settings;
 
 	var holdCover:FlxSprite;
 
@@ -521,7 +528,7 @@ class PlayState extends MusicBeatState
 	var shy:Float;
 	var sh_r:Float = 60;
 
-    var settingsExist:Bool;
+    public static var settingsExist:Bool;
 
 	public static var rssongScore:Int = 0;
     public static var rsmisses:Int = 0;
@@ -556,7 +563,7 @@ class PlayState extends MusicBeatState
 			rawJsonSettings = File.getContent(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.json');
 		    jsonSettings = cast Json.parse(rawJsonSettings);
 		}
-			
+			//trace(jsonSettings.recursedEffect && settingsExist && FreeplayState.isaCustomSong);
 
 		switch (SONG.song.toLowerCase())
 		{
@@ -2279,7 +2286,7 @@ class PlayState extends MusicBeatState
 					stageName = bgName;
 	
 					for (i in jsonStage.backgrounds) {
-			       createCustomBackground(i.spriteName, i.posX, i.posY, i.image, i.size, i.scrollX, i.scrollY, i.antialiasing, bgName);
+			       createCustomBackground(i.spriteName, i.posX, i.posY, i.image, i.size, i.scrollX, i.scrollY, i.antialiasing, bgName, i.voidShader, i.updateHitBox, i.alpha, i.flying, i.animated, i.animation);
 					}
 				
 				} else { 
@@ -2311,13 +2318,51 @@ class PlayState extends MusicBeatState
 
 		return sprites;
 	}
-	private function createCustomBackground(spriteName:String = 'test', posX:Float = 1, posY:Float = 1, imageName:String = 'none', size:Float = 1, scrollX:Float = 1, scrollY:Float = 1, antialiasing:Bool = true, bgName:String):Void 
+	private function createCustomBackground(spriteName:String = 'test', posX:Float = 1, posY:Float = 1, imageName:String = 'none', size:Float = 1, scrollX:Float = 1, scrollY:Float = 1, antialiasings:Bool = true, bgName:String, isVoid:Bool = false, updateHitBox:Bool = true, alphaa:Float = 1, flying:Bool = false, animated:Bool = false, animation:String = 'idle'):Void 
 	{
-		var customBG:BGSprite = new BGSprite(spriteName, posX, posX, TitleState.modFolder + '/images/stages/' + bgName + '/' + imageName, null, scrollX, scrollY, antialiasing, false, true);
-		customBG.setGraphicSize(Std.int(customBG.width * size));
+		if (flying) {
+			var customBG = new FlyingBGChar(spriteName, TitleState.modFolder + '/images/stages/' + bgName + '/' + imageName, true);
+			customBG.setGraphicSize(Std.int(customBG.width * size));
+		if (updateHitBox) {
+			//trace('yeah');
 		customBG.updateHitbox();
+		}
+		customBG.alpha = alphaa;
+			sprites.add(customBG);
+			add(customBG);
+			if (isVoid) {
+				voidShader(customBG);
+				 }
+		} else if (animated) {
+			var customBG = new BGSprite(spriteName, posX, posY, TitleState.modFolder + '/images/stages/' + bgName + '/' + imageName, [
+				new Animation(animation, animation, 24, true, [false, false])
+			], scrollX, scrollY, antialiasings, true, true);
+			customBG.animation.play(animation);
+			customBG.setGraphicSize(Std.int(customBG.width * size));
+			if (updateHitBox) {
+			customBG.updateHitbox();
+			}
+			customBG.antialiasing = antialiasings;
+			customBG.alpha = alphaa;
+			sprites.add(customBG);
+			add(customBG);
+			if (isVoid) {
+				voidShader(customBG);
+				 }
+		} else {
+		var customBG:BGSprite = new BGSprite(spriteName, posX, posY, TitleState.modFolder + '/images/stages/' + bgName + '/' + imageName, null, scrollX, scrollY, antialiasings, false, true);
+		customBG.setGraphicSize(Std.int(customBG.width * size));
+		if (updateHitBox) {
+			//trace('yeah');
+		customBG.updateHitbox();
+		}
+		customBG.alpha = alphaa;
 		sprites.add(customBG);
 		add(customBG);
+          if (isVoid) {
+		voidShader(customBG);
+                     }
+					}
 	}
 
 	public function getBackgroundColor(stage:String):FlxColor
@@ -2471,7 +2516,8 @@ class PlayState extends MusicBeatState
 		Conductor.songPosition -= Conductor.crochet * 5;
 		var swagCounter:Int = 0;
 
-        if (FlxG.save.data.middleScroll || bothS && !noMiddleScrollSongs.contains(SONG.song.toLowerCase())) {
+        if (FlxG.save.data.middleScroll || bothS) {
+			if (!noMiddleScrollSongs.contains(SONG.song.toLowerCase())) {
 		playerStrums.forEach(function(spr:StrumNote)
 			{
 				spr.centerStrum();
@@ -2484,6 +2530,7 @@ class PlayState extends MusicBeatState
 					spr.y = -9000;
 					spr.x = 9000;
 				});
+			}
 		}
 
 		startTimer = new FlxTimer().start(Conductor.crochet / 1000, function(tmr:FlxTimer)
@@ -3434,7 +3481,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (SONG.song.toLowerCase() == 'recursed' || FlxG.save.data.randomNoteTypes > 0)
+		if (SONG.song.toLowerCase() == 'recursed' || FlxG.save.data.randomNoteTypes > 0 || (jsonSettings.recursedEffect && settingsExist && FreeplayState.isaCustomSong))
 		{
 			
 			var scrollSpeed = 150;
@@ -9319,7 +9366,7 @@ if (oppM) {
 			}
 			#end
 
-			if (SONG.song.toLowerCase() == 'recursed' || FlxG.save.data.randomNoteTypes > 0)
+			if (SONG.song.toLowerCase() == 'recursed' || FlxG.save.data.randomNoteTypes > 0 || (jsonSettings.recursedEffect && settingsExist && FreeplayState.isaCustomSong))
 			{
 				cancelRecursedCamTween();
 			}

@@ -7,5 +7,6 @@
     "windowName": "",
     "healthDrain": "",
     "healthBarBG": "",
-    "exploitationEffect": false
+    "exploitationEffect": false,
+    "recursedEffect": false
 }

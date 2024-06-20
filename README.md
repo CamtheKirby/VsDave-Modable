@@ -42,7 +42,6 @@ Recommended to use Visual Code Studio
 ## How to help
 Stuff to help me with:
 
-- Custom Stages (Working on it)
 - HScript
 - Cleaning Code and Optimizing Code
 - Fixing Custom Dialogue Characters

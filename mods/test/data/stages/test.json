@@ -1,5 +1,6 @@
 {
-  "bgZoom": 0.7,
+  "comment": "house stage made with softcode",
+  "bgZoom": 0.8,
   "bfPosX": 843,
   "bfPosY": 270,
   "dadPosX": 50,
@@ -15,7 +16,13 @@
       "size":    1,
       "scrollX": 0.6,
       "scrollY": 0.6,
-      "antialiasing": true
+      "antialiasing": true,
+      "alpha": 1,
+      "updateHitBox": false,
+      "flying": false,
+      "animated": false,
+      "animation": "",
+      "voidShader": false
     },
     {
       "spriteName": "stageHills",
@@ -25,7 +32,13 @@
       "size":    1,
       "scrollX": 0.7,
       "scrollY": 0.7,
-      "antialiasing": true
+      "antialiasing": true,
+      "alpha": 1,
+      "updateHitBox": false,
+      "flying": false,
+      "animated": false,
+      "animation": "",
+      "voidShader": false
     },
     {
       "spriteName": "grassbg",
@@ -35,7 +48,13 @@
       "size":    1,
       "scrollX": 1,
       "scrollY": 1,
-      "antialiasing": true
+      "antialiasing": true,
+      "alpha": 1,
+      "updateHitBox": false,
+      "flying": false,
+      "animated": false,
+      "animation": "",
+      "voidShader": false
     },
     {
       "spriteName": "gate",
@@ -45,7 +64,13 @@
       "size":    1,
       "scrollX": 1,
       "scrollY": 1,
-      "antialiasing": true
+      "antialiasing": true,
+      "alpha": 1,
+      "updateHitBox": false,
+      "flying": false,
+      "animated": false,
+      "animation": "",
+      "voidShader": false
     },
     {
       "spriteName": "stageFront",
@@ -55,7 +80,13 @@
       "size":    1,
       "scrollX": 1,
       "scrollY": 1,
-      "antialiasing": true
+      "antialiasing": true,
+      "alpha": 1,
+      "updateHitBox": false,
+      "flying": false,
+      "animated": false,
+      "animation": "",
+      "voidShader": false
     }
   ]
 }
