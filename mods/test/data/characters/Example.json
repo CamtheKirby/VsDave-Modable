@@ -41,7 +41,8 @@
         "green": 215,
         "blue": 0
     },
-    "antialiasing": true,
+    "antialiasing": false,
+    "iconAntialiasing": false,
     "nativelyPlayable": true,
     "flipX": true,
     "updateHitbox": true,

@@ -898,7 +898,8 @@ if (FileSystem.exists(TitleState.modFolder + '/data/credits.json')) {
       for (i in 0...selectedPerson.socialMedia.length)
       {
          var social:Social = selectedPerson.socialMedia[i];
-         var socialGraphic:FlxSprite = new FlxSprite(0, credits.y + 100 + (i * 100)).loadGraphic(Paths.image('credits/socialMedia/' + social.socialMediaName));
+         var imageSocial:Dynamic = FileSystem.exists(Paths.image('credits/socialMedia/' + social.socialMediaName)) ? Paths.image('credits/socialMedia/' + social.socialMediaName) : Paths.customImage(TitleState.modFolder + '/images/credits/socialMedia/' + social.socialMediaName);
+         var socialGraphic:FlxSprite = new FlxSprite(0, credits.y + 100 + (i * 100)).loadGraphic(imageSocial);
          var discordText:FlxText = null;
          socialGraphic.updateHitbox();
          socialGraphic.screenCenter(X);

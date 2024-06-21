@@ -140,6 +140,18 @@ typedef Settings = {
 	var recursedEffect:Bool;
 }
 
+/*typedef EventJson =
+{
+	var events:Array<StepJson>;
+}
+
+typedef StepJson =
+{
+	var curStep:Int;
+	var event:String;
+	var vaule:String;
+} */
+
 class PlayState extends MusicBeatState
 {
 	public static var mania:Int = 0;

@@ -22,6 +22,7 @@ typedef CharacterFile =
 	var skins:Array<SkinSet>;
 	var barcolor:RGB;
     var	antialiasing:Bool;
+	var	iconAntialiasing:Bool;
 	var nativelyPlayable:Bool;
 	var flipX:Bool;
 	var updateHitbox:Bool;
@@ -1186,12 +1187,21 @@ class Character extends FlxSprite
 				playAnim('firstDeath');
 
 				default:
+					var customPath:String = '';
+					var customPath2:String = '';
 					if (FileSystem.exists(TitleState.modFolder + '/data/characters/${curCharacter}.json')) {
+                   customPath = TitleState.modFolder + '/data/characters/${curCharacter}.json';
+				   customPath2 = TitleState.modFolder + '/images/characters/' + curCharacter;
+					} else if (FileSystem.exists('mods/global characters/characters/${curCharacter}.json')) {
+						customPath = 'mods/global characters/characters/${curCharacter}.json';
+						customPath2 = 'mods/global characters/images/' + curCharacter;
+					}
 
-				rawJsonCustom = File.getContent((TitleState.modFolder + '/data/characters/${curCharacter}.json'));
+                 if (customPath != '' && customPath2 != '') {
+				rawJsonCustom = File.getContent(customPath);
 			    jsonCustom = cast Json.parse(rawJsonCustom);
 
-				frames = Paths.getCustomSparrowAtlas(TitleState.modFolder + '/images/characters/' + curCharacter);
+				frames = Paths.getCustomSparrowAtlas(customPath2);
 				
 				for (i in jsonCustom.animations) {
 				animation.addByPrefix(i.animName, i.anim, i.fps, i.loop);
@@ -1226,14 +1236,36 @@ class Character extends FlxSprite
 					if (jsonCustom.effect != '') 
 						{
 							var funnyeffect = jsonCustom.effect;
-							if (funnyeffect == '3dfloat' && !PlayState.funnyFloatyBoys.contains(curCharacter )&& !Note.CharactersWith3D.contains(curCharacter)) {
+							if (funnyeffect == '3dfloat' && !PlayState.funnyFloatyBoys.contains(curCharacter) && !Note.CharactersWith3D.contains(curCharacter)) {
 							PlayState.funnyFloatyBoys.push(curCharacter);
 							Note.CharactersWith3D.push(curCharacter);
+							if (PlayState.floatyBoysMod.contains(curCharacter)) {
+							PlayState.floatyBoysMod.remove(curCharacter);
+							}
+							if (PlayState.threedBoysMod.contains(curCharacter)) {
+								PlayState.threedBoysMod.remove(curCharacter);
+								}
 							} else if (funnyeffect == 'float'  && !PlayState.floatyBoysMod.contains(curCharacter)) {
 							PlayState.floatyBoysMod.push(curCharacter);
+
+							if (PlayState.funnyFloatyBoys.contains(curCharacter)) {
+								PlayState.funnyFloatyBoys.remove(curCharacter);
+								Note.CharactersWith3D.remove(curCharacter);
+								}
+								if (PlayState.threedBoysMod.contains(curCharacter)) {
+									PlayState.threedBoysMod.remove(curCharacter);
+									Note.CharactersWith3D.remove(curCharacter);
+									}
 						} else if (funnyeffect == '3d' && !PlayState.threedBoysMod.contains(curCharacter) && !Note.CharactersWith3D.contains(curCharacter)) {
 							PlayState.threedBoysMod.push(curCharacter);
 							Note.CharactersWith3D.push(curCharacter);
+
+							if (PlayState.funnyFloatyBoys.contains(curCharacter)) {
+								PlayState.funnyFloatyBoys.remove(curCharacter);
+								}
+								if (PlayState.floatyBoysMod.contains(curCharacter)) {
+									PlayState.floatyBoysMod.remove(curCharacter);
+									}
 						}
  					}
 
@@ -1246,78 +1278,20 @@ class Character extends FlxSprite
 
 				antialiasing = jsonCustom.antialiasing;
 
-				
-
-				flipX = jsonCustom.flipX;
-				
-				playAnim('idle');
-					} else if (FileSystem.exists('mods/global characters/characters/${curCharacter}.json')) {
-
-				rawJsonCustom = File.getContent(('mods/global characters/characters/${curCharacter}.json'));
-				jsonCustom = cast Json.parse(rawJsonCustom);
-
-				frames = Paths.getCustomSparrowAtlas('mods/global characters/images/' + curCharacter);
-				
-				for (i in jsonCustom.animations) {
-				animation.addByPrefix(i.animName, i.anim, i.fps, i.loop);
+				if (!jsonCustom.iconAntialiasing) {
+				HealthIcon.noAaChars.push(curCharacter);
+				} else {
+				if (HealthIcon.noAaChars.contains(curCharacter)) {
+					HealthIcon.noAaChars.remove(curCharacter);	
 				}
-			
-                 if (!jsonCustom.isPlayable) {
-				loadSkinOffsetFile(curCharacter);
-				 } else {
-				loadSkinOffsetFile(curCharacter + (isPlayer ? '-playable' : ''));
-				 }
-
-				globalOffset = jsonCustom.globalOffset;
-
-				for (i in jsonCustom.skins) {
-				skins.set(i.type, i.replacement);
 				}
-
-				barColor = FlxColor.fromRGB(jsonCustom.barcolor.red, jsonCustom.barcolor.green, jsonCustom.barcolor.blue);
-
-				if (jsonCustom.setGraphicSize != '') 
-					{
-						var thing = jsonCustom.setGraphicSize;
-						if (thing == 'furiosityScale') {
-						setGraphicSize(Std.int((width * 1.3) / furiosityScale));
-						} else if (thing == 'daPixelZoom') {
-						setGraphicSize(Std.int(width * PlayState.daPixelZoom));
-						}else {
-						setGraphicSize(Std.int(width * Std.parseInt(thing)));
-						}
-					}
-					
-					if (jsonCustom.effect != '') 
-						{
-							var funnyeffect = jsonCustom.effect;
-							if (funnyeffect == '3dfloat' && !PlayState.funnyFloatyBoys.contains(curCharacter )&& !Note.CharactersWith3D.contains(curCharacter)) {
-							PlayState.funnyFloatyBoys.push(curCharacter);
-							Note.CharactersWith3D.push(curCharacter);
-							} else if (funnyeffect == 'float'  && !PlayState.floatyBoysMod.contains(curCharacter)) {
-							PlayState.floatyBoysMod.push(curCharacter);
-						} else if (funnyeffect == '3d' && !PlayState.threedBoysMod.contains(curCharacter) && !Note.CharactersWith3D.contains(curCharacter)) {
-							PlayState.threedBoysMod.push(curCharacter);
-							Note.CharactersWith3D.push(curCharacter);
-						}
- 					}
-					
-					
-
-				if (jsonCustom.updateHitbox)
-					{
-					updateHitbox();
-					}
-
-				nativelyPlayable = jsonCustom.nativelyPlayable;
-
-				antialiasing = jsonCustom.antialiasing;
 
 				
 
 				flipX = jsonCustom.flipX;
 				
 				playAnim('idle');
+					
 
 					} else {
 

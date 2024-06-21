@@ -108,6 +108,7 @@
         "blue": 209
     },
     "antialiasing": true,
+    "iconAntialiasing": true,
     "nativelyPlayable": true,
     "flipX": true,
     "updateHitbox": false,

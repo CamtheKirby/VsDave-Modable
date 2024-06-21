@@ -196,6 +196,12 @@ class FreeplayState extends MusicBeatState
 		awaitingExploitation = (FlxG.save.data.exploitationState == 'awaiting');
 		showCharText = FlxG.save.data.wasInCharSelect;
 
+		if (FlxG.sound.music != null)
+			{
+				if (!FlxG.sound.music.playing)
+					FlxG.sound.playMusic(Paths.music('freakyMenu'));
+			}
+
 		if (awaitingExploitation)
 		{
 			bg = new FlxSprite(-600, -200).loadGraphic(Paths.image('backgrounds/void/redsky', 'shared'));
