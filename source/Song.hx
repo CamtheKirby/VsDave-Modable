@@ -60,6 +60,7 @@ class Song
 		//trace(TitleState.modFolder + '/' + Paths.chart(jsonInput.toLowerCase()));
 		if (FileSystem.exists(TitleState.modFolder + '/' + Paths.chart(jsonInput.toLowerCase())))
 		{
+		PlayState.cantSaveScore = true;
 		rawJson = File.getContent(TitleState.modFolder + '/' + Paths.chart(jsonInput.toLowerCase())).trim();
 		}
 		else 

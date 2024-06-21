@@ -416,7 +416,7 @@ class TitleState extends MusicBeatState
 			else gfDance.animation.play('danceLeft');
 		}
 		if (!onlyforabug) { // funny fix
-			trace('beat ' + onlyforabug);
+			//trace('beat ' + onlyforabug);
 		switch (curBeat)
 		{
 			case 3:

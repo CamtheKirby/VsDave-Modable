@@ -196,7 +196,7 @@ class Note extends FlxSprite
 					notePathLol = 'notes/NOTE_recursed';
 				}
 		}
-		if(PlayState.jsonSettings.recursedEffect && PlayState.settingsExist && FreeplayState.isaCustomSong) {
+		if(PlayState.settingsExist && PlayState.jsonSettings.recursedEffect && FreeplayState.isaCustomSong) {
 			musthit ? { 
 				if ((this.strumTime / 50) % 20 > 12 && !isSustainNote)
 				{

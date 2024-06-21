@@ -1,0 +1,16 @@
+{
+	  "users": [
+		{
+		  "user": "Test",
+		  "credit": "Being a Example",
+		  "antialiasing": false,
+		  "socials": [
+			{
+			  "social": "discord",
+			  "link": "uhhhexample"
+			}
+		  ]
+		}
+	  ]
+	}
+  

@@ -180,9 +180,11 @@ class Paths
 		return getPath('music/$key.$SOUND_EXT', MUSIC, library);
 	}
 	public static var replaceSong = false;
+	
 
 	inline static public function voices(song:String, addon:String = "")
 	{
+		replaceSong = false;
 		if (!FreeplayState.isaCustomSong) {
 	var songKey:String = '${(song)}/Voices${(addon)}';
 	
@@ -205,6 +207,7 @@ class Paths
 
 	inline static public function inst(song:String)
 	{
+		replaceSong = false;
 		if (!FreeplayState.isaCustomSong) {
 			var songKey:String = '${(song)}/Inst';
 			var inst = returnSound(null, songKey, 'songs');

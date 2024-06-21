@@ -272,6 +272,8 @@ class PlayState extends MusicBeatState
 	private var totalPlayed:Int = 0;
 	private var ss:Bool = false;
 
+	var sprites:FlxTypedGroup<BGSprite>;
+	
 	private var windowSteadyX:Float;
 
 	public static var eyesoreson = true;
@@ -1722,11 +1724,10 @@ class PlayState extends MusicBeatState
 
 		Transition.nextCamera = camTransition;
 	}
-
-	var sprites:FlxTypedGroup<BGSprite> = new FlxTypedGroup<BGSprite>();
 	
 	public function createBackgroundSprites(bgName:String, revertedBG:Bool):FlxTypedGroup<BGSprite>
 	{
+		sprites = new FlxTypedGroup<BGSprite>();
 		var bgZoom:Float = 0.7;
 		var stageName:String = '';
 		switch (bgName)
@@ -2278,7 +2279,7 @@ class PlayState extends MusicBeatState
 				sprites.add(stfu);
 				add(stfu);
 			default:
-				if (FileSystem.exists(TitleState.modFolder + '/data/stages/' + bgName + '.json')) {
+				if (FileSystem.exists(TitleState.modFolder + '/data/stages/' + bgName + '.json')/*&& FreeplayState.isaCustomSong*/) {
 					rawJsonStage = File.getContent(TitleState.modFolder + '/data/stages/' + bgName + '.json');
 					jsonStage = cast Json.parse(rawJsonStage);
 	
@@ -3481,7 +3482,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (SONG.song.toLowerCase() == 'recursed' || FlxG.save.data.randomNoteTypes > 0 || (jsonSettings.recursedEffect && settingsExist && FreeplayState.isaCustomSong))
+		if (SONG.song.toLowerCase() == 'recursed' || FlxG.save.data.randomNoteTypes > 0 || (settingsExist && jsonSettings.recursedEffect && FreeplayState.isaCustomSong))
 		{
 			
 			var scrollSpeed = 150;
@@ -5355,6 +5356,7 @@ class PlayState extends MusicBeatState
 
 				if (notbeingalittleCheater) FlxG.save.data.weekUnlocked = StoryMenuState.weekUnlocked;
 				FlxG.save.flush();
+				cantSaveScore = false;
 			}
 			else
 			{	
@@ -5450,7 +5452,7 @@ class PlayState extends MusicBeatState
 					FlxG.save.data.songsCompletedCanon = new Array<String>();
 				}
 				completedSongs = FlxG.save.data.songsCompletedCanon;
-				if (!botPlay || !FlxG.save.data.pMode) completedSongs.push(curSong);
+				if (notbeingalittleCheater) completedSongs.push(curSong);
 				for (i in 0...mustCompleteSongs.length)
 				{
 					if (!completedSongs.contains(mustCompleteSongs[i]))
@@ -5511,6 +5513,7 @@ class PlayState extends MusicBeatState
 			{
 				Transition.nextCamera = null;
 			}
+			cantSaveScore = false;
 		}
 	}
 
@@ -9366,7 +9369,7 @@ if (oppM) {
 			}
 			#end
 
-			if (SONG.song.toLowerCase() == 'recursed' || FlxG.save.data.randomNoteTypes > 0 || (jsonSettings.recursedEffect && settingsExist && FreeplayState.isaCustomSong))
+			if (SONG.song.toLowerCase() == 'recursed' || FlxG.save.data.randomNoteTypes > 0 || (settingsExist && jsonSettings.recursedEffect && FreeplayState.isaCustomSong))
 			{
 				cancelRecursedCamTween();
 			}

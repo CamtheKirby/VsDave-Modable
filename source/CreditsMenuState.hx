@@ -29,12 +29,37 @@ import flixel.addons.display.FlxBackdrop;
 #if desktop
 import Discord.DiscordClient;
 #end
+#if sys
+import sys.io.File;
+import sys.FileSystem;
+#end
+import haxe.Json;
 using StringTools;
 /*
 hi cool lil committers looking at this code, 95% of this is my code and I'd appreciate if you didn't steal it without asking for my permission
 -vs dave dev T5mpler 
 i have to put this here just in case you think of doing so
 */
+
+typedef CustomPerson =
+{
+	var users:Array<CustomUser>;
+}
+
+typedef CustomUser =
+{
+   var user:String;
+   var credit:String;
+   var antialiasing:Bool;
+	var socials:Array<CustomSocial>;
+}
+
+typedef CustomSocial =
+{
+	var social:String;
+   var link:String;
+}
+
 class CreditsMenuState extends MusicBeatState
 {
 	var bg:FlxSprite = new FlxSprite();
@@ -51,6 +76,9 @@ class CreditsMenuState extends MusicBeatState
    var transitioning:Bool = false;
    var creditsTypeString:String = '';
    var translatedCreditsType:String = '';
+
+   var rawJsonPerson:String;
+   var jsonPerson:CustomPerson;
 
    var StupidCameraFollow:FlxObject = new FlxObject();
 
@@ -387,8 +415,12 @@ class CreditsMenuState extends MusicBeatState
       [
          new Social('youtube', 'https://www.youtube.com/channel/UC1IWpXJIB0wYTCnQI0E9HMQ'),
          new Social('twitter', 'https://twitter.com/magar_manh')
-      ]),
+      ], '', false),
+
+    // Special Thanks //
+     new Person("You!", CreditsType.SpecialThanks, []),
       // The Mod
+     
       new Person("Cam", CreditsType.TheMod,
       [
          new Social('youtube', 'https://www.youtube.com/@CamtheKirby'),
@@ -396,9 +428,7 @@ class CreditsMenuState extends MusicBeatState
          new Social('twitter', 'https://x.com/camthekirby1'),
          new Social('roblox', 'https://www.roblox.com/users/2232065384/profile'),
          new Social('gamebanana', 'https://gamebanana.com/members/1795786')
-      ], true),
-	  // Special Thanks //
-     new Person("You!", CreditsType.SpecialThanks, [])
+      ], 'Created Dave and Bambi Moddable')
    ];
 
 	override function create()
@@ -406,6 +436,18 @@ class CreditsMenuState extends MusicBeatState
       #if desktop
       DiscordClient.changePresence("In the Credits Menu", null);
       #end
+
+if (FileSystem.exists(TitleState.modFolder + '/data/credits.json')) {
+      rawJsonPerson = File.getContent(TitleState.modFolder + '/data/credits.json');
+      jsonPerson = cast Json.parse(rawJsonPerson);
+      for (i in jsonPerson.users) {
+         var thelinks:Array<Social> = [];
+         for (s in i.socials) {
+         thelinks.push(new Social(s.social, s.link));
+         }
+         peopleInCredits.push(new Person(i.user, CreditsType.TheMod, thelinks, i.credit, i.antialiasing));
+      }
+}
 
       mainCam.bgColor.alpha = 0;
       selectPersonCam.bgColor.alpha = 0;
@@ -524,13 +566,14 @@ class CreditsMenuState extends MusicBeatState
 		   textItem.antialiasing = true;
          textItem.scrollFactor.set(0, 1);
 
+         var iconImage:Dynamic = FileSystem.exists(TitleState.modFolder + '/images/credits/icons/Mod Devs/' + currentPerson.name + '.png') ? Paths.customImage(TitleState.modFolder + '/images/credits/icons/Mod Devs/' + currentPerson.name) : Paths.image('credits/icons/' + creditsTypeString + '/' + currentPerson.name);
+
          var personIcon:PersonIcon = new PersonIcon(textItem);
-         personIcon.loadGraphic(Paths.image('credits/icons/' + creditsTypeString + '/' + currentPerson.name));
+         personIcon.loadGraphic(iconImage);
          add(personIcon);
 
          personIcon.visible = !DoFunnyScroll;
-         personIcon.antialiasing = true;
-         if (currentPerson.name == 'Magman') personIcon.antialiasing = false;
+         personIcon.antialiasing = currentPerson.antialiasing;
 
          var creditsTextItem:CreditsText = new CreditsText(textItem, true, personIcon);
 
@@ -804,6 +847,7 @@ class CreditsMenuState extends MusicBeatState
 
    function selectPerson(selectedPerson:Person)
    {
+      var theCreditsText:String = selectedPerson.creditsType == TheMod ? selectedPerson.customCredit : LanguageManager.getTextString('credit_${selectedPerson.name}');
       curSocialMediaSelected = 0;
       var fadeTime:Float = 0.4;
       var blackBg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.BLACK);
@@ -820,7 +864,7 @@ class CreditsMenuState extends MusicBeatState
       personName.scrollFactor.set();
       personName.active = false;
       
-      var credits:FlxText = new FlxText(0, personName.y + 50, FlxG.width / 1.25, LanguageManager.getTextString('credit_${selectedPerson.name}'), 25);
+      var credits:FlxText = new FlxText(0, personName.y + 50, FlxG.width / 1.25, theCreditsText, 25);
       credits.setFormat(selectedFormat.font, selectedFormat.size, selectedFormat.color, selectedFormat.alignment, selectedFormat.borderStyle, selectedFormat.borderColor);
       credits.screenCenter(X);
       credits.updateHitbox();
@@ -916,14 +960,16 @@ class Person
    public var name:String;
    public var creditsType:CreditsType;
 	public var socialMedia:Array<Social>;
-   public var custom:Bool;
+   public var customCredit:String;
+   public var antialiasing:Bool;
 
-	public function new(name:String, creditsType:CreditsType, socialMedia:Array<Social>, custom:Bool = false)
+	public function new(name:String, creditsType:CreditsType, socialMedia:Array<Social>, customCredit:String = '', antialiasing:Bool = true)
 	{
       this.name = name;
       this.creditsType = creditsType;
       this.socialMedia = socialMedia;
-      this.custom = custom;
+      this.customCredit = customCredit;
+      this.antialiasing = antialiasing;
 	}
 }
 class Social
