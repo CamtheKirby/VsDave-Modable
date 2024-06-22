@@ -621,7 +621,7 @@ if (FileSystem.exists(TitleState.modFolder + '/data/credits.json')) {
 					 FlxG.save.flush();
 				  }
                   FlxG.sound.playMusic(Paths.music('theend'));
-                  FlxG.switchState(new StoryMenuState());
+                  FlxG.switchState(new ResultsScreen());
                });
             }});
          }});

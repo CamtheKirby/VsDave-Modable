@@ -25,6 +25,7 @@ class HealthIcon extends FlxSprite
 	var state:String;
 	public var isPlayer:Bool;
 	var winningIcon:Bool;
+	var blank:Bool = false;
 	
 	public function new(char:String = 'bf', isPlayer:Bool = false)
 	{
@@ -53,12 +54,16 @@ class HealthIcon extends FlxSprite
 				} else if  (FileSystem.exists(TitleState.modFolder + '/images/icons/' + char + '.png')) {
 				file = Paths.customImage(TitleState.modFolder + '/images/icons/' + char);
 				} else {
+					//trace('lol');
+					blank = true;
 					file = Paths.image('blank', 'shared');
 				}
 			} else {
+				blank = true;
 				file = Paths.image('blank', 'shared');
 			}
 
+			if (char != "none" && !blank) {
 			loadGraphic(file);	
 			if (width == 450) {
 			loadGraphic(file, true, Math.floor(width / 3), 150);	
@@ -66,8 +71,9 @@ class HealthIcon extends FlxSprite
 			} else {
 			loadGraphic(file, true, 150, 150);	
 			}
+		}
 			
-			if (char != "none")
+			if (char != "none" && !blank)
 			{
 				antialiasing = !noAaChars.contains(char);
 				//trace('Graphic width before setting: ' + width);
@@ -92,7 +98,7 @@ class HealthIcon extends FlxSprite
 	}
 	public function changeState(charState:String)
 	{
-		//trace('Graphic width before setting: ' + width);
+		if (char != "none" && !blank) {
 		switch (charState)
 		{
 			case 'normal':
@@ -107,6 +113,7 @@ class HealthIcon extends FlxSprite
 				animation.curAnim.curFrame = 0;	
 				}
 		}
+	}
 		state = charState;
 	}
 	public function getState()
@@ -116,5 +123,14 @@ class HealthIcon extends FlxSprite
 	public function getChar():String
 	{
 		return char;
+	}
+
+	public static function iconExists(check:String):Bool
+	{
+if (FileSystem.exists('assets/images/ui/iconGrid/' + check + '.png') || FileSystem.exists('mods/global characters/images/icons/' + check + '.png') || (FileSystem.exists(TitleState.modFolder + '/images/icons/' + check + '.png'))) {
+	return true;
+} else {
+	return false;
+}
 	}
 }

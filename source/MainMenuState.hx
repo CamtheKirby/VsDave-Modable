@@ -74,7 +74,7 @@ class MainMenuState extends MusicBeatState
 
 	public static var daRealEngineVer:String = 'Dave';
 	public static var engineVer:String = '3.0b';
-	public static var fanmadeEngineVer:String = '1.5.0';
+	public static var fanmadeEngineVer:String = '2.0.0';
 
 	public static var engineVers:Array<String> = 
 	[
@@ -391,8 +391,9 @@ class MainMenuState extends MusicBeatState
 			}
 		}
 		
-		if (!selectedSomethin && canInteract)
+		if (!selectedSomethin)
 		{
+			if (canInteract) {
 			if (controls.LEFT_P)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
@@ -470,12 +471,38 @@ class MainMenuState extends MusicBeatState
 						}
 					});
 				}
+			   }
 			}
-		}
+			} else if (canInteract) {
+				if (controls.ACCEPT)
+					{
+							
+										var daChoice:String = optionShit[curSelected];
+										switch (daChoice)
+										{
+											case 'story mode':
+												FlxG.switchState(new StoryMenuState());
+											case 'freeplay' | 'freeplay glitch':
+												if (FlxG.random.bool(0.05))
+												{
+													fancyOpenURL("https://www.youtube.com/watch?v=Z7wWa1G9_30%22");
+												}
+												FlxG.switchState(new FreeplayState());
+											case 'options':
+												FlxG.switchState(new OptionsMenu());
+											case 'ost':
+												FlxG.switchState(new MusicPlayerState());
+											case 'credits':
+												FlxG.switchState(new CreditsMenuState());
+										}
+					}
+			}
+
+			
+		
 
 		super.update(elapsed);
-
-	}
+}
 
 	override function beatHit()
 	{

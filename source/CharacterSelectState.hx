@@ -226,7 +226,7 @@ class CharacterSelectState extends MusicBeatState
 		}
 	}
 
-		trace(characters);
+		//trace(characters);
 		Conductor.changeBPM(110);
 
 		camGame = new FlxCamera();

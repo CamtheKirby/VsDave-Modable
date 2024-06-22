@@ -63,6 +63,7 @@ class StoryMenuState extends MusicBeatState
 	var grpWeekText:FlxTypedGroup<MenuItem>;
 
 	var grpLocks:FlxTypedGroup<FlxSprite>;
+	public static var currentStory:String = '';
 	
 	var weeks:Array<Week> = [
 		new Week(['Warmup'], LanguageManager.getTextString('story_tutorial'), 0xFF8A42B7, 'warmup', false),  // WARMUP
@@ -295,6 +296,7 @@ class StoryMenuState extends MusicBeatState
 			
 			PlayState.storyPlaylist = weeks[curWeek].songList;
 			PlayState.isStoryMode = true;
+			currentStory = weeks[curWeek].weekName;
 			selectedWeek = true;
 
 			if (weeks[curWeek].customWeek) {

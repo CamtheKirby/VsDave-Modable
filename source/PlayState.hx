@@ -106,6 +106,7 @@ typedef StageJson =
 	var dadPosY:Float;
 	var gfPosX:Float;
 	var gfPosY:Float;
+	var type:String;
 	var backgrounds:Array<BackgroundJson>;
 }
 
@@ -218,7 +219,7 @@ class PlayState extends MusicBeatState
 	public var elapsedtime:Float = 0;
 
 	public var elapsedexpungedtime:Float = 0;
-
+	public static var gfVersion:String = 'gf';
 	var focusOnDadGlobal:Bool = true;
 
 	public static var funnyFloatyBoys:Array<String> = ['dave-angey', 'bambi-3d', 'expunged', 'bambi-unfair', 'exbungo', 'dave-festival-3d', 'dave-3d-recursed', 'bf-3d'];
@@ -554,6 +555,8 @@ class PlayState extends MusicBeatState
     public static var rscombo:Int = 0;
 	public static var rstotalNotesHit:Float = 0;
 	public static var rssong:String = '';
+	public static var allNotes:Int = 0;
+	public static var isHighscore:Bool = false;
 
 	override public function create()
 	{
@@ -570,6 +573,10 @@ class PlayState extends MusicBeatState
 		bothS = FlxG.save.data.bothSides && SONG.song.toLowerCase() != 'shredder' && !isStoryMode;
 
 		settingsExist = FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.json');
+
+		isHighscore = false;
+
+
 
 		resetShader();
 
@@ -700,6 +707,9 @@ class PlayState extends MusicBeatState
 		{
 			case 'splitathon':
 				iconRPC = 'both';
+		}
+		if (!isStoryMode) {
+			allNotes = 0;
 		}
 
 		if (isStoryMode)
@@ -906,7 +916,7 @@ class PlayState extends MusicBeatState
 					bgSprite.alpha = 0;
 				}
 		}
-		var gfVersion:String = 'gf';
+		
 		var noGFSongs = ['memory', 'five-nights', 'bot-trot', 'escape-from-california', 'overdrive'];
 		if (FreeplayState.isaCustomSong && settingsExist) {
 		if (jsonSettings.hasNoGf) {
@@ -2294,6 +2304,15 @@ class PlayState extends MusicBeatState
 				if (FileSystem.exists(TitleState.modFolder + '/data/stages/' + bgName + '.json')/*&& FreeplayState.isaCustomSong*/) {
 					rawJsonStage = File.getContent(TitleState.modFolder + '/data/stages/' + bgName + '.json');
 					jsonStage = cast Json.parse(rawJsonStage);
+
+					if (jsonStage.type == 'dark') {
+					darkLevels.push(bgName);
+					} else if (jsonStage.type == 'sunset') {
+					sunsetLevels.push(bgName);
+					} else {
+					darkLevels.remove(bgName);
+					sunsetLevels.remove(bgName);
+					}
 	
 					bgZoom = jsonStage.bgZoom;
 					stageName = bgName;
@@ -3059,6 +3078,10 @@ class PlayState extends MusicBeatState
 				if (bothS)
 					{
 						gottaHitNote = true; 
+					}
+                 
+					if (gottaHitNote) {
+                    allNotes += 1;
 					}
 
 				var oldNote:Note;
@@ -4873,7 +4896,9 @@ class PlayState extends MusicBeatState
 			keyShitBotPlay();
 
 		if (adminMode) {
-		if (FlxG.keys.justPressed.ONE)
+		if (FlxG.keys.justPressed.ONE) {
+			cantSaveScore = true;
+			notbeingalittleCheater = false;
 			if (!chartEditorMode) {
 			endSong();
 			} else {
@@ -4885,6 +4910,7 @@ class PlayState extends MusicBeatState
 					DiscordClient.changePresence("Chart Editor", null, null, true);
 					#end
 			}
+		}
 	      }
 
 		if (updatevels)
@@ -5210,6 +5236,7 @@ class PlayState extends MusicBeatState
 		if (isStoryMode)
 		{
 			campaignScore += songScore;
+			
 
 			var completedSongs:Array<String> = [];
 			var mustCompleteSongs:Array<String> = ['House', 'Insanity', 'Polygonized', 'Blocked', 'Corn-Theft', 'Maze', 'Splitathon', 'Shredder', 'Greetings', 'Interdimensional', 'Rano'];
@@ -5240,6 +5267,18 @@ class PlayState extends MusicBeatState
 
 			if (storyPlaylist.length <= 0)
 			{
+			rssongScore = campaignScore;
+			rsmisses += misses;
+			if (accuracy > rsaccuracy) {
+			rsaccuracy = truncateFloat(accuracy, 2);
+			}
+			rsshits += shits;
+			rsbads += bads;
+			rsgoods += goods;
+			rssicks += sicks;
+			rscombo = maxCombo;
+			rstotalNotesHit += noteHits;
+			rssong = StoryMenuState.currentStory; 
 				if(FlxTransitionableState.skipNextTransIn)
 				{
 					Transition.nextCamera = null;
@@ -5288,7 +5327,7 @@ class PlayState extends MusicBeatState
 							if (!chartEditorMode) {
 							CharacterSelectState.unlockCharacter('bambi-new');
 							FlxG.sound.playMusic(Paths.music('freakyMenu'));
-							FlxG.switchState(new StoryMenuState());
+							FlxG.switchState(new ResultsScreen());
 							} else {
 								if (FlxG.save.data.wantShaders) {
 							resetShader();
@@ -5313,7 +5352,7 @@ class PlayState extends MusicBeatState
 						{
 							if (!chartEditorMode) {
 							FlxG.sound.playMusic(Paths.music('freakyMenu'));
-							FlxG.switchState(new StoryMenuState());
+							FlxG.switchState(new ResultsScreen());
 							} else {
 								if (FlxG.save.data.wantShaders) {
 							resetShader();
@@ -5342,8 +5381,8 @@ class PlayState extends MusicBeatState
 						}
 					default:
 						if (!chartEditorMode) {
-						FlxG.sound.playMusic(Paths.music('freakyMenu'));
-						FlxG.switchState(new StoryMenuState());
+						//FlxG.sound.playMusic(Paths.music('freakyMenu'));
+						FlxG.switchState(new ResultsScreen());
 						} else {
 							if (FlxG.save.data.wantShaders) {
 					resetShader();
@@ -5372,6 +5411,18 @@ class PlayState extends MusicBeatState
 			}
 			else
 			{	
+			rssongScore = campaignScore;
+			rsmisses += misses;
+			if (accuracy > rsaccuracy) {
+			rsaccuracy = truncateFloat(accuracy, 2);
+			}
+			rsshits += shits;
+			rsbads += bads;
+			rsgoods += goods;
+			rssicks += sicks;
+			rscombo = maxCombo;
+			rstotalNotesHit += noteHits;
+
 				switch (SONG.song.toLowerCase())
 				{
 					case 'insanity':
@@ -5453,7 +5504,8 @@ class PlayState extends MusicBeatState
 			rssicks = sicks;
 			rscombo = maxCombo;
 			rstotalNotesHit = noteHits;
-			rssong = kadeEngineWatermark.text;
+			rssong = SONG.song; 
+			//trace(Math.floor((rssicks + rsgoods) / allNotes * 100));
 			if (storyDifficulty == 0) {
 				var completedSongs:Array<String> = [];
 				var mustCompleteSongs:Array<String> = ['House', 'Insanity', 'Polygonized', 'Blocked', 'Corn-Theft', 'Maze', 'Splitathon', 'Shredder', 'Greetings', 'Interdimensional', 'Rano'];

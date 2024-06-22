@@ -182,7 +182,7 @@ class FreeplayState extends MusicBeatState
 		}
 		}
 
-		trace(songColors);
+		//trace(songColors);
 
 		for (i in jsonF.skipSelect) {
 			skipSelect.push(i);
@@ -260,7 +260,7 @@ class FreeplayState extends MusicBeatState
 		{
 			Highscore.load();
 			if (FileSystem.exists(Paths.image('packs/' + (Catagories[i].toLowerCase())))) {
-				trace('yay');
+				//trace('yay');
 			var CurrentSongIcon:FlxSprite = new FlxSprite(0,0).loadGraphic(Paths.image('packs/' + (Catagories[i].toLowerCase()), "preload"));
 			CurrentSongIcon.centerOffsets(false);
 			CurrentSongIcon.x = (1000 * i + 1) + (512 - CurrentSongIcon.width);
@@ -275,7 +275,7 @@ class FreeplayState extends MusicBeatState
 			add(NameAlpha);
 			titles.push(NameAlpha);
 			} else {
-			trace('nae');
+		//	trace('nae');
 		var CurrentSongIcon:FlxSprite = new FlxSprite(0,0).loadGraphic(Paths.customImage(TitleState.modFolder + '/Icon'));
 			CurrentSongIcon.centerOffsets(false);
 			CurrentSongIcon.x = (1000 * i + 1) + (512 - CurrentSongIcon.width);
@@ -935,10 +935,10 @@ class FreeplayState extends MusicBeatState
 					case 'Random':
 						var randomThing = FlxG.random.int(1, songs.length - 1);
 						if (isaCustomSong) {
-							trace(randomThing);
+							//trace(randomThing);
 							PlayState.SONG = Song.loadFromCustomJson(Highscore.formatSong(songs[randomThing].songName.toLowerCase(), curDifficulty));
 							} else {
-							trace(randomThing);
+						//	trace(randomThing);
 							PlayState.SONG = Song.loadFromJson(Highscore.formatSong(songs[randomThing].songName.toLowerCase(), curDifficulty));
 							}
 						PlayState.isStoryMode = false;

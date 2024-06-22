@@ -22,6 +22,7 @@ class Highscore
 				if (songScores.get(daSong) < score)
 				{
 					setScore(daSong, score,char);
+					PlayState.isHighscore = true;
 				}
 			}
 			else

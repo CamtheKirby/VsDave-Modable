@@ -156,10 +156,10 @@ class CreditsPopUp extends FlxSpriteGroup
 			if (headingPath.animation == null)
 			{
 				if (FileSystem.exists('assets/shared/images/' + headingPath.path + '.png')) {
-					trace('yay');
+					//trace('yay');
 				bg.loadGraphic(Paths.image(headingPath.path));
 				} else if (FileSystem.exists(TitleState.modFolder + '/images/' + headingPath.path + '.png')) {
-					trace('nae');
+					//trace('nae');
 				bg.loadGraphic(Paths.customImage(TitleState.modFolder + '/images/' + headingPath.path));
 				} else {
 				bg.loadGraphic(Paths.image('songHeadings/daveHeading'));	
