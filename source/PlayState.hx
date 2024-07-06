@@ -1024,6 +1024,9 @@ class PlayState extends MusicBeatState
 				if (FlxG.save.data.chars) {
 				dadmirror = new Character(100, 200, "dave-angey");
 				dadmirror.visible = false;
+				} else {
+				dadmirror = new Character(100, 200, "none");
+				dadmirror.visible = false;
 				}
 		}
 		switch (SONG.song.toLowerCase())
@@ -3048,7 +3051,7 @@ class PlayState extends MusicBeatState
 				  }
 		
 				  if (random == 1) {
-					daNoteStyle = ['phone', 'phone-alt', 'shape', 'text'][new FlxRandom().int(0, 3)];
+					daNoteStyle = ['phone', 'phone-alt', 'text'][new FlxRandom().int(0, 2)];
 				  }
 				}
 
@@ -3363,6 +3366,7 @@ class PlayState extends MusicBeatState
 
 	public function throwThatBitchInThere(guyWhoComesIn:String = 'bambi', guyWhoFliesOut:String = 'dave')
 	{
+		if (FlxG.save.data.chars) {
 		hasTriggeredDumbshit = true;
 		if(BAMBICUTSCENEICONHURHURHUR != null)
 		{
@@ -3378,6 +3382,7 @@ class PlayState extends MusicBeatState
 		AUGHHHH = guyWhoComesIn;
 		AHHHHH = guyWhoFliesOut;
 		new FlxTimer().start(0.3, FlingCharacterIconToOblivionAndBeyond);
+	}
 	}
 
 	override function closeSubState()
@@ -6266,7 +6271,7 @@ class PlayState extends MusicBeatState
 		var t10R = controls.T10_R;
 		var t11R = controls.T11_R;
 
-		var key5 = controls.KEY5 && ((SONG.song.toLowerCase() == 'polygonized' || SONG.song.toLowerCase() == 'interdimensional' || FlxG.save.data.randomNoteTypes > 0) && localFunny != CharacterFunnyEffect.Recurser);
+		var key5 = controls.KEY5 && ((SONG.song.toLowerCase() == 'polygonized' || SONG.song.toLowerCase() == 'interdimensional') && localFunny != CharacterFunnyEffect.Recurser);
 
 		/*if (pressingKey5Global != key5)
 		{
@@ -7772,12 +7777,16 @@ if (oppM) {
 						FlxG.sound.play(Paths.sound('static'), 0.1);
 						dad.visible = false;
 						dadmirror.visible = true;
+						if (FlxG.save.data.stage) {
 						curbg.visible = true;
+						}
 						iconP2.changeIcon(dadmirror.curCharacter);
 					case 664 | 684:
 						dad.visible = true;
 						dadmirror.visible = false;
+						if (FlxG.save.data.stage) {
 						curbg.visible = false;
+						}
 						iconP2.changeIcon(dad.curCharacter);
 					case 708:
 						defaultCamZoom = 0.8;
@@ -7787,10 +7796,12 @@ if (oppM) {
 						FlxG.sound.play(Paths.sound('static'), 0.1);
 						dad.visible = false;
 						dadmirror.visible = true;
+						if (FlxG.save.data.stage) {
 						curbg.loadGraphic(Paths.image('backgrounds/void/redsky', 'shared'));
 						if (isShaggy) curbg.y -= 200;
 						curbg.alpha = 1;
 						curbg.visible = true;
+						}
 						iconP2.changeIcon(dadmirror.curCharacter);
 					case 1180:
 						dad.visible = true;
@@ -8352,8 +8363,10 @@ if (oppM) {
 						}
 
 					case 1282:
+						if (FlxG.save.data.stage) {
 						expungedBG.loadGraphic(Paths.image('backgrounds/void/exploit/broken_expunged_chain', 'shared'));
 						expungedBG.setGraphicSize(Std.int(expungedBG.width * 2));
+						}
 					case 1311:
 						shakeCam = false;
 						FlxG.camera.zoom += 0.2;	
@@ -8369,10 +8382,12 @@ if (oppM) {
 					case 1503:
 						shakeCam = false;
 						FlxG.camera.zoom += 0.2;
-					case 1536:						
+					case 1536:	
+						if (FlxG.save.data.stage) {					
 						expungedBG.loadGraphic(Paths.image('backgrounds/void/exploit/creepyRoom', 'shared'));
 						expungedBG.setGraphicSize(Std.int(expungedBG.width * 2));
 						expungedBG.setPosition(0, 200);
+						}
 						
 						modchart = ExploitationModchartType.Sex;
 						if (modchartoption) {
@@ -9109,6 +9124,7 @@ if (oppM) {
 				});
 			}
 		}
+		
 		switch (curSong.toLowerCase())
 		{
 			//exploitation stuff
@@ -9668,16 +9684,19 @@ if (oppM) {
 
 	public function addSplitathonChar(char:String):Void
 	{
+		if (FlxG.save.data.chars) {
 		boyfriend.stunned = true; //hopefully this stun stuff should prevent BF from randomly missing a note
 		
 		switchDad(char, new FlxPoint(300, 450), false);
 		repositionChar(dad);
 
 		boyfriend.stunned = false;
+		}
 	}
 
 	public function splitathonExpression(character:String, expression:String):Void
 	{
+		if (FlxG.save.data.chars) {
 		boyfriend.stunned = true;
 		if(splitathonCharacterExpression != null)
 		{
@@ -9696,6 +9715,7 @@ if (oppM) {
 		splitathonCharacterExpression.canDance = false;
 		splitathonCharacterExpression.playAnim(expression, true);
 		boyfriend.stunned = false;
+	}
 	}
 
 	public function preload(graphic:String) //preload assets
