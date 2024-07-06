@@ -39,7 +39,7 @@ class OutdatedSubState extends MusicBeatState
 		}
 		txt.setFormat("Comic Sans MS Bold", 32, FlxColor.WHITE, CENTER);
 		txt.screenCenter();
-		txt.antialiasing = true;
+		txt.antialiasing = FlxG.save.data.antialiasing;
 		add(txt);
 	}
 

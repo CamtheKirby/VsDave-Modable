@@ -293,7 +293,7 @@ class AlphaCharacter extends FlxSprite
 		var tex = Paths.getSparrowAtlas('ui/alphabet');
 		frames = tex;
 
-		antialiasing = true;
+		antialiasing = FlxG.save.data.antialiasing;
 	}
 	public function createBoldLetter(letter:String)
 	{

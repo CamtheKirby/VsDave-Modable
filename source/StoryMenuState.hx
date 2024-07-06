@@ -120,17 +120,17 @@ class StoryMenuState extends MusicBeatState
 
 		scoreText = new FlxText(10, 0, 0, "SCORE: 49324858", 36);
 		scoreText.setFormat("Comic Sans MS Bold", 32);
-		scoreText.antialiasing = true;
+		scoreText.antialiasing = FlxG.save.data.antialiasing;
 
 		txtWeekTitle = new FlxText(FlxG.width * 0.7, 0, 0, "", 32);
 		txtWeekTitle.setFormat("Comic Sans MS Bold", 32, FlxColor.WHITE, RIGHT);
-		txtWeekTitle.antialiasing = true;
+		txtWeekTitle.antialiasing = FlxG.save.data.antialiasing;
 		txtWeekTitle.alpha = 0.7;
 
 		var rankText:FlxText = new FlxText(0, 10);
 		rankText.text = 'RANK: GREAT';
 		rankText.setFormat(Paths.font("comic.ttf"), 32);
-		rankText.antialiasing = true;
+		rankText.antialiasing = FlxG.save.data.antialiasing;
 		rankText.size = scoreText.size;
 		rankText.screenCenter(X);
 
@@ -151,7 +151,7 @@ class StoryMenuState extends MusicBeatState
 			var weekThing:MenuItem = new MenuItem(0, yellowBG.y + yellowBG.height + 80, i);
 			weekThing.x += ((weekThing.width + 20) * i);
 			weekThing.targetX = i;
-			weekThing.antialiasing = true;
+			weekThing.antialiasing = FlxG.save.data.antialiasing;
 			grpWeekText.add(weekThing);
 		}
 
@@ -161,14 +161,14 @@ class StoryMenuState extends MusicBeatState
 		txtTrackdeco.alignment = CENTER;
 		txtTrackdeco.font = rankText.font;
 		txtTrackdeco.color = 0xFFe55777;
-		txtTrackdeco.antialiasing = true;
+		txtTrackdeco.antialiasing = FlxG.save.data.antialiasing;
 		txtTrackdeco.screenCenter(X);
 
 		txtTracklist = new FlxText(0, yellowBG.x + yellowBG.height + 80, FlxG.width, '', 28);
 		txtTracklist.alignment = CENTER;
 		txtTracklist.font = rankText.font;
 		txtTracklist.color = 0xFFe55777;
-		txtTracklist.antialiasing = true;
+		txtTracklist.antialiasing = FlxG.save.data.antialiasing;
 		txtTracklist.screenCenter(X);
 		add(txtTrackdeco);
 		add(txtTracklist);

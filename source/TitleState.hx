@@ -177,7 +177,7 @@ class TitleState extends MusicBeatState
         
 
 		versionShit = new FlxText(1, FlxG.height - 70, 0, 'Press M to Open the Mod Menu\nPress W to go to the wiki\nPress S to turn on or off Shaders: ' + shaderThing, 20);
-		versionShit.antialiasing = true;
+		versionShit.antialiasing = FlxG.save.data.antialiasing;
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("Comic Sans MS Bold", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
@@ -194,7 +194,7 @@ class TitleState extends MusicBeatState
 			FlxG.save.data.modchart = false;
 			FlxG.save.data.botplay = false;
 		}
-		logoBl.antialiasing = true;
+		logoBl.antialiasing = FlxG.save.data.antialiasing;
 		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24);
 		logoBl.setGraphicSize(Std.int(logoBl.width * 1.2));
 		logoBl.animation.play('bump');
@@ -229,7 +229,7 @@ class TitleState extends MusicBeatState
 			gfDance.frames = Paths.getSparrowAtlas('ui/gfDanceTitle');
 			gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 			gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
-			gfDance.antialiasing = true;
+			gfDance.antialiasing = FlxG.save.data.antialiasing;
 			add(gfDance);
 		}
 		add(logoBl);
@@ -239,7 +239,7 @@ class TitleState extends MusicBeatState
 		titleText.animation.addByPrefix('idle', "Press Enter to Begin", 24);
 		titleText.animation.addByPrefix('press', "ENTER PRESSED", 18, false);
 		titleText.screenCenter(X);
-		titleText.antialiasing = true;
+		titleText.antialiasing = FlxG.save.data.antialiasing;
 		titleText.animation.play('idle');
 		titleText.updateHitbox();
 		add(titleText);
@@ -252,7 +252,7 @@ class TitleState extends MusicBeatState
 		credGroup.add(blackScreen);
 
 		credTextShit = new Alphabet(0, 0, "MoldyGH\nMissingTextureMan101\nRapparep\nZmac\nTheBuilder\nT5mpler\nErizur", true);
-		credTextShit.antialiasing = true;
+		credTextShit.antialiasing = FlxG.save.data.antialiasing;
 		credTextShit.screenCenter();
 
 		// credTextShit.alignment = CENTER;
@@ -464,7 +464,7 @@ class TitleState extends MusicBeatState
 		{
 			var money:FlxText = new FlxText(0, 0, FlxG.width, textArray[i], 48);
 			money.setFormat("Comic Sans MS Bold", 48, FlxColor.WHITE, CENTER);
-			money.antialiasing = true;
+			money.antialiasing = FlxG.save.data.antialiasing;
 			money.screenCenter(X);
 			money.y += (i * 60) + 200;
 			credGroup.add(money);
@@ -477,7 +477,7 @@ class TitleState extends MusicBeatState
 		var coolText:FlxText = new FlxText(0, 0, FlxG.width, text, 48);
 		coolText.setFormat("Comic Sans MS Bold", 48, FlxColor.WHITE, CENTER);
 		coolText.screenCenter(X);
-		coolText.antialiasing = true;
+		coolText.antialiasing = FlxG.save.data.antialiasing;
 		coolText.y += (textGroup.length * 60) + 200;
 		credGroup.add(coolText);
 		textGroup.add(coolText);

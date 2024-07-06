@@ -87,7 +87,7 @@ class Character extends FlxSprite
 		skins.set('recursed', 'bf-recursed');
 		skins.set('gfSkin', 'gf-none');
 		
-		antialiasing = true;
+		antialiasing = FlxG.save.data.antialiasing;
 
 		switch (curCharacter)
 		{
@@ -1292,7 +1292,7 @@ class Character extends FlxSprite
 
 				nativelyPlayable = jsonCustom.nativelyPlayable;
 
-				antialiasing = jsonCustom.antialiasing;
+				antialiasing = jsonCustom.antialiasing ? FlxG.save.data.antialiasing : jsonCustom.antialiasing;
 
 				if (!jsonCustom.iconAntialiasing) {
 				HealthIcon.noAaChars.push(curCharacter);

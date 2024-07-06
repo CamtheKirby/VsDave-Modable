@@ -257,7 +257,7 @@ class Note extends FlxSprite
 	
 				setGraphicSize(Std.int(width * noteSize));
 				updateHitbox();
-				antialiasing = noteStyle != '3D';
+				antialiasing = noteStyle != '3D' ? FlxG.save.data.antialiasing : noteStyle != '3D';
 			
 			case 'shape':
 				frames = Paths.getSparrowAtlas(notePathLol, 'shared');
@@ -336,7 +336,7 @@ class Note extends FlxSprite
 				animation.addByPrefix('darkhold', 'dark hold piece');
 				setGraphicSize(Std.int(width * 1.2 * (noteSize / 0.7)));
 				updateHitbox();
-				antialiasing = true;
+				antialiasing = FlxG.save.data.antialiasing;
 				// noteOffset = -(width - 78 + (mania == 4 ? 30 : 0));
 
 			case 'guitarHero':
@@ -365,7 +365,7 @@ class Note extends FlxSprite
 
 				setGraphicSize(Std.int(width * 0.7));
 				updateHitbox();
-				antialiasing = true;
+				antialiasing = FlxG.save.data.antialiasing;
 			case 'phone' | 'phone-alt':
 				if (!isSustainNote)
 				{
@@ -410,7 +410,7 @@ class Note extends FlxSprite
 				
 				setGraphicSize(Std.int(width * noteSize));
 				updateHitbox();
-				antialiasing = true;
+				antialiasing = FlxG.save.data.antialiasing;
 				
 				// noteOffset = 20;
 

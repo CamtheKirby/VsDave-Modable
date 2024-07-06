@@ -1,4 +1,5 @@
 package;
+import flixel.FlxG;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxSprite;
 import sys.io.File;
@@ -60,7 +61,7 @@ class BGSprite extends FlxSprite
 			}
 			}
 		}
-		this.antialiasing = antialiasing;
+		this.antialiasing = this.antialiasing ? FlxG.save.data.antialiasing : antialiasing;
 		scrollFactor.set(scrollX, scrollY);
 		this.active = active;
 	}

@@ -172,7 +172,7 @@ class MusicPlayerState extends MusicBeatState
 		barText.setFormat(Paths.font("comic.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		barText.scrollFactor.set();
         barText.borderSize = 1.5;
-		barText.antialiasing = true;
+		barText.antialiasing = FlxG.save.data.antialiasing;
         barText.screenCenter(X);
 		add(barText);
 

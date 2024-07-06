@@ -44,7 +44,7 @@ class Optimization extends MusicBeatState
 			menuBG.color = 0xFFea71fd;
 			menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
 			menuBG.updateHitbox();
-			menuBG.antialiasing = true;
+			menuBG.antialiasing = FlxG.save.data.antialiasing;
 			menuBG.loadGraphic(MainMenuState.randomizeBG());
 			add(menuBG);
 
@@ -56,6 +56,7 @@ class Optimization extends MusicBeatState
 			+ "\n" + (FlxG.save.data.ratingsPopUp ? "Show Rating Pop Up ON" : "Show Rating Pop Up OFF")
 			+ "\n" + (FlxG.save.data.stage ? "Stage ON" : "Stage OFF")
 			+ "\n" + (FlxG.save.data.chars ? "Characters ON" : "Characters OFF")
+			+ "\n" + (FlxG.save.data.antialiasing ? "Antialiasing ON" : "Antialiasing OFF")
 			);
 
 		grpControls = new FlxTypedGroup<Alphabet>();
@@ -116,6 +117,9 @@ class Optimization extends MusicBeatState
 					case 6:
 					FlxG.save.data.chars = !FlxG.save.data.chars;
 					updateGroupControls(FlxG.save.data.chars ? 'Characters ON' : 'Characters OFF', 12, 'Vertical');
+					case 7:
+					FlxG.save.data.antialiasing = !FlxG.save.data.antialiasing;
+					updateGroupControls(FlxG.save.data.antialiasing ? 'Antialiasing ON' : 'Antialiasing OFF', 12, 'Vertical');
 			}
 		}
 	}

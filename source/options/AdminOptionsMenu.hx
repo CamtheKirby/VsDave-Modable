@@ -40,7 +40,7 @@ class AdminOptionsMenu extends MusicBeatState
 			menuBG.color = 0xff373737;
 			menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
 			menuBG.updateHitbox();
-			menuBG.antialiasing = true;
+			menuBG.antialiasing = FlxG.save.data.antialiasing;
 			menuBG.loadGraphic(MainMenuState.randomizeBG());
 			add(menuBG);
 

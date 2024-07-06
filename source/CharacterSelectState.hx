@@ -257,7 +257,7 @@ class CharacterSelectState extends MusicBeatState
 		//create BG
 
 		var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('backgrounds/shared/sky_night'));
-		bg.antialiasing = true;
+		bg.antialiasing = FlxG.save.data.antialiasing;
 		bg.scrollFactor.set(0.75, 0.75);
 		bg.active = false;
 		
@@ -317,7 +317,7 @@ class CharacterSelectState extends MusicBeatState
 		legs.frames = Paths.getSparrowAtlas('characters/shaggy_god', 'shared');
 		legs.animation.addByPrefix('legs', "solo_legs", 30);
 		legs.animation.play('legs');
-		legs.antialiasing = true;
+		legs.antialiasing = FlxG.save.data.antialiasing;
 		legs.flipX = true;
 		legs.updateHitbox();
 		legs.offset.set(legs.frameWidth / 2, 10);
@@ -351,7 +351,7 @@ class CharacterSelectState extends MusicBeatState
 		characterText.borderSize = 5;
 		characterText.screenCenter(X);
 		characterText.cameras = [camHUD];
-		characterText.antialiasing = true;
+		characterText.antialiasing = FlxG.save.data.antialiasing;
 		characterText.y = FlxG.height - 180;
 		add(characterText);
 		
@@ -363,26 +363,26 @@ class CharacterSelectState extends MusicBeatState
 		resetText.y -= resetText.textField.textHeight - 100;
 		resetText.borderSize = 3;
 		resetText.cameras = [camHUD];
-		resetText.antialiasing = true;
+		resetText.antialiasing = FlxG.save.data.antialiasing;
 		resetText.visible = false;
 		add(resetText);
 
 		funnyIconMan = new HealthIcon('bf', true);
 		funnyIconMan.cameras = [camHUD];
 		funnyIconMan.visible = false;
-		funnyIconMan.antialiasing = true;
+		funnyIconMan.antialiasing = FlxG.save.data.antialiasing;
 		updateIconPosition();
 		add(funnyIconMan);
 
 		var tutorialThing:FlxSprite = new FlxSprite(-110, -30).loadGraphic(Paths.image('ui/charSelectGuide'));
 		tutorialThing.setGraphicSize(Std.int(tutorialThing.width * 1.5));
-		tutorialThing.antialiasing = true;
+		tutorialThing.antialiasing = FlxG.save.data.antialiasing;
 		tutorialThing.cameras = [camHUD];
 		add(tutorialThing);
 
 		var arrowLeft:FlxSprite = new FlxSprite(10,0).loadGraphic(Paths.image("ui/ArrowLeft_Idle", "preload"));
 		arrowLeft.screenCenter(Y);
-		arrowLeft.antialiasing = true;
+		arrowLeft.antialiasing = FlxG.save.data.antialiasing;
 		arrowLeft.scrollFactor.set();
 		arrowLeft.cameras = [camHUD];
 		arrows[0] = arrowLeft;
@@ -390,7 +390,7 @@ class CharacterSelectState extends MusicBeatState
 
 		var arrowRight:FlxSprite = new FlxSprite(-5,0).loadGraphic(Paths.image("ui/ArrowRight_Idle", "preload"));
 		arrowRight.screenCenter(Y);
-		arrowRight.antialiasing = true;
+		arrowRight.antialiasing = FlxG.save.data.antialiasing;
 		arrowRight.x = 1280 - arrowRight.width - 5;
 		arrowRight.scrollFactor.set();
 		arrowRight.cameras = [camHUD];
@@ -433,7 +433,7 @@ class CharacterSelectState extends MusicBeatState
 			babyArrow.animation.addByPrefix('purple', 'arrowLEFT0');
 			babyArrow.animation.addByPrefix('red', 'arrowRIGHT0');
 
-			babyArrow.antialiasing = true;
+			babyArrow.antialiasing = FlxG.save.data.antialiasing;
 			babyArrow.setGraphicSize(Std.int(babyArrow.width * 0.7));
 
 			babyArrow.x += 160 * 0.7 * i;

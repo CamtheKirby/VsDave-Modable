@@ -33,7 +33,7 @@ class MenuItem extends FlxSpriteGroup
 			}
 		}
 		add(week);
-		week.antialiasing = true;
+		week.antialiasing = FlxG.save.data.antialiasing;
 	}
 
 	private var isFlashing:Bool = false;

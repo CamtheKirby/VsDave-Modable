@@ -52,7 +52,7 @@ class Visuals extends MusicBeatState
 			menuBG.color = 0xFFea71fd;
 			menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
 			menuBG.updateHitbox();
-			menuBG.antialiasing = true;
+			menuBG.antialiasing = FlxG.save.data.antialiasing;
 			menuBG.loadGraphic(MainMenuState.randomizeBG());
 			add(menuBG);
 			curSongBarOptionSelected = songBarOptions.indexOf(FlxG.save.data.songBarOption);

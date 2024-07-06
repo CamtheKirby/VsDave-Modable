@@ -153,5 +153,8 @@ class SaveDataHandler
 
 			if (FlxG.save.data.discord == null)
 				FlxG.save.data.discord = false;
+
+			if (FlxG.save.data.antialiasing == null)
+				FlxG.save.data.antialiasing = true;
     }
 }

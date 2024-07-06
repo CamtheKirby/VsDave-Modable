@@ -268,7 +268,7 @@ class FreeplayState extends MusicBeatState
 			CurrentSongIcon.centerOffsets(false);
 			CurrentSongIcon.x = (1000 * i + 1) + (512 - CurrentSongIcon.width);
 			CurrentSongIcon.y = (FlxG.height / 2) - 256;
-			CurrentSongIcon.antialiasing = true;
+			CurrentSongIcon.antialiasing = FlxG.save.data.antialiasing;
 
 			var NameAlpha:Alphabet = new Alphabet(40, (FlxG.height / 2) - 282, translatedCatagory[i], true, false);
 			NameAlpha.x = CurrentSongIcon.x;
@@ -283,7 +283,7 @@ class FreeplayState extends MusicBeatState
 			CurrentSongIcon.centerOffsets(false);
 			CurrentSongIcon.x = (1000 * i + 1) + (512 - CurrentSongIcon.width);
 			CurrentSongIcon.y = (FlxG.height / 2) - 256;
-			CurrentSongIcon.antialiasing = true;
+			CurrentSongIcon.antialiasing = FlxG.save.data.antialiasing;
 
 			var NameAlpha:Alphabet = new Alphabet(40, (FlxG.height / 2) - 282, translatedCatagory[i], true, false);
 			NameAlpha.x = CurrentSongIcon.x;
@@ -314,7 +314,7 @@ class FreeplayState extends MusicBeatState
 		curOptDesc.setFormat("Comic Sans MS Bold", 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		curOptDesc.scrollFactor.set(0, 0);
 		curOptDesc.borderSize = 2;
-		curOptDesc.antialiasing = true;
+		curOptDesc.antialiasing = FlxG.save.data.antialiasing;
 		curOptDesc.screenCenter(X);
 		curOptDesc.y = FlxG.height - 58;
 		add(curOptDesc);
@@ -487,7 +487,7 @@ class FreeplayState extends MusicBeatState
 
 		scoreText = new FlxText(FlxG.width * 0.7, 0, 0, "", 32);
 		scoreText.setFormat(Paths.font("comic.ttf"), 32, FlxColor.WHITE, LEFT);
-		scoreText.antialiasing = true;
+		scoreText.antialiasing = FlxG.save.data.antialiasing;
 		scoreText.y = -225;
 		scoreText.scrollFactor.set();
 
@@ -498,7 +498,7 @@ class FreeplayState extends MusicBeatState
 
 		diffText = new FlxText(scoreText.x, scoreText.y + 15, 0, "", 24);
 		diffText.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, LEFT);
-		diffText.antialiasing = true;
+		diffText.antialiasing = FlxG.save.data.antialiasing;
 		diffText.scrollFactor.set();
 
 		settingsBG = new FlxSprite(FlxG.width * 0.7 - 6, 400).makeGraphic(Std.int(FlxG.width * 0.35), 300, 0xFF000000);
@@ -508,7 +508,7 @@ class FreeplayState extends MusicBeatState
 
 		cantEarnText = new FlxText(settingsBG.x - 20, settingsBG.y - 30, "You Can\'t Save Your Score With These Options", 20);
 		cantEarnText.setFormat("Comic Sans MS Bold", 17, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		cantEarnText.antialiasing = true;
+		cantEarnText.antialiasing = FlxG.save.data.antialiasing;
 		cantEarnText.scrollFactor.set();
 		cantEarnText.alpha = 0; 
 		cantEarnText.visible = false;
@@ -517,7 +517,7 @@ class FreeplayState extends MusicBeatState
 
 		oppOption = new FlxText(settingsBG.x, settingsBG.y, FlxG.save.data.oppM ? "Oppenent Mode: On (O)" : "Oppenent Mode: Off (O)", 20);
 		oppOption.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, RIGHT);
-		oppOption.antialiasing = true;
+		oppOption.antialiasing = FlxG.save.data.antialiasing;
 		oppOption.scrollFactor.set();
 		oppOption.alpha = 0; 
 		add(oppOption);
@@ -525,7 +525,7 @@ class FreeplayState extends MusicBeatState
 
 		oppOption = new FlxText(settingsBG.x, settingsBG.y, FlxG.save.data.oppM ? "Oppenent Mode: On (O)" : "Oppenent Mode: Off (O)", 20);
 		oppOption.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, RIGHT);
-		oppOption.antialiasing = true;
+		oppOption.antialiasing = FlxG.save.data.antialiasing;
 		oppOption.scrollFactor.set();
 		oppOption.alpha = 0; 
 		add(oppOption);
@@ -533,7 +533,7 @@ class FreeplayState extends MusicBeatState
 
 		randomOption = new FlxText(settingsBG.x, settingsBG.y + 30, FlxG.save.data.randomNotes ? "Randomize Notes: On (R)" : "Randomize Notes: Off (R)", 20);
 		randomOption.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, RIGHT);
-		randomOption.antialiasing = true;
+		randomOption.antialiasing = FlxG.save.data.antialiasing;
 		randomOption.scrollFactor.set();
 		randomOption.alpha = 0; 
 		add(randomOption);
@@ -541,7 +541,7 @@ class FreeplayState extends MusicBeatState
 
 		keyOption = new FlxText(settingsBG.x, settingsBG.y + 70, "Keys Added: " + FlxG.save.data.maniabutyeah + " (U)", 20);
 		keyOption.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, RIGHT);
-		keyOption.antialiasing = true;
+		keyOption.antialiasing = FlxG.save.data.antialiasing;
 		keyOption.scrollFactor.set();
 		keyOption.alpha = 0; 
 		add(keyOption);
@@ -549,7 +549,7 @@ class FreeplayState extends MusicBeatState
 
 		rNText = new FlxText(settingsBG.x, settingsBG.y + 110, "Randomly Place Note Types: " + rPNT[FlxG.save.data.randomNoteTypes] + " (I)", 20);
 		rNText.setFormat(Paths.font("comic.ttf"), 16, FlxColor.WHITE, RIGHT);
-		rNText.antialiasing = true;
+		rNText.antialiasing = FlxG.save.data.antialiasing;
 		rNText.scrollFactor.set();
 		rNText.alpha = 0; 
 		add(rNText);
@@ -557,7 +557,7 @@ class FreeplayState extends MusicBeatState
 
 		bothSidesText = new FlxText(settingsBG.x, settingsBG.y + 150, FlxG.save.data.bothSides ? "Both Sides: On (S)" : "Both Sides: Off (S)", 20);
 		bothSidesText.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, RIGHT);
-		bothSidesText.antialiasing = true;
+		bothSidesText.antialiasing = FlxG.save.data.antialiasing;
 		bothSidesText.scrollFactor.set();
 		bothSidesText.alpha = 0; 
 		add(bothSidesText);
@@ -565,7 +565,7 @@ class FreeplayState extends MusicBeatState
 
 		pModeOption = new FlxText(settingsBG.x, settingsBG.y + 230, FlxG.save.data.practiceMode ? "Practice Mode: On (P)" : "Practice Mode: Off (P)", 5);
 		pModeOption.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, RIGHT);
-		pModeOption.antialiasing = true;
+		pModeOption.antialiasing = FlxG.save.data.antialiasing;
 		pModeOption.scrollFactor.set();
 		pModeOption.alpha = 0; 
 		add(pModeOption);
@@ -573,7 +573,7 @@ class FreeplayState extends MusicBeatState
 
 		botplayOption = new FlxText(settingsBG.x, settingsBG.y + 260, FlxG.save.data.botplay ? "Botplay: On (B)" : "Botplay: Off (B)", 5);
 		botplayOption.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, RIGHT);
-		botplayOption.antialiasing = true;
+		botplayOption.antialiasing = FlxG.save.data.antialiasing;
 		botplayOption.scrollFactor.set();
 		botplayOption.alpha = 0; 
 		add(botplayOption);
@@ -584,7 +584,7 @@ class FreeplayState extends MusicBeatState
 			characterSelectText = new FlxText(FlxG.width - 6, FlxG.height, 0, LanguageManager.getTextString("freeplay_skipChar"), 18);
 			characterSelectText.setFormat("Comic Sans MS Bold", 18, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			characterSelectText.borderSize = 1.5;
-			characterSelectText.antialiasing = true;
+			characterSelectText.antialiasing = FlxG.save.data.antialiasing;
 			characterSelectText.scrollFactor.set();
 			characterSelectText.alpha = 0;
 			characterSelectText.x -= characterSelectText.textField.textWidth;

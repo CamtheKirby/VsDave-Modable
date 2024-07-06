@@ -71,7 +71,7 @@ class PauseSubState extends MusicBeatSubstate
 
 		bg = new FlxBackdrop(Paths.image('ui/checkeredBG', 'preload'), 1, 1, true, true, 1, 1);
 		bg.alpha = 0;
-		bg.antialiasing = true;
+		bg.antialiasing = FlxG.save.data.antialiasing;
 		bg.scrollFactor.set();
 		add(bg);
 
@@ -79,7 +79,7 @@ class PauseSubState extends MusicBeatSubstate
 		levelInfo.text += PlayState.SONG.song;
 		levelInfo.scrollFactor.set();
 		levelInfo.setFormat(Paths.font("comic.ttf"), 32, FlxColor.WHITE, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		levelInfo.antialiasing = true;
+		levelInfo.antialiasing = FlxG.save.data.antialiasing;
 		levelInfo.borderSize = 2.5;
 		levelInfo.updateHitbox();
 		add(levelInfo);
@@ -88,7 +88,7 @@ class PauseSubState extends MusicBeatSubstate
 		levelDifficulty.text += CoolUtil.difficultyString() + '\nBy ' + CreditsPopUp.songCreator + '\n' + PlayState.blueBalls + ' Blue Balls';
 		levelDifficulty.scrollFactor.set();
 		levelDifficulty.setFormat(Paths.font('comic.ttf'), 32, FlxColor.WHITE, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		levelDifficulty.antialiasing = true;
+		levelDifficulty.antialiasing = FlxG.save.data.antialiasing;
 		levelDifficulty.borderSize = 2.5;
 		levelDifficulty.updateHitbox();
 		if (!PlayState.isGreetingsCutscene)
@@ -321,7 +321,7 @@ class PauseSubState extends MusicBeatSubstate
 				difficulty.text += levelDifficulty.text;
 				difficulty.scrollFactor.set();
 				difficulty.setFormat(Paths.font('comic.ttf'), 32, FlxColor.WHITE, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-				difficulty.antialiasing = true;
+				difficulty.antialiasing = FlxG.save.data.antialiasing;
 				difficulty.borderSize = 2;
 				difficulty.updateHitbox();
 				funnyTexts.add(difficulty);

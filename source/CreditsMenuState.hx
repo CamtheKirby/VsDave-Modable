@@ -543,7 +543,7 @@ if (FileSystem.exists(TitleState.modFolder + '/data/credits.json')) {
             titleText.borderSize = 3;
             titleText.borderQuality = 3;
             titleText.screenCenter(X);
-            titleText.antialiasing = true;
+            titleText.antialiasing = FlxG.save.data.antialiasing;
             titleText.scrollFactor.set(0, 1);
             if (DoFunnyScroll)
             {
@@ -563,7 +563,7 @@ if (FileSystem.exists(TitleState.modFolder + '/data/credits.json')) {
          var textItem:FlxText = new FlxText(0, i * 50, 0, currentPerson.name, 32);
          textItem.setFormat(defaultFormat.font, defaultFormat.size, defaultFormat.color, defaultFormat.alignment, defaultFormat.borderStyle, defaultFormat.borderColor);
          textItem.screenCenter(X);
-		   textItem.antialiasing = true;
+		   textItem.antialiasing = FlxG.save.data.antialiasing;
          textItem.scrollFactor.set(0, 1);
 
          var iconImage:Dynamic = FileSystem.exists(TitleState.modFolder + '/images/credits/icons/Mod Devs/' + currentPerson.name + '.png') ? Paths.customImage(TitleState.modFolder + '/images/credits/icons/Mod Devs/' + currentPerson.name) : Paths.image('credits/icons/' + creditsTypeString + '/' + currentPerson.name);
@@ -573,7 +573,7 @@ if (FileSystem.exists(TitleState.modFolder + '/data/credits.json')) {
          add(personIcon);
 
          personIcon.visible = !DoFunnyScroll;
-         personIcon.antialiasing = currentPerson.antialiasing;
+         personIcon.antialiasing = currentPerson.antialiasing ? FlxG.save.data.antialiasing : currentPerson.antialiasing;
 
          var creditsTextItem:CreditsText = new CreditsText(textItem, true, personIcon);
 
@@ -606,7 +606,7 @@ if (FileSystem.exists(TitleState.modFolder + '/data/credits.json')) {
          {
             var logoBl:FlxSprite = new FlxSprite(StupidCameraFollow.x, StupidCameraFollow.y);
             logoBl.frames = Paths.getSparrowAtlas('ui/logoBumpin');
-            logoBl.antialiasing = true;
+            logoBl.antialiasing = FlxG.save.data.antialiasing;
             logoBl.alpha = 0;
             logoBl.x -= logoBl.width / 2;
             logoBl.y -= logoBl.height / 2;
@@ -860,7 +860,7 @@ if (FileSystem.exists(TitleState.modFolder + '/data/credits.json')) {
       personName.setFormat(selectedFormat.font, selectedFormat.size, selectedFormat.color, selectedFormat.alignment, selectedFormat.borderStyle, selectedFormat.borderColor);
       personName.screenCenter(X);
       personName.updateHitbox();
-	   personName.antialiasing = true;
+	   personName.antialiasing = FlxG.save.data.antialiasing;
       personName.scrollFactor.set();
       personName.active = false;
       
@@ -868,7 +868,7 @@ if (FileSystem.exists(TitleState.modFolder + '/data/credits.json')) {
       credits.setFormat(selectedFormat.font, selectedFormat.size, selectedFormat.color, selectedFormat.alignment, selectedFormat.borderStyle, selectedFormat.borderColor);
       credits.screenCenter(X);
       credits.updateHitbox();
-	   credits.antialiasing = true;
+	   credits.antialiasing = FlxG.save.data.antialiasing;
       credits.scrollFactor.set();
       credits.active = false;
 
@@ -916,7 +916,7 @@ if (FileSystem.exists(TitleState.modFolder + '/data/credits.json')) {
             discordText.alpha = 0;
             discordText.updateHitbox();
             discordText.scrollFactor.set();
-			discordText.antialiasing = true;
+			discordText.antialiasing = FlxG.save.data.antialiasing;
             discordText.active = false;
             add(discordText);
             FlxTween.tween(discordText, { alpha: 1 }, fadeTime);

@@ -112,7 +112,7 @@ class ChangeKeybinds extends MusicBeatState
 		tutorial.screenCenter(X);
 		tutorial.setFormat("Comic Sans MS Bold", 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		tutorial.borderSize = 2;
-		tutorial.antialiasing = true;
+		tutorial.antialiasing = FlxG.save.data.antialiasing;
 		add(tutorial);
 
 		createPresetUI();
@@ -285,7 +285,7 @@ class ChangeKeybinds extends MusicBeatState
 		var control:FlxText = new FlxText((FlxG.width / 2) - textx, (preset.y + 125) + (order * 100), 0, uiControl.uiName + ":", 32);
 		control.setFormat("Comic Sans MS Bold", 32, FlxColor.WHITE, CENTER);
 		control.borderSize = 2;
-		control.antialiasing = true;
+		control.antialiasing = FlxG.save.data.antialiasing;
 		add(control);
 
 		controlTexts.push(control);
@@ -305,7 +305,7 @@ class ChangeKeybinds extends MusicBeatState
 			keybind.y = control.y;
 			keybind.setFormat("Comic Sans MS Bold", 32, FlxColor.WHITE, CENTER);
 			keybind.borderSize = 2;
-			keybind.antialiasing = true;
+			keybind.antialiasing = FlxG.save.data.antialiasing;
 			add(keybind);
 
 			keybindTexts.add(keybind);
@@ -323,7 +323,7 @@ class ChangeKeybinds extends MusicBeatState
 		choosePreset.screenCenter(X);
 		choosePreset.setFormat("Comic Sans MS Bold", 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		choosePreset.borderSize = 2;
-		choosePreset.antialiasing = true;
+		choosePreset.antialiasing = FlxG.save.data.antialiasing;
 		keybindPresetGroup.add(choosePreset);
 		add(choosePreset);
 
@@ -331,7 +331,7 @@ class ChangeKeybinds extends MusicBeatState
 		preset.screenCenter(X);
 		preset.setFormat("Comic Sans MS Bold", 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		preset.borderSize = 2;
-		preset.antialiasing = true;
+		preset.antialiasing = FlxG.save.data.antialiasing;
 		add(preset);
 		keybindPresetGroup.add(preset);
 		selectableItems.push(preset);
@@ -339,14 +339,14 @@ class ChangeKeybinds extends MusicBeatState
 		presetLeft = new FlxText(preset.x - arrowOffset, preset.y - preset.textField.height - 2, FlxG.width / 2, "<", 32);
 		presetLeft.setFormat("Comic Sans MS Bold", 32, FlxColor.WHITE, CENTER);
 		presetLeft.borderSize = 1;
-		presetLeft.antialiasing = true;
+		presetLeft.antialiasing = FlxG.save.data.antialiasing;
 		keybindPresetGroup.add(presetLeft);
 		add(presetLeft);
 
 		presetRight = new FlxText(preset.x + arrowOffset, preset.y - preset.textField.height - 2, FlxG.width / 2, ">", 32);
 		presetRight.setFormat("Comic Sans MS Bold", 32, FlxColor.WHITE, CENTER);
 		presetRight.borderSize = 1;
-		presetRight.antialiasing = true;
+		presetRight.antialiasing = FlxG.save.data.antialiasing;
 		keybindPresetGroup.add(presetRight);
 		add(presetRight);
 		

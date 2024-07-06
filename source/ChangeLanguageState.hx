@@ -36,13 +36,13 @@ class ChangeLanguageState extends MusicBeatState
       menuBG.color = 0xFFea71fd;
       menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
       menuBG.updateHitbox();
-      menuBG.antialiasing = true;
+      menuBG.antialiasing = FlxG.save.data.antialiasing;
       menuBG.loadGraphic(MainMenuState.randomizeBG());
       add(menuBG);
 
 	   var helper:FlxText = new FlxText(0, 150, FlxG.width, "Select a language", 40);
       helper.setFormat("Comic Sans MS Bold", 60, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-      helper.antialiasing = true;
+      helper.antialiasing = FlxG.save.data.antialiasing;
       helper.borderSize = 3;
 	   helper.screenCenter(X);
       add(helper);
@@ -53,7 +53,7 @@ class ChangeLanguageState extends MusicBeatState
 
          var text:FlxText = new FlxText(0, 350 + (i * 75), FlxG.width, curLanguage.langaugeName, 40);
          text.setFormat("Comic Sans MS Bold", 30, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE);
-         text.antialiasing = true;
+         text.antialiasing = FlxG.save.data.antialiasing;
          text.screenCenter(X);
          add(text);
          languageTextGroup.add(text);

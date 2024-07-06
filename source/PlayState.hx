@@ -1186,7 +1186,7 @@ class PlayState extends MusicBeatState
 			legs.frames = Paths.getSparrowAtlas('characters/shaggy_god', 'shared');
 			legs.animation.addByPrefix('legs', "solo_legs", 30);
 			legs.animation.play('legs');
-			legs.antialiasing = true;
+			legs.antialiasing = FlxG.save.data.antialiasing;
 			legs.flipX = true;
 			legs.updateHitbox();
 			legs.offset.set(legs.frameWidth / 2, 10);
@@ -1414,7 +1414,7 @@ class PlayState extends MusicBeatState
 			var yPos = scrollType == 'downscroll' ? FlxG.height * 0.9 + 20 : strumLine.y - 20;
 
 			songPosBG = new FlxSprite(0, yPos).loadGraphic(Paths.image('ui/timerBar'));
-			songPosBG.antialiasing = true;
+			songPosBG.antialiasing = FlxG.save.data.antialiasing;
 			songPosBG.screenCenter(X);
 			songPosBG.scrollFactor.set();
 			add(songPosBG);
@@ -1431,7 +1431,7 @@ class PlayState extends MusicBeatState
 			
 			songName.scrollFactor.set();
 			songName.borderSize = 2.5 * fontScaler;
-			songName.antialiasing = true;
+			songName.antialiasing = FlxG.save.data.antialiasing;
 			if (barType == 'ShowTime')
 			{
 				songName.alpha = 0;
@@ -1521,7 +1521,7 @@ class PlayState extends MusicBeatState
 			healthBarBG.y = 50;
 		healthBarBG.screenCenter(X);
 		healthBarBG.scrollFactor.set();
-		healthBarBG.antialiasing = true;
+		healthBarBG.antialiasing = FlxG.save.data.antialiasing;
 		add(healthBarBG);
 
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, inFiveNights || oppM ? LEFT_TO_RIGHT : RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
@@ -1597,7 +1597,7 @@ class PlayState extends MusicBeatState
 			kadeEngineWatermark.setFormat(font, 16 * fontScaler, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			kadeEngineWatermark.scrollFactor.set();
 			kadeEngineWatermark.borderSize = 1.25 * fontScaler;
-			kadeEngineWatermark.antialiasing = true;
+			kadeEngineWatermark.antialiasing = FlxG.save.data.antialiasing;
 			add(kadeEngineWatermark);
 
 			kadeEngineWatermark2 = new FlxText(4, textYPos + -20, 0, funkyText2, 16);
@@ -1605,7 +1605,7 @@ class PlayState extends MusicBeatState
 			kadeEngineWatermark2.setFormat(font, 16 * fontScaler, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			kadeEngineWatermark2.scrollFactor.set();
 			kadeEngineWatermark2.borderSize = 1.25 * fontScaler;
-			kadeEngineWatermark2.antialiasing = true;
+			kadeEngineWatermark2.antialiasing = FlxG.save.data.antialiasing;
 			add(kadeEngineWatermark2);
 		}
 		if (creditsText)
@@ -1614,7 +1614,7 @@ class PlayState extends MusicBeatState
 			creditsWatermark.setFormat(font, 16 * fontScaler, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			creditsWatermark.scrollFactor.set();
 			creditsWatermark.borderSize = 1.25 * fontScaler;
-			creditsWatermark.antialiasing = true;
+			creditsWatermark.antialiasing = FlxG.save.data.antialiasing;
 			add(creditsWatermark);
 			creditsWatermark.cameras = [camHUD];
 		}
@@ -1686,7 +1686,7 @@ class PlayState extends MusicBeatState
 		scoreTxt.setFormat((SONG.song.toLowerCase() == "overdrive") ? Paths.font("ariblk.ttf") : font, 20 * fontScaler, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.5 * fontScaler;
-		scoreTxt.antialiasing = true;
+		scoreTxt.antialiasing = FlxG.save.data.antialiasing;
 		scoreTxt.screenCenter(X);
 		add(scoreTxt);
 
@@ -2242,7 +2242,7 @@ class PlayState extends MusicBeatState
 				add(freeplayBG);
 				
 				charBackdrop = new FlxBackdrop(Paths.image('recursed/daveScroll'), 1, 1, true, true);
-				charBackdrop.antialiasing = true;
+				charBackdrop.antialiasing = FlxG.save.data.antialiasing;
 				charBackdrop.scale.set(2, 2);
 				charBackdrop.screenCenter();
 				charBackdrop.color = FlxColor.multiply(charBackdrop.color, FlxColor.fromRGB(44, 44, 44));
@@ -2713,7 +2713,7 @@ class PlayState extends MusicBeatState
 					var ready:FlxSprite = new FlxSprite().loadGraphic(Paths.image(introAlts[0]));
 					ready.scrollFactor.set();
 					ready.updateHitbox();
-					ready.antialiasing = true;
+					ready.antialiasing = FlxG.save.data.antialiasing;
 
 					ready.screenCenter();
 					add(ready);
@@ -2736,7 +2736,7 @@ class PlayState extends MusicBeatState
 			
 					set.screenCenter();
 
-					set.antialiasing = true;
+					set.antialiasing = FlxG.save.data.antialiasing;
 					add(set);
 					FlxTween.tween(set, {y: set.y += 100, alpha: 0}, Conductor.crochet / 1000, {
 						ease: FlxEase.cubeInOut,
@@ -2759,7 +2759,7 @@ class PlayState extends MusicBeatState
 
 					go.screenCenter();
 
-					go.antialiasing = true;
+					go.antialiasing = FlxG.save.data.antialiasing;
 					add(go);
 
 					var sex:Float = 1000;
@@ -5573,7 +5573,7 @@ class PlayState extends MusicBeatState
 						var marcello:FlxSprite = new FlxSprite(dad.x - 170, dad.y);
 						marcello.flipX = true;
 						add(marcello);
-						marcello.antialiasing = true;
+						marcello.antialiasing = FlxG.save.data.antialiasing;
 						marcello.color = 0xFF878787;
 						dad.visible = false;
 						boyfriend.stunned = true;
@@ -5647,7 +5647,7 @@ class PlayState extends MusicBeatState
 					var marcello:FlxSprite = new FlxSprite(dad.x, dad.y);
 					marcello.flipX = true;
 					add(marcello);
-					marcello.antialiasing = true;
+					marcello.antialiasing = FlxG.save.data.antialiasing;
 					marcello.color = getBackgroundColor(curStage);
 					dad.visible = false;
 					boyfriend.stunned = true;
@@ -5834,9 +5834,9 @@ class PlayState extends MusicBeatState
 		}
 
 		rating.setGraphicSize(Std.int(rating.width * 0.7));
-		rating.antialiasing = true;
+		rating.antialiasing = FlxG.save.data.antialiasing;
 		comboSpr.setGraphicSize(Std.int(comboSpr.width * 0.7));
-		comboSpr.antialiasing = true;
+		comboSpr.antialiasing = FlxG.save.data.antialiasing;
 
 		comboSpr.updateHitbox();
 		rating.updateHitbox();
@@ -5862,7 +5862,7 @@ class PlayState extends MusicBeatState
 			numScore.x = coolText.x + (43 * daLoop) - 90;
 			numScore.y += 80;
 
-			numScore.antialiasing = true;
+			numScore.antialiasing = FlxG.save.data.antialiasing;
 			numScore.setGraphicSize(Std.int(numScore.width * 0.5));
 			numScore.updateHitbox();
 
@@ -7259,7 +7259,7 @@ if (oppM) {
 		notesLeftText.setFormat("Comic Sans MS Bold", 30, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		notesLeftText.scrollFactor.set();
 		notesLeftText.borderSize = 2.5;
-		notesLeftText.antialiasing = true;
+		notesLeftText.antialiasing = FlxG.save.data.antialiasing;
 		notesLeftText.cameras = [camHUD];
 		add(notesLeftText);
 		recursedUI.add(notesLeftText);
@@ -7276,7 +7276,7 @@ if (oppM) {
 		timeLeftText.setFormat("Comic Sans MS Bold", 30, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		timeLeftText.scrollFactor.set();
 		timeLeftText.borderSize = 2.5;
-		timeLeftText.antialiasing = true;
+		timeLeftText.antialiasing = FlxG.save.data.antialiasing;
 		timeLeftText.cameras = [camHUD];
 		add(timeLeftText);
 		recursedUI.add(timeLeftText);
@@ -8302,12 +8302,12 @@ if (oppM) {
 						
 						creditsPopup.changeText('', 'none', false);
 					case 20:
-						creditsPopup.switchHeading({path: 'songHeadings/expungedHeading', antiAliasing: true,
+						creditsPopup.switchHeading({path: 'songHeadings/expungedHeading', antiAliasing: FlxG.save.data.antialiasing,
 						animation: new Animation('expunged', 'Expunged', 24, true, [false, false]), iconOffset: 0});
 
 						creditsPopup.changeText('Song by Oxygen', 'Oxygen');
 					case 14, 24:
-						creditsPopup.switchHeading({path: 'songHeadings/expungedHeading', antiAliasing: true,
+						creditsPopup.switchHeading({path: 'songHeadings/expungedHeading', antiAliasing: FlxG.save.data.antialiasing,
 						animation: new Animation('expunged', 'Expunged', 24, true, [false, false]), iconOffset: 0});
 
 						creditsPopup.changeText('Song by EXPUNGED', 'whoAreYou');

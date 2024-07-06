@@ -5,6 +5,7 @@ import flixel.FlxSprite;
 import flixel.math.FlxMath;
 import flixel.graphics.FlxGraphic;
 import openfl.display.BitmapData;
+import flixel.FlxG;
 
 
 class HealthIcon extends FlxSprite
@@ -75,7 +76,7 @@ class HealthIcon extends FlxSprite
 			
 			if (char != "none" && !blank)
 			{
-				antialiasing = !noAaChars.contains(char);
+				antialiasing = !noAaChars.contains(char) ? FlxG.save.data.antialiasing : !noAaChars.contains(char);
 				//trace('Graphic width before setting: ' + width);
 				if (winningIcon) {
 				//trace('winning :) added');

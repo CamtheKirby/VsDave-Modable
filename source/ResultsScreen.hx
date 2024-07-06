@@ -59,12 +59,12 @@ class ResultsScreen extends FlxState
 		bg.setGraphicSize(Std.int(bg.width * 1.1));
 		bg.updateHitbox();
 		bg.screenCenter();
-		bg.antialiasing = true;
+		bg.antialiasing = FlxG.save.data.antialiasing;
 		bg.color = 0xFF7F7F7F;
 		add(bg);
 
 	    info = new FlxText(FlxG.width - 1850, FlxG.height - 420, 0, !PlayState.isStoryMode ? 'Total Notes Hit: ${PlayState.rstotalNotesHit}\nMax Combo: ${PlayState.rscombo}\nScore: ${PlayState.rssongScore}\nMisses: ${PlayState.rsmisses}\nAccuracy: ${PlayState.rsaccuracy}%\nSicks: ${PlayState.rssicks}\nGoods: ${PlayState.rsgoods}\nBads: ${PlayState.rsbads}\nShits: ${PlayState.rsshits}' : 'Total Notes Hit: ${PlayState.rstotalNotesHit}\nMax Combo: ${PlayState.rscombo}\nScore: ${PlayState.rssongScore}\nMisses: ${PlayState.rsmisses}\nBest Accuracy: ${PlayState.rsaccuracy}%\nSicks: ${PlayState.rssicks}\nGoods: ${PlayState.rsgoods}\nBads: ${PlayState.rsbads}\nShits: ${PlayState.rsshits}', 12);
-		info.antialiasing = true;
+		info.antialiasing = FlxG.save.data.antialiasing;
 		info.scrollFactor.set();
 		info.setFormat("Comic Sans MS Bold", 30, FlxColor.BLACK, LEFT);
 		info.alpha = 1;
@@ -80,14 +80,14 @@ class ResultsScreen extends FlxState
 		}
 
 		info2 = new FlxText(FlxG.width - 1850, FlxG.height - 630, 0, '${score}% - ${PlayState.rssong} ${credit}', 12);
-		info2.antialiasing = true;
+		info2.antialiasing = FlxG.save.data.antialiasing;
 		info2.scrollFactor.set();
 		info2.setFormat("Comic Sans MS Bold", 25, FlxColor.BLACK, LEFT);
 		info2.alpha = 1;
 		add(info2);
 
 		notesTxt = new FlxText(0, 0, 0, score + '%', 12);
-		notesTxt.antialiasing = true;
+		notesTxt.antialiasing = FlxG.save.data.antialiasing;
 		notesTxt.scrollFactor.set();
 		notesTxt.setFormat("Comic Sans MS Bold", 200, FlxColor.BLACK, CENTER);
 		notesTxt.screenCenter();

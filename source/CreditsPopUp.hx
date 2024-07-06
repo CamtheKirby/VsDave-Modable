@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxG;
 import haxe.Json;
 import sys.io.File;
 import sys.FileSystem;
@@ -84,39 +85,39 @@ class CreditsPopUp extends FlxSpriteGroup
 			case 0 | 1:
 				headingPath = {path: 'songHeadings/daveHeading', antiAliasing: false, iconOffset: 0};
 			case 2:
-				headingPath = {path: 'songHeadings/bambiHeading', antiAliasing: true, iconOffset: 0};
+				headingPath = {path: 'songHeadings/bambiHeading', antiAliasing: FlxG.save.data.antialiasing, iconOffset: 0};
 			case 3:
 				headingPath = {path: 'songHeadings/splitathonHeading', antiAliasing: false, iconOffset: 0};
 			case 4:
-				headingPath = {path: 'songHeadings/festivalHeading', antiAliasing: true, iconOffset: 0};
+				headingPath = {path: 'songHeadings/festivalHeading', antiAliasing: FlxG.save.data.antialiasing, iconOffset: 0};
 			case 5:
 				headingPath = {path: 'songHeadings/bevelHeading', antiAliasing: false, iconOffset: 0};
 			case 6:
-				headingPath = {path: 'songHeadings/kabungaHeading', antiAliasing: true, iconOffset: 0};
+				headingPath = {path: 'songHeadings/kabungaHeading', antiAliasing: FlxG.save.data.antialiasing, iconOffset: 0};
 			case 7:
-				headingPath = {path: 'songHeadings/secretLeakHeading', antiAliasing: true, iconOffset: 3};
+				headingPath = {path: 'songHeadings/secretLeakHeading', antiAliasing: FlxG.save.data.antialiasing, iconOffset: 3};
 			case 8:
-				headingPath = {path: 'songHeadings/tristanHeading', antiAliasing: true, iconOffset: 0};
+				headingPath = {path: 'songHeadings/tristanHeading', antiAliasing: FlxG.save.data.antialiasing, iconOffset: 0};
 			case 9:
-				headingPath = {path: 'songHeadings/botHeading', antiAliasing: true,
+				headingPath = {path: 'songHeadings/botHeading', antiAliasing: FlxG.save.data.antialiasing,
 				animation: new Animation('botTrot', 'Bot trot', 24, true, [false, false]), iconOffset: 0};
 			case 10:
-				headingPath = {path: 'songHeadings/recursedHeading', antiAliasing: true, iconOffset: 5};
+				headingPath = {path: 'songHeadings/recursedHeading', antiAliasing: FlxG.save.data.antialiasing, iconOffset: 5};
 			case 11:
-				headingPath = {path: 'songHeadings/californiaHeading', antiAliasing: true,
+				headingPath = {path: 'songHeadings/californiaHeading', antiAliasing: FlxG.save.data.antialiasing,
 				animation: new Animation('california', 'California', 24, true, [false, false]), iconOffset: 0};
 			case 12:
-				headingPath = {path: 'songHeadings/fnafHeading', antiAliasing: true, iconOffset: 0};
+				headingPath = {path: 'songHeadings/fnafHeading', antiAliasing: FlxG.save.data.antialiasing, iconOffset: 0};
 			case 13:
 				headingPath = {path: 'songHeadings/fnfengeading', antiAliasing: false, iconOffset: 0};
 			case 14:
-				headingPath = {path: 'songHeadings/cheatingHeading', antiAliasing: true,
+				headingPath = {path: 'songHeadings/cheatingHeading', antiAliasing: FlxG.save.data.antialiasing,
 				animation: new Animation('cheating', 'Cheating', 24, true, [false, false]), iconOffset: 0};
 			case 15:
-				headingPath = {path: 'songHeadings/unfairHeading', antiAliasing: true,
+				headingPath = {path: 'songHeadings/unfairHeading', antiAliasing: FlxG.save.data.antialiasing,
 				animation: new Animation('unfair', 'Unfairness', 24, true, [false, false]), iconOffset: 0};
 			case 16:
-				headingPath = {path: 'songHeadings/expungedHeading', antiAliasing: true,
+				headingPath = {path: 'songHeadings/expungedHeading', antiAliasing: FlxG.save.data.antialiasing,
 				animation: new Animation('expunged', 'Expunged', 24, true, [false, false]), iconOffset: 0};
 			default:
 			if (FreeplayState.isaCustomSong) {
@@ -259,7 +260,7 @@ class CreditsPopUp extends FlxSpriteGroup
 		funnyText = new FlxText(1, 0, 650, text, 16);
 		funnyText.setFormat('Comic Sans MS Bold', 30, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		funnyText.borderSize = 2;
-		funnyText.antialiasing = true;
+		funnyText.antialiasing = FlxG.save.data.antialiasing;
 		add(funnyText);
 	}
 	public function rescaleIcon()
