@@ -54,6 +54,7 @@ class MenuItem extends FlxSpriteGroup
 		super.update(elapsed);
 		x = FlxMath.lerp(x, (targetX * 450) + 420, 0.17);
 
+		if (FlxG.save.data.flashing) {
 		if (isFlashing)
 			flashingInt += 1;
 
@@ -61,5 +62,6 @@ class MenuItem extends FlxSpriteGroup
 			week.color = 0xFF33ffff;
 		else
 			week.color = FlxColor.WHITE;
+	}
 	}
 }

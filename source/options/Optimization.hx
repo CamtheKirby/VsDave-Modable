@@ -34,6 +34,7 @@ class Optimization extends MusicBeatState
 	override function create()
 	{
 		#if desktop
+		if (FlxG.save.data.discord)
 		DiscordClient.changePresence("In the Optimization Options Menu", null);
 		#end
 
@@ -49,8 +50,12 @@ class Optimization extends MusicBeatState
 
 		controlsStrings = CoolUtil.coolStringFile( 
 		    (CompatTool.save.data.compatMode ? LanguageManager.getTextString('option_enable_compat') : LanguageManager.getTextString('option_disable_compat'))
-			+ "\n" + (FlxG.save.data.lessLag ? 'Less Lag OFF' : 'Less Lag ON')
 			+ "\n" + (FlxG.save.data.wantShaders ? "Shaders ON" : "Shaders OFF")
+			+ "\n" + (FlxG.save.data.playerLight ? "Light Player Strums ON" : "Light Player Strums OFF")
+			+ "\n" + (FlxG.save.data.cpuLight ? "Light Cpu Strums ON" : "Light Cpu Strums OFF")
+			+ "\n" + (FlxG.save.data.ratingsPopUp ? "Show Rating Pop Up ON" : "Show Rating Pop Up OFF")
+			+ "\n" + (FlxG.save.data.stage ? "Stage ON" : "Stage OFF")
+			+ "\n" + (FlxG.save.data.chars ? "Characters ON" : "Characters OFF")
 			);
 
 		grpControls = new FlxTypedGroup<Alphabet>();
@@ -92,14 +97,25 @@ class Optimization extends MusicBeatState
 			{
 				case 0:
 					CompatTool.save.data.compatMode = !CompatTool.save.data.compatMode;
-					updateGroupControls(CompatTool.save.data.compatMode ? LanguageManager.getTextString('option_enable_compat') : LanguageManager.getTextString('option_disable_compat'), 11, 'Vertical');
-				
-				case 1:
-					FlxG.save.data.lessLag = !FlxG.save.data.lessLag;
-					updateGroupControls(FlxG.save.data.lessLag ? 'Less Lag OFF' : 'Less Lag ON', 12, 'Vertical');	
-					case 2:
+					updateGroupControls(CompatTool.save.data.compatMode ? LanguageManager.getTextString('option_enable_compat') : LanguageManager.getTextString('option_disable_compat'), 11, 'Vertical');	
+					case 1:
 					FlxG.save.data.wantShaders = !FlxG.save.data.wantShaders;
 					updateGroupControls(FlxG.save.data.wantShaders ? 'Shaders ON' : 'Shaders OFF', 12, 'Vertical');	
+					case 2:
+					FlxG.save.data.playerLight = !FlxG.save.data.playerLight;
+					updateGroupControls(FlxG.save.data.playerLight ? 'Light Player Strums ON' : 'Light Player Strums OFF', 12, 'Vertical');	
+					case 3:
+					FlxG.save.data.cpuLight = !FlxG.save.data.cpuLight;
+					updateGroupControls(FlxG.save.data.cpuLight ? 'Light Cpu Strums ON' : 'Light Cpu Strums OFF', 12, 'Vertical');	
+					case 4:
+					FlxG.save.data.ratingsPopUp = !FlxG.save.data.ratingsPopUp;
+					updateGroupControls(FlxG.save.data.ratingsPopUp ? 'Show Rating Pop Up ON' : 'Show Rating Pop Up OFF', 12, 'Vertical');	
+					case 5:
+					FlxG.save.data.stage = !FlxG.save.data.stage;
+					updateGroupControls(FlxG.save.data.stage ? 'Stage ON' : 'Stage OFF', 12, 'Vertical');	
+					case 6:
+					FlxG.save.data.chars = !FlxG.save.data.chars;
+					updateGroupControls(FlxG.save.data.chars ? 'Characters ON' : 'Characters OFF', 12, 'Vertical');
 			}
 		}
 	}

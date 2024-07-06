@@ -159,7 +159,10 @@ class FreeplayState extends MusicBeatState
 
 	override function create()
 	{
-		#if desktop DiscordClient.changePresence("In the Freeplay Menu", null); #end
+		#if desktop 
+		if (FlxG.save.data.discord)
+		DiscordClient.changePresence("In the Freeplay Menu", null); 
+		#end
 
 		isaCustomSong = false;
 		FlxG.save.data.randomNoteTypes = 0;

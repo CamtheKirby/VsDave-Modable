@@ -42,6 +42,7 @@ class Visuals extends MusicBeatState
 	override function create()
 	{
 		#if desktop
+		if (FlxG.save.data.discord)
 		DiscordClient.changePresence("In the Visuals Options Menu", null);
 		#end
 
@@ -64,6 +65,14 @@ class Visuals extends MusicBeatState
 			+ "\n" + (FlxG.save.data.ogHold ? "OG Hold Note Style ON" : "OG Hold Note Style OFF")
 			+ "\n" + ("Sustain Transparency")
 			+ "\n" + (FlxG.save.data.freeplayCuts ? "Freeplay Cutscenes ON" : "Freeplay Cutscenes OFF")
+			+ "\n" + (FlxG.save.data.hideHud ? "Hide Hud ON" : "Hide Hud OFF")
+			+ "\n" + (FlxG.save.data.showcaseMode ? "Showcase Mode ON" : "Showcase Mode OFF")
+			+ "\n" + (FlxG.save.data.creditsPop ? "Credits Popup ON" : "Credits Popup OFF")
+			//+ "\n" + ("Note Splash Transparency")
+			+ "\n" + (FlxG.save.data.flashing ? "Flashing Lights ON" : "Flashing Lights OFF")
+			+ "\n" + (FlxG.save.data.cameraZoom ? "Camera Zooms ON" : "Camera Zooms OFF")
+			+ "\n" + (FlxG.save.data.comboStack ? "Combo Stacking ON" : "Combo Stacking OFF")
+			+ "\n" + (FlxG.save.data.discord ? "Discord Rich Presence ON" : "Discord Rich Presence OFF")
 			);
 
 		grpControls = new FlxTypedGroup<Alphabet>();
@@ -155,7 +164,38 @@ class Visuals extends MusicBeatState
 					versionShit.text = numberOption + "\nOffset (Left, Right): " + FlxG.save.data.offset;
 					case 7:
 					FlxG.save.data.freeplayCuts = !FlxG.save.data.freeplayCuts;
-					updateGroupControls(FlxG.save.data.freeplayCuts ? 'Freeplay Cutscenes ON' : 'Freeplay Cutscenes OFF', 12, 'Vertical');	
+					updateGroupControls(FlxG.save.data.freeplayCuts ? 'Freeplay Cutscenes ON' : 'Freeplay Cutscenes OFF', 12, 'Vertical');
+					case 8:
+						FlxG.save.data.hideHud = !FlxG.save.data.hideHud;
+						updateGroupControls(FlxG.save.data.hideHud ? 'Hide Hud ON' : 'Hide Hud OFF', 12, 'Vertical');	
+						case 9:
+						FlxG.save.data.showcaseMode = !FlxG.save.data.showcaseMode;
+						updateGroupControls(FlxG.save.data.showcaseMode ? 'Showcase Mode ON' : 'Showcase Mode OFF', 12, 'Vertical');
+						case 10:
+							FlxG.save.data.creditsPop = !FlxG.save.data.creditsPop;
+							updateGroupControls(FlxG.save.data.creditsPop ? 'Credits Popup ON' : 'Credits Popup OFF', 12, 'Vertical');	
+					/*	case 11:
+					if (FlxG.save.data.noteSplashTransparent < 0.9) {
+					FlxG.save.data.noteSplashTransparent += 0.1;
+					} else {
+					FlxG.save.data.noteSplashTransparent = 0.1;	
+					}
+					updateGroupControls('Note Splash Transparency', 12, 'Vertical');
+					numberOption = 'Note Splash Transparency: ' + FlxG.save.data.noteSplashTransparent;
+					versionShit.text = numberOption + "\nOffset (Left, Right): " + FlxG.save.data.offset;		
+					*/
+					case 11:
+							FlxG.save.data.flashing = !FlxG.save.data.flashing;
+							updateGroupControls(FlxG.save.data.flashing ? 'Flashing Lights ON' : 'Flashing Lights OFF', 12, 'Vertical');
+							case 12:
+							FlxG.save.data.cameraZoom = !FlxG.save.data.cameraZoom;
+							updateGroupControls(FlxG.save.data.cameraZoom ? 'Camera Zooms ON' : 'Camera Zooms OFF', 12, 'Vertical');		
+							case 13:
+							FlxG.save.data.comboStack = !FlxG.save.data.comboStack;
+							updateGroupControls(FlxG.save.data.comboStack ? 'Combo Stacking ON' : 'Combo Stacking OFF', 12, 'Vertical');
+							case 14:
+							FlxG.save.data.discord = !FlxG.save.data.discord;
+							updateGroupControls(FlxG.save.data.discord ? 'Discord Rich Presence ON' : 'Discord Rich Presence OFF', 12, 'Vertical');
 			}
 		}
 	}

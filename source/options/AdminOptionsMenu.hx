@@ -33,6 +33,7 @@ class AdminOptionsMenu extends MusicBeatState
 	override function create()
 	{
 		#if desktop
+		if (FlxG.save.data.discord)
 		DiscordClient.changePresence("In the Admin Options Menu", null);
 		#end
 		    var menuBG:FlxSprite = new FlxSprite();

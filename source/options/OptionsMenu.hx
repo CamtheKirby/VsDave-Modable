@@ -43,6 +43,7 @@ class OptionsMenu extends MusicBeatState
 	override function create()
 	{
 		#if desktop
+		if (FlxG.save.data.discord)
 		DiscordClient.changePresence("In the Options Menu", null);
 		#end
 		var menuBG:FlxSprite = new FlxSprite();

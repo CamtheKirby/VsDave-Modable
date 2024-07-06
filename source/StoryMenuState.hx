@@ -103,6 +103,7 @@ class StoryMenuState extends MusicBeatState
 		}
 		}
 		#if desktop
+		if (FlxG.save.data.discord)
 		DiscordClient.changePresence("In the Story Menu", null);
 		#end
 

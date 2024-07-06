@@ -365,6 +365,7 @@ class TitleState extends MusicBeatState
 			//trace(onlyforabug);
 			titleText.animation.play('press');
 
+			if (FlxG.save.data.flashing != null && FlxG.save.data.flashing)
 			FlxG.camera.flash(FlxColor.WHITE, 0.5);
 			FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 
@@ -396,7 +397,8 @@ class TitleState extends MusicBeatState
 		{
 			remove(credGroup);
 			skippedIntro = true;
-	
+			
+			if (FlxG.save.data.flashing != null && FlxG.save.data.flashing)
 			FlxG.camera.fade(FlxColor.WHITE, 2.5, true);
 		}
 	}

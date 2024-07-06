@@ -34,6 +34,7 @@ class GamePlay extends MusicBeatState
 	override function create()
 	{
 		#if desktop
+		if (FlxG.save.data.discord)
 		DiscordClient.changePresence("In the Gameplay Options Menu", null);
 		#end
 

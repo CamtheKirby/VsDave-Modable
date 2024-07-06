@@ -145,6 +145,7 @@ class MainMenuState extends MusicBeatState
 		persistentUpdate = persistentDraw = true;
 
 		#if desktop
+		if (FlxG.save.data.discord)
 		DiscordClient.changePresence("In the Menus", null);
 		#end
 		
@@ -432,6 +433,7 @@ class MainMenuState extends MusicBeatState
 					selectedSomethin = true;
 					FlxG.sound.play(Paths.sound('confirmMenu'));
 
+					if (FlxG.save.data.flashing)
 					FlxFlicker.flicker(magenta, 1.1, 0.15, false);
 
 					menuItems.forEach(function(spr:FlxSprite)
@@ -448,6 +450,7 @@ class MainMenuState extends MusicBeatState
 						}
 						else
 						{
+							if (FlxG.save.data.flashing) {
 							FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker)
 							{
 								var daChoice:String = optionShit[curSelected];
@@ -469,6 +472,26 @@ class MainMenuState extends MusicBeatState
 										FlxG.switchState(new CreditsMenuState());
 								}
 							});
+						} else {
+							var daChoice:String = optionShit[curSelected];
+								switch (daChoice)
+								{
+									case 'story mode':
+										FlxG.switchState(new StoryMenuState());
+									case 'freeplay' | 'freeplay glitch':
+										if (FlxG.random.bool(0.05))
+										{
+											fancyOpenURL("https://www.youtube.com/watch?v=Z7wWa1G9_30%22");
+										}
+										FlxG.switchState(new FreeplayState());
+									case 'options':
+										FlxG.switchState(new OptionsMenu());
+									case 'ost':
+										FlxG.switchState(new MusicPlayerState());
+									case 'credits':
+										FlxG.switchState(new CreditsMenuState());
+								}
+						}
 						}
 					});
 				}
@@ -715,7 +738,7 @@ class Prompt extends FlxSpriteGroup
 	{
 		FlxG.sound.play(Paths.sound('confirmMenu'));
 		var select = texts.indexOf(text);
-
+if (FlxG.save.data.flashing) {
 		FlxFlicker.flicker(text, 1.1, 0.1, false, false, function(flicker:FlxFlicker)
 		{
 			switch (select)
@@ -726,5 +749,14 @@ class Prompt extends FlxSpriteGroup
 					noFunc();
 			}
 		});
+	} else {
+		switch (select)
+			{
+				case 0:
+					yesFunc();
+				case 1:
+					noFunc();
+			}
 	}
+}
 }

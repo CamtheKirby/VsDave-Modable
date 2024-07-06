@@ -124,6 +124,22 @@ class Character extends FlxSprite
 				nativelyPlayable = true;
 
 				flipX = true;
+
+				
+			case 'none':
+				frames = Paths.getSparrowAtlas('blank', 'shared');
+				
+				animation.addByPrefix('idle', 'BF idle dance', 24, false);
+
+				loadOffsetFile(curCharacter);
+
+				barColor = FlxColor.fromRGB(49, 176, 209);
+
+				playAnim('idle');
+
+				nativelyPlayable = true;
+
+				flipX = true;
 			case 'bf-3d':
 				frames = Paths.getSparrowAtlas('characters/3d_bf', 'shared');
 
