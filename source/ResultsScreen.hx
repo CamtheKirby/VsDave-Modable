@@ -130,7 +130,7 @@ class ResultsScreen extends FlxState
 			endIt();
 		}
 		if (characterStuff) {
-		if (theNotes == 100) {
+		if (theNotes >= 100) {
 			var hitAnimation:Bool = bf.animation.getByName("dodge") != null;
 			var heyAnimation:Bool = bf.animation.getByName("hey") != null;
 			if (bf.animation.finished) {
@@ -168,14 +168,29 @@ class ResultsScreen extends FlxState
 		if(FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 
-		PlayState.allNotes = 0;
-		PlayState.isHighscore = false;
+
+		resetVars();
 if (!PlayState.isStoryMode) {
         FlxG.switchState(new FreeplayState());
 } else {
 	FlxG.switchState(new StoryMenuState());	
 }
 	}
+	public function resetVars()
+		{
+		PlayState.rssongScore = 0;
+        PlayState.rsmisses = 0;
+        PlayState.rsaccuracy = 0.00;
+        PlayState.rsshits = 0;
+        PlayState.rsbads = 0;
+        PlayState.rsgoods = 0;
+        PlayState.rssicks = 0;
+        PlayState.rscombo = 0;
+        PlayState.rstotalNotesHit = 0;
+	    PlayState.rssong = '';
+		PlayState.allNotes = 0;
+		PlayState.isHighscore = false;
+		}
 
 	public function tally() // hall
 		{
@@ -211,7 +226,7 @@ if (!PlayState.isStoryMode) {
 					}
 					
 					
-                    if (theNotes == 100) {
+                    if (theNotes >= 100) {
 						bg.color = 0xFFD4D400;
 						FlxTween.color(notesTxt, 0.3, notesTxt.color, FlxColor.YELLOW);
 					} else if (theNotes >= 90) {
@@ -244,7 +259,7 @@ if (!PlayState.isStoryMode) {
 				if(FlxG.sound.music != null)
 					FlxG.sound.music.stop();
 
-				if (theNotes == 100) {
+				if (theNotes >= 100) {
 				FlxG.sound.playMusic(Paths.music('cornGame'),1,true); // banger
 				if (HealthIcon.iconExists(PlayState.gfVersion)) {
 					gf.changeState('winning');
@@ -274,7 +289,7 @@ if (!PlayState.isStoryMode) {
 				FlxTween.tween(bf,{y: 360}, 2.5, {ease: FlxEase.expoInOut});
 				if (HealthIcon.iconExists(PlayState.gfVersion)) {
 				FlxTween.tween(gf,{x: 1100}, 3.2, {ease: FlxEase.expoInOut});
-				if (theNotes == 100) {
+				if (theNotes >= 100) {
 				gfStuff();
 				}
 				}

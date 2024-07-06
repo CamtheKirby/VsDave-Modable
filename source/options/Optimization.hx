@@ -1,4 +1,4 @@
-package;
+package options;
 
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
@@ -21,10 +21,11 @@ import Discord.DiscordClient;
 import sys.io.Process;
 import sys.io.File;
 
-class AdminOptionsMenu extends MusicBeatState
+class Optimization extends MusicBeatState
 {
 	var selector:FlxText;
 	var curSelected:Int = 0;
+	var awaitingExploitation:Bool;
 
 	var controlsStrings:Array<String> = [];
 
@@ -33,10 +34,13 @@ class AdminOptionsMenu extends MusicBeatState
 	override function create()
 	{
 		#if desktop
-		DiscordClient.changePresence("In the Admin Options Menu", null);
+		DiscordClient.changePresence("In the Optimization Options Menu", null);
 		#end
+
+		awaitingExploitation = (FlxG.save.data.exploitationState == 'awaiting');
+		
 		    var menuBG:FlxSprite = new FlxSprite();
-			menuBG.color = 0xff373737;
+			menuBG.color = 0xFFea71fd;
 			menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
 			menuBG.updateHitbox();
 			menuBG.antialiasing = true;
@@ -44,8 +48,9 @@ class AdminOptionsMenu extends MusicBeatState
 			add(menuBG);
 
 		controlsStrings = CoolUtil.coolStringFile( 
-		(FlxG.save.data.adminMode ? 'Admin Mode ON' :  'Admin Mode OFF') 
-		//+ "\n" + ('Open Console')
+		    (CompatTool.save.data.compatMode ? LanguageManager.getTextString('option_enable_compat') : LanguageManager.getTextString('option_disable_compat'))
+			+ "\n" + (FlxG.save.data.lessLag ? 'Less Lag OFF' : 'Less Lag ON')
+			+ "\n" + (FlxG.save.data.wantShaders ? "Shaders ON" : "Shaders OFF")
 			);
 
 		grpControls = new FlxTypedGroup<Alphabet>();
@@ -72,6 +77,7 @@ class AdminOptionsMenu extends MusicBeatState
 		if (controls.BACK)
 		{
 			FlxG.save.flush();
+			CompatTool.save.flush();
 			FlxG.switchState(new OptionsMenu());
 		}
 		if (controls.UP_P)
@@ -85,11 +91,15 @@ class AdminOptionsMenu extends MusicBeatState
 			switch(curSelected)
 			{
 				case 0:
-					FlxG.save.data.adminMode = !FlxG.save.data.adminMode;
-					updateGroupControls((FlxG.save.data.adminMode ? 'Admin Mode ON' : 'Admin Mode OFF'), 1, 'Vertical');
-				/*case 3:
-					Sys.command("powershell.exe tee log.txt | ./VsDaveModdable.exe");
-					updateGroupControls('Open Console', 13, 'Vertical'); */ 
+					CompatTool.save.data.compatMode = !CompatTool.save.data.compatMode;
+					updateGroupControls(CompatTool.save.data.compatMode ? LanguageManager.getTextString('option_enable_compat') : LanguageManager.getTextString('option_disable_compat'), 11, 'Vertical');
+				
+				case 1:
+					FlxG.save.data.lessLag = !FlxG.save.data.lessLag;
+					updateGroupControls(FlxG.save.data.lessLag ? 'Less Lag OFF' : 'Less Lag ON', 12, 'Vertical');	
+					case 2:
+					FlxG.save.data.wantShaders = !FlxG.save.data.wantShaders;
+					updateGroupControls(FlxG.save.data.wantShaders ? 'Shaders ON' : 'Shaders OFF', 12, 'Vertical');	
 			}
 		}
 	}

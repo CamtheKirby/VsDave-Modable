@@ -1540,13 +1540,13 @@ class PlayState extends MusicBeatState
 		{
 			case "exploitation":
 				funkyText = SONG.song;
-				funkyText2 = 'Fanmade Dave Engine v' + MainMenuState.fanmadeEngineVer + ' (KE v1.2)';
+				funkyText2 = 'FDE v' + MainMenuState.fanmadeEngineVer + ' (DE v' + MainMenuState.engineVer + '/KE v1.2)';
 			case 'overdrive':
 				funkyText = '';
 				funkyText2 = '';
 			default:
 				funkyText = SONG.song;
-				funkyText2 = 'Fanmade Dave Engine v' + MainMenuState.fanmadeEngineVer + ' (KE v1.2)';
+				funkyText2 = 'FDE v' + MainMenuState.fanmadeEngineVer + ' (DE v' + MainMenuState.engineVer + '/KE v1.2)';
 		}
 
 		if (!isGreetingsCutscene)
@@ -2506,7 +2506,7 @@ class PlayState extends MusicBeatState
 	}
 	function startCountdown():Void
 	{
-
+trace(allNotes);
 		if (SONG.song.toLowerCase() == 'cheating' || SONG.song.toLowerCase() == 'unfairness' || SONG.song.toLowerCase() == 'exploitation')
 			{
 				if(botPlay && !adminMode)
@@ -3080,9 +3080,10 @@ class PlayState extends MusicBeatState
 						gottaHitNote = true; 
 					}
                  
-					if (gottaHitNote) {
+					if (gottaHitNote && songNotes[2] <= 0) {
                     allNotes += 1;
 					}
+					trace(songNotes[2]);
 
 				var oldNote:Note;
 				if (unspawnNotes.length > 0)

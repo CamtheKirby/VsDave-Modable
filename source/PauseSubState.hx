@@ -16,6 +16,7 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.addons.display.FlxBackdrop;
 import lime.app.Application;
+import options.OptionsMenu;
 
 class PauseSubState extends MusicBeatSubstate
 {
@@ -198,7 +199,9 @@ class PauseSubState extends MusicBeatSubstate
 			case "Restart Song":
 				FlxG.sound.music.volume = 0;
 				PlayState.instance.vocals.volume = 0;
-				PlayState.allNotes = 0;
+				if (!PlayState.isStoryMode) {
+					PlayState.allNotes = 0;
+					}
 
 				PlayState.instance.shakeCam = false;
 				PlayState.instance.camZooming = false;
@@ -217,7 +220,9 @@ class PauseSubState extends MusicBeatSubstate
 						MathGameState.failedGame = false;
 					}
 					funnyTexts.clear();
-					PlayState.allNotes = 0;
+					if (!PlayState.isStoryMode) {
+						PlayState.allNotes = 0;
+						}
 					PlayState.characteroverride = 'none';
 					PlayState.formoverride = 'none';
 					PlayState.recursedStaticWeek = false;
@@ -250,9 +255,11 @@ class PauseSubState extends MusicBeatSubstate
 						MathGameState.failedGame = false;
 					}
 				PlayState.instance.vocals.volume = 0;
+				if (!PlayState.isStoryMode) {
 				PlayState.allNotes = 0;
+				}
 				FlxG.switchState(new OptionsMenu());
-				OptionsMenu.onPlayState = true;
+				options.OptionsMenu.onPlayState = true;
 			case "Exit to menu":
 				if (MathGameState.failedGame)
 				{

@@ -16,6 +16,7 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
 import flixel.util.FlxTimer;
+import options.OptionsMenu;
 #if desktop
 #end
 
