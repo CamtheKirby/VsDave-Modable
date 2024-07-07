@@ -156,5 +156,11 @@ class SaveDataHandler
 
 			if (FlxG.save.data.antialiasing == null)
 				FlxG.save.data.antialiasing = true;
+
+			if (FlxG.save.data.healthBO == null)
+				FlxG.save.data.healthBO = 1;
+
+			if (FlxG.save.data.lowQ == null)
+				FlxG.save.data.lowQ = false;
     }
 }

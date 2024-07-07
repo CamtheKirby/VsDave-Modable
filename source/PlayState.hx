@@ -1327,12 +1327,16 @@ class PlayState extends MusicBeatState
 				if (FlxG.random.int(0, 99) == 0)
 				{
 					var ruby:BGSprite = new BGSprite('ruby', -697, 0, Paths.image('backgrounds/bedroom/ruby', 'shared'), null, 1, 1, true);
+					if (!FlxG.save.data.lowQ) {
 					backgroundSprites.add(ruby);
 					add(ruby);	
+					}
 				}
 				var tv:BGSprite = new BGSprite('tv', -697, 955, Paths.image('backgrounds/bedroom/tv', 'shared'), null, 1.2, 1.2, true);
+				if (!FlxG.save.data.lowQ) {
 				backgroundSprites.add(tv);
 				add(tv);
+				}
 		}
 	}
 
@@ -1522,11 +1526,13 @@ class PlayState extends MusicBeatState
 		healthBarBG.screenCenter(X);
 		healthBarBG.scrollFactor.set();
 		healthBarBG.antialiasing = FlxG.save.data.antialiasing;
+		healthBarBG.alpha = FlxG.save.data.healthBO;
 		add(healthBarBG);
 
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, inFiveNights || oppM ? LEFT_TO_RIGHT : RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
 			'curHealth', 0, 2);
 		healthBar.scrollFactor.set();
+		healthBar.alpha = FlxG.save.data.healthBO;
 		if (oppM) {
 		healthBar.createFilledBar(boyfriend.barColor, dad.barColor);
 		} else if (FlxG.save.data.chars) {
@@ -1621,8 +1627,10 @@ class PlayState extends MusicBeatState
 		switch (curSong.toLowerCase())
 		{
 			case 'insanity':
+				if (!FlxG.save.data.lowQ) {
 				preload('backgrounds/void/redsky');
 				preload('backgrounds/void/redsky_insanity');
+				}
 			case 'polygonized':
 				preload('characters/3d_bf');
 				preload('characters/3d_gf');
@@ -1636,12 +1644,14 @@ class PlayState extends MusicBeatState
 				}
 			case 'interdimensional':
 				preload('backgrounds/void/interdimensions/interdimensionVoid');
+				if (!FlxG.save.data.lowQ) {
 				preload('backgrounds/void/interdimensions/spike');
 				preload('backgrounds/void/interdimensions/darkSpace');
 				preload('backgrounds/void/interdimensions/hexagon');
 				preload('backgrounds/void/interdimensions/nimbi/nimbiVoid');
 				preload('backgrounds/void/interdimensions/nimbi/nimbi_land');
 				preload('backgrounds/void/interdimensions/nimbi/nimbi');
+				}
 			case 'mealie':
 				preload('bambi/im_gonna_break_me_phone');
 			case 'recursed':
@@ -1666,20 +1676,26 @@ class PlayState extends MusicBeatState
 				preload2(tristanBG);
 			case 'exploitation':
 				preload('ui/glitch/glitchSwitch');
+				if (!FlxG.save.data.lowQ) {
 				preload('backgrounds/void/exploit/cheater GLITCH');
 				preload('backgrounds/void/exploit/glitchyUnfairBG');
 				preload('backgrounds/void/exploit/expunged_chains');
 				preload('backgrounds/void/exploit/broken_expunged_chain');
 				preload('backgrounds/void/exploit/glitchy_cheating_2');
+				}
 			case 'bot-trot':
+				if (!FlxG.save.data.lowQ) {
 				preload('backgrounds/bedroom/night/bed');
 				preload('backgrounds/bedroom/night/bg');
 				preload('playrobot/playrobot_shadow');
+				}
 			case 'escape-from-california':
+				if (!FlxG.save.data.lowQ) {
 				for (spr in ['1500miles', '1000miles', '500miles', 'welcomeToGeorgia', 'georgia'])
 				{
 					preload('california/$spr');
 				}
+			}
 		}
 
 		scoreTxt = new FlxText(healthBarBG.x + healthBarBG.width / 2 - 150, healthBarBG.y + 40, FlxG.width, "", 20);
@@ -1709,7 +1725,7 @@ class PlayState extends MusicBeatState
 			iconP1.y = healthBar.y - (iconP1.height / 2);
 			add(iconP1);
 			} else {
-				iconP2 = new HealthIcon('face', false);
+			iconP2 = new HealthIcon('face', false);
 			iconP2.y = healthBar.y - (iconP2.height / 2);
 			add(iconP2);
 
@@ -1836,16 +1852,21 @@ class PlayState extends MusicBeatState
 				add(bg);
 				
 				var stageHills:BGSprite = new BGSprite('stageHills', -834, -159, Paths.image('backgrounds/dave-house/${assetType}hills'), null, 0.7, 0.7);
-				sprites.add(stageHills);
-				add(stageHills);
-
+				
+             
 				var grassbg:BGSprite = new BGSprite('grassbg', -1205, 580, Paths.image('backgrounds/dave-house/${assetType}grass bg'), null);
-				sprites.add(grassbg);
-				add(grassbg);
+				
 	
 				var gate:BGSprite = new BGSprite('gate', -755, 250, Paths.image('backgrounds/dave-house/${assetType}gate'), null);
+				
+				if (!FlxG.save.data.lowQ) {
+				sprites.add(stageHills);
+				add(stageHills);
+				sprites.add(grassbg);
+				add(grassbg);
 				sprites.add(gate);
 				add(gate);
+			  }
 	
 				var stageFront:BGSprite = new BGSprite('stageFront', -832, 505, Paths.image('backgrounds/dave-house/${assetType}grass'), null);
 				sprites.add(stageFront);
@@ -1856,17 +1877,21 @@ class PlayState extends MusicBeatState
 					var bg:BGSprite = new BGSprite('bg', -600, -200, Paths.image('backgrounds/void/redsky_insanity'), null, 1, 1, true, true);
 					bg.alpha = 0.75;
 					bg.visible = false;
+					if (!FlxG.save.data.lowQ) {
 					add(bg);
 					// below code assumes shaders are always enabled which is bad
 					voidShader(bg);
+					}
 				}
 
 				var variantColor = getBackgroundColor(stageName);
 				if (stageName != 'daveHouse_night')
 				{
+					if (!FlxG.save.data.lowQ) {
 					stageHills.color = variantColor;
 					grassbg.color = variantColor;
 					gate.color = variantColor;
+					}
 					stageFront.color = variantColor;
 				}
 			case 'inside-house':
@@ -1929,17 +1954,17 @@ class PlayState extends MusicBeatState
 				sprites.add(grassLand);
 
 				var cornFence:BGSprite = new BGSprite('cornFence', -400, 200, Paths.image('backgrounds/farm/cornFence', 'shared'), null);
-				sprites.add(cornFence);
+				
 				
 				var cornFence2:BGSprite = new BGSprite('cornFence2', 1100, 200, Paths.image('backgrounds/farm/cornFence2', 'shared'), null);
-				sprites.add(cornFence2);
+				
 
 				var bagType = FlxG.random.int(0, 1000) == 0 ? 'popeye' : 'cornbag';
 				var cornBag:BGSprite = new BGSprite('cornFence2', 1200, 550, Paths.image('backgrounds/farm/$bagType', 'shared'), null);
-				sprites.add(cornBag);
+				
 				
 				var sign:BGSprite = new BGSprite('sign', 0, 350, Paths.image('backgrounds/farm/sign', 'shared'), null);
-				sprites.add(sign);
+				
 
 				var variantColor:FlxColor = getBackgroundColor(stageName);
 				
@@ -1956,11 +1981,16 @@ class PlayState extends MusicBeatState
 				add(hills);
 				add(farmHouse);
 				add(grassLand);
+				if (!FlxG.save.data.lowQ) {
 				add(cornFence);
+				sprites.add(cornFence);
 				add(cornFence2);
+				sprites.add(cornFence2);
 				add(cornBag);
+				sprites.add(cornBag);
 				add(sign);
-
+				sprites.add(sign);
+				}
 				if (['blocked', 'corn-theft', 'maze', 'mealie', 'indignancy'].contains(SONG.song.toLowerCase()) && !MathGameState.failedGame && FlxG.random.int(0, 4) == 0)
 				{
 					FlxG.mouse.visible = true;
@@ -1974,10 +2004,12 @@ class PlayState extends MusicBeatState
 
 				if (SONG.song.toLowerCase() == 'splitathon')
 				{
+					if (!FlxG.save.data.lowQ) {
 					var picnic:BGSprite = new BGSprite('picnic', 1050, 650, Paths.image('backgrounds/farm/picnic_towel_thing', 'shared'), null);
 					sprites.insert(sprites.members.indexOf(cornBag), picnic);
 					picnic.color = variantColor;
 					insert(members.indexOf(cornBag), picnic);
+					}
 				}
 			case 'festival':
 				bgZoom = 0.7;
@@ -2033,16 +2065,20 @@ class PlayState extends MusicBeatState
 					new Animation('corn', 'idle', 5, true, [false, false])
 				], 0.85, 0.85, true, true);
 				corn.animation.play('corn');
+				if (!FlxG.save.data.lowQ) {
 				sprites.add(corn);
 				add(corn);
+				}
 
 				var cornGlow:BGSprite = new BGSprite('cornGlow', -1000, 120, 'backgrounds/festival/cornGlow', [
 					new Animation('cornGlow', 'idle', 5, true, [false, false])
 				], 0.85, 0.85, true, true);
 				cornGlow.blend = BlendMode.ADD;
 				cornGlow.animation.play('cornGlow');
+				if (!FlxG.save.data.lowQ) {
 				sprites.add(cornGlow);
 				add(cornGlow);
+				}
 				
 				var backGrass:BGSprite = new BGSprite('backGrass', -1000, 475, Paths.image('backgrounds/festival/backGrass'), null, 0.85, 0.85);
 				sprites.add(backGrass);
@@ -2052,9 +2088,11 @@ class PlayState extends MusicBeatState
 					new Animation('idle', 'crowdDance', 24, true, [false, false])
 				], 0.85, 0.85, true, true);
 				crowd.animation.play('idle');
+				if (!FlxG.save.data.lowQ) {
 				sprites.add(crowd);
 				crowdPeople.add(crowd);
 				add(crowd);
+				}
 				
 				for (i in 0...mainChars.length)
 				{					
@@ -2063,9 +2101,11 @@ class PlayState extends MusicBeatState
 					], 0.85, 0.85, true, true);
 					crowdChar.setGraphicSize(Std.int(crowdChar.width * mainChars[i][2]));
 					crowdChar.updateHitbox();
+					if (!FlxG.save.data.lowQ) {
 					sprites.add(crowdChar);
 					crowdPeople.add(crowdChar);
 					add(crowdChar);
+					}
 				}
 				
 				var frontGrass:BGSprite = new BGSprite('frontGrass', -1300, 600, Paths.image('backgrounds/festival/frontGrass'), null, 1, 1);
@@ -2077,8 +2117,10 @@ class PlayState extends MusicBeatState
 				], 0, 0, true, true);
 				stageGlow.blend = BlendMode.ADD;
 				stageGlow.animation.play('glow');
+				if (!FlxG.save.data.lowQ) {
 				sprites.add(stageGlow);
 				add(stageGlow);
+				}
 
 			case 'backyard':
 				bgZoom = 0.7;
@@ -2102,28 +2144,37 @@ class PlayState extends MusicBeatState
 				}
 
 				var hills:BGSprite = new BGSprite('hills', -1330, -432, Paths.image('backgrounds/backyard/hills', 'shared'), null, 0.75, 0.75, true);
+				if (!FlxG.save.data.lowQ) {
 				sprites.add(hills);
 				add(hills);
+				}
 
 				var grass:BGSprite = new BGSprite('grass', -800, 150, Paths.image('backgrounds/backyard/supergrass', 'shared'), null, 1, 1, true);
 				sprites.add(grass);
 				add(grass);
 
 				var gates:BGSprite = new BGSprite('gates', 564, -33, Paths.image('backgrounds/backyard/gates', 'shared'), null, 1, 1, true);
+				if (!FlxG.save.data.lowQ) {
 				sprites.add(gates);
 				add(gates);
+				}
+				
 				
 				var bear:BGSprite = new BGSprite('bear', -1035, -710, Paths.image('backgrounds/backyard/bearDude', 'shared'), null, 0.95, 0.95, true);
+				if (!FlxG.save.data.lowQ) {
 				sprites.add(bear);
 				add(bear);
+				}
 
 				var house:BGSprite = new BGSprite('house', -1025, -323, Paths.image('backgrounds/backyard/house', 'shared'), null, 0.95, 0.95, true);
 				sprites.add(house);
 				add(house);
 
 				var grill:BGSprite = new BGSprite('grill', -489, 452, Paths.image('backgrounds/backyard/grill', 'shared'), null, 0.95, 0.95, true);
+				if (!FlxG.save.data.lowQ) {
 				sprites.add(grill);
 				add(grill);
+				}
 
 				var variantColor = getBackgroundColor(stageName);
 
@@ -2187,10 +2238,14 @@ class PlayState extends MusicBeatState
 				for (char in ['ball', 'bimpe', 'maldo', 'memes kids', 'muko', 'ruby man', 'tristan', 'bambi'])
 				{
 					var bgChar = new FlyingBGChar(char, Paths.image('backgrounds/festival/scaredCrowd/$char'));
+					if (!FlxG.save.data.lowQ) {
 					sprites.add(bgChar);
 					flyingBgChars.add(bgChar);
+					}
 				}
+				if (!FlxG.save.data.lowQ) {
 				add(flyingBgChars);
+				}
 			case 'exbungo-land':
 				bgZoom = 0.7;
 				stageName = 'kabunga';
@@ -2201,12 +2256,16 @@ class PlayState extends MusicBeatState
 				add(bg);
 
 				var circle:BGSprite = new BGSprite('circle', -30, 550, Paths.image('backgrounds/void/exbongo/Circle'), null);
+				if (!FlxG.save.data.lowQ) {
 				sprites.add(circle);	
 				add(circle);
+				}
 
 				place = new BGSprite('place', 860, -15, Paths.image('backgrounds/void/exbongo/Place'), null);
+				if (!FlxG.save.data.lowQ) {
 				sprites.add(place);	
 				add(place);
+				}
 				
 				voidShader(bg);
 			case 'rapBattle':
@@ -2270,8 +2329,10 @@ class PlayState extends MusicBeatState
 				add(bg);
 
 				var baldi:BGSprite = new BGSprite('baldi', 788, 788, Paths.image('backgrounds/bedroom/bed', 'shared'), null, 1, 1, true);
+				if (!FlxG.save.data.lowQ) {
 				sprites.add(baldi);
 				add(baldi);
+				}
 
 				tristanInBotTrot = new BGSprite('tristan', 888, 688, 'backgrounds/bedroom/TristanSitting', [
 					new Animation('idle', 'daytime', 24, true, [false, false]),
@@ -2279,10 +2340,12 @@ class PlayState extends MusicBeatState
 				], 1, 1, true, true);
 				tristanInBotTrot.setGraphicSize(Std.int(tristanInBotTrot.width * 0.8));
 				tristanInBotTrot.animation.play('idle');
+				if (!FlxG.save.data.lowQ) {
 				add(tristanInBotTrot);
 				if (formoverride == 'tristan' || formoverride == 'tristan-golden' || formoverride == 'tristan-golden-glowing') {
 					remove(tristanInBotTrot);	
 			    }
+			}
 			case 'office':
 				bgZoom = 0.9;
 				stageName = 'office';
@@ -2327,8 +2390,10 @@ class PlayState extends MusicBeatState
 				add(desertBG2);
 				
 				sign = new BGSprite('sign', 500, 450, Paths.image('california/leavingCalifornia', 'shared'), null, 1, 1, true);
+				if (!FlxG.save.data.lowQ) {
 				sprites.add(sign);
 				add(sign);
+				}
 
 				train = new BGSprite('train', -800, 500, 'california/train', [
 					new Animation('idle', 'trainRide', 24, true, [false, false])
@@ -2363,18 +2428,18 @@ class PlayState extends MusicBeatState
 				if (FileSystem.exists(TitleState.modFolder + '/data/stages/' + bgName + '.json')/*&& FreeplayState.isaCustomSong*/) {
 					rawJsonStage = File.getContent(TitleState.modFolder + '/data/stages/' + bgName + '.json');
 					jsonStage = cast Json.parse(rawJsonStage);
-
-					if (jsonStage.type == 'dark') {
-					darkLevels.push(bgName);
-					} else if (jsonStage.type == 'sunset') {
-					sunsetLevels.push(bgName);
-					} else {
-					darkLevels.remove(bgName);
-					sunsetLevels.remove(bgName);
-					}
 	
 					bgZoom = jsonStage.bgZoom;
 					stageName = bgName;
+
+					if (jsonStage.type == 'dark') {
+						darkLevels.push(bgName);
+						} else if (jsonStage.type == 'sunset') {
+						sunsetLevels.push(bgName);
+						} else {
+						darkLevels.remove(bgName);
+						sunsetLevels.remove(bgName);
+						}
 	
 					for (i in jsonStage.backgrounds) {
 			       createCustomBackground(i.spriteName, i.posX, i.posY, i.image, i.size, i.scrollX, i.scrollY, i.antialiasing, bgName, i.voidShader, i.updateHitBox, i.alpha, i.flying, i.animated, i.animation);
@@ -2519,7 +2584,7 @@ class PlayState extends MusicBeatState
 	}
 	function changeInterdimensionBg(type:String)
 	{
-		if (FlxG.save.data.stage) {
+		if (FlxG.save.data.stage && !FlxG.save.data.lowQ) {
 		for (sprite in backgroundSprites)
 		{
 			backgroundSprites.remove(sprite);
@@ -4968,6 +5033,9 @@ class PlayState extends MusicBeatState
 		}
 
 		ZoomCam(focusOnDadGlobal);
+
+		iconP1.alpha = FlxG.save.data.healthBO;
+		iconP2.alpha = FlxG.save.data.healthBO;
 
 		if (FlxG.save.data.hideHud) {
 			healthBarBG.alpha = 0;
@@ -7422,6 +7490,7 @@ if (oppM) {
 	}
 	function swapGlitch(glitchTime:Float, toBackground:String)
 	{
+		if (FlxG.save.data.stage && !FlxG.save.data.lowQ) {
 		//hey t5 if you make the static fade in and out, can you use the sounds i made? they are in preload
 		var glitch = new BGSprite('glitch', 0, 0, 'ui/glitch/glitchSwitch', 
 		[
@@ -7462,6 +7531,7 @@ if (oppM) {
 			}
 			remove(glitch);
 		});
+	}
 	}
 	var black:FlxSprite;
 
@@ -7777,14 +7847,14 @@ if (oppM) {
 						FlxG.sound.play(Paths.sound('static'), 0.1);
 						dad.visible = false;
 						dadmirror.visible = true;
-						if (FlxG.save.data.stage) {
+						if (FlxG.save.data.stage && !FlxG.save.data.lowQ) {
 						curbg.visible = true;
 						}
 						iconP2.changeIcon(dadmirror.curCharacter);
 					case 664 | 684:
 						dad.visible = true;
 						dadmirror.visible = false;
-						if (FlxG.save.data.stage) {
+						if (FlxG.save.data.stage && !FlxG.save.data.lowQ) {
 						curbg.visible = false;
 						}
 						iconP2.changeIcon(dad.curCharacter);
@@ -7796,7 +7866,7 @@ if (oppM) {
 						FlxG.sound.play(Paths.sound('static'), 0.1);
 						dad.visible = false;
 						dadmirror.visible = true;
-						if (FlxG.save.data.stage) {
+						if (FlxG.save.data.stage && !FlxG.save.data.lowQ) {
 						curbg.loadGraphic(Paths.image('backgrounds/void/redsky', 'shared'));
 						if (isShaggy) curbg.y -= 200;
 						curbg.alpha = 1;
@@ -8296,21 +8366,26 @@ if (oppM) {
 						blackScreen.alpha = 1;
 						FlxTween.tween(blackScreen, {alpha: 0}, Conductor.crochet / 1000);
 						FlxG.sound.play(Paths.sound('static'), 0.5);
-
+						if (FlxG.save.data.creditsPop) {
 						creditsPopup.switchHeading({path: 'songHeadings/glitchHeading', antiAliasing: false, animation: 
 						new Animation('glitch', 'glitchHeading', 24, true, [false, false]), iconOffset: 0});
 						
 						creditsPopup.changeText('', 'none', false);
+						}
 					case 20:
+						if (FlxG.save.data.creditsPop) {
 						creditsPopup.switchHeading({path: 'songHeadings/expungedHeading', antiAliasing: FlxG.save.data.antialiasing,
 						animation: new Animation('expunged', 'Expunged', 24, true, [false, false]), iconOffset: 0});
 
 						creditsPopup.changeText('Song by Oxygen', 'Oxygen');
+						}
 					case 14, 24:
+						if (FlxG.save.data.creditsPop) {
 						creditsPopup.switchHeading({path: 'songHeadings/expungedHeading', antiAliasing: FlxG.save.data.antialiasing,
 						animation: new Animation('expunged', 'Expunged', 24, true, [false, false]), iconOffset: 0});
 
 						creditsPopup.changeText('Song by EXPUNGED', 'whoAreYou');
+						}
 					case 32 | 512:
 						FlxTween.tween(boyfriend, {alpha: 0}, 3);
 						FlxTween.tween(gf, {alpha: 0}, 3);
@@ -8363,7 +8438,7 @@ if (oppM) {
 						}
 
 					case 1282:
-						if (FlxG.save.data.stage) {
+						if (FlxG.save.data.stage && !FlxG.save.data.lowQ) {
 						expungedBG.loadGraphic(Paths.image('backgrounds/void/exploit/broken_expunged_chain', 'shared'));
 						expungedBG.setGraphicSize(Std.int(expungedBG.width * 2));
 						}
@@ -8383,7 +8458,7 @@ if (oppM) {
 						shakeCam = false;
 						FlxG.camera.zoom += 0.2;
 					case 1536:	
-						if (FlxG.save.data.stage) {					
+						if (FlxG.save.data.stage && !FlxG.save.data.lowQ) {					
 						expungedBG.loadGraphic(Paths.image('backgrounds/void/exploit/creepyRoom', 'shared'));
 						expungedBG.setGraphicSize(Std.int(expungedBG.width * 2));
 						expungedBG.setPosition(0, 200);
@@ -9720,6 +9795,7 @@ if (oppM) {
 
 	public function preload(graphic:String) //preload assets
 	{
+		if (FlxG.save.data.stage) {
 		if (boyfriend != null)
 		{
 			boyfriend.stunned = true;
@@ -9732,8 +9808,10 @@ if (oppM) {
 			boyfriend.stunned = false;
 		}
 	}
+	}
 	public function preload2(graphic:String) //preload assets
 	{
+		if (FlxG.save.data.stage) {
 		if (boyfriend != null)
 		{
 			boyfriend.stunned = true;
@@ -9745,6 +9823,7 @@ if (oppM) {
 		{
 			boyfriend.stunned = false;
 		}
+	}
 	}
 	public function repositionChar(char:Character)
 	{
@@ -9787,7 +9866,7 @@ if (oppM) {
 	}
 	function switchToNight()
 	{
-		if (FlxG.save.data.stage) {
+		if (FlxG.save.data.stage && !FlxG.save.data.lowQ) {
 		var bedroomSpr = BGSprite.getBGSprite(backgroundSprites, 'bg');
 		var baldiSpr = BGSprite.getBGSprite(backgroundSprites, 'baldi');
 		var rubySpr = BGSprite.getBGSprite(backgroundSprites, 'ruby');
@@ -9938,7 +10017,7 @@ if (oppM) {
 
 	function switchDad(newChar:String, position:FlxPoint, reposition:Bool = true, updateColor:Bool = true)
 	{
-		if (FlxG.save.data.chars) {
+		if (FlxG.save.data.chars && FlxG.save.data.stage) {
 		if (reposition)
 		{
 			position.x -= dad.globalOffset[0];
@@ -9969,7 +10048,7 @@ if (oppM) {
 	}
 	function switchBF(newChar:String, position:FlxPoint, reposition:Bool = true, updateColor:Bool = true)
 	{
-		if (FlxG.save.data.chars) {
+		if (FlxG.save.data.chars && FlxG.save.data.stage) {
 		if (reposition)
 		{
 			position.x -= boyfriend.globalOffset[0];
@@ -10000,7 +10079,7 @@ if (oppM) {
 	}
 	function switchGF(newChar:String, position:FlxPoint, reposition:Bool = true, updateColor:Bool = true)
 	{
-		if (FlxG.save.data.chars) {
+		if (FlxG.save.data.chars && FlxG.save.data.stage) {
 		if (reposition)
 		{
 			position.x -= gf.globalOffset[0];
@@ -10070,7 +10149,7 @@ if (oppM) {
 	}
 	function changeSign(asset:String, ?position:FlxPoint)
 	{
-		if (FlxG.save.data.stage) {
+		if (FlxG.save.data.stage && !FlxG.save.data.lowQ) {
 		sign.loadGraphic(Paths.image('california/$asset', 'shared'));
 		if (position != null)
 		{

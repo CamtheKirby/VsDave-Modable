@@ -57,6 +57,7 @@ class Optimization extends MusicBeatState
 			+ "\n" + (FlxG.save.data.stage ? "Stage ON" : "Stage OFF")
 			+ "\n" + (FlxG.save.data.chars ? "Characters ON" : "Characters OFF")
 			+ "\n" + (FlxG.save.data.antialiasing ? "Antialiasing ON" : "Antialiasing OFF")
+			+ "\n" + (FlxG.save.data.lowQ ? "Low Quality ON" : "Low Quality OFF")
 			);
 
 		grpControls = new FlxTypedGroup<Alphabet>();
@@ -120,6 +121,9 @@ class Optimization extends MusicBeatState
 					case 7:
 					FlxG.save.data.antialiasing = !FlxG.save.data.antialiasing;
 					updateGroupControls(FlxG.save.data.antialiasing ? 'Antialiasing ON' : 'Antialiasing OFF', 12, 'Vertical');
+					case 8:
+					FlxG.save.data.lowQ = !FlxG.save.data.lowQ;
+					updateGroupControls(FlxG.save.data.lowQ ? 'Low Quality ON' : 'Low Quality OFF', 12, 'Vertical');
 			}
 		}
 	}

@@ -73,6 +73,7 @@ class Visuals extends MusicBeatState
 			+ "\n" + (FlxG.save.data.cameraZoom ? "Camera Zooms ON" : "Camera Zooms OFF")
 			+ "\n" + (FlxG.save.data.comboStack ? "Combo Stacking ON" : "Combo Stacking OFF")
 			+ "\n" + (FlxG.save.data.discord ? "Discord Rich Presence ON" : "Discord Rich Presence OFF")
+			+ "\n" + ("Health Bar and Icon Transparency")
 			);
 
 		grpControls = new FlxTypedGroup<Alphabet>();
@@ -196,6 +197,15 @@ class Visuals extends MusicBeatState
 							case 14:
 							FlxG.save.data.discord = !FlxG.save.data.discord;
 							updateGroupControls(FlxG.save.data.discord ? 'Discord Rich Presence ON' : 'Discord Rich Presence OFF', 12, 'Vertical');
+							case 15:
+								if (FlxG.save.data.healthBO < 0.9) {
+								FlxG.save.data.healthBO += 0.1;
+								} else {
+								FlxG.save.data.healthBO = 0;	
+								} 
+								updateGroupControls('Health Bar and Icon Transparency', 12, 'Vertical');
+								numberOption = 'Health Bar and Icon Transparency: ' + FlxG.save.data.healthBO;
+								versionShit.text = numberOption + "\nOffset (Left, Right): " + FlxG.save.data.offset;
 			}
 		}
 	}
