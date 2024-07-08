@@ -81,6 +81,7 @@ class OptionsMenu extends MusicBeatState
 		controlsStrings = CoolUtil.coolStringFile( 
 			LanguageManager.getTextString('option_change_langauge')
 			+ "\n" + LanguageManager.getTextString('option_change_keybinds')
+			+ "\n" + ("UI Selecter")
 			+ "\n" + ("Gameplay")
 			+ "\n" + ("Visuals")
 			+ "\n" + ("Optimization")
@@ -164,12 +165,15 @@ class OptionsMenu extends MusicBeatState
 						});
 						updateGroupControls(LanguageManager.getTextString('option_change_keybinds'), 0, 'Vertical');
 					case 2:
+					FlxG.switchState(new UISelectState());
+					updateGroupControls("UI Selecter", 12, 'Vertical');
+					case 3:
 					FlxG.switchState(new GamePlay());
 					updateGroupControls("Gameplay", 12, 'Vertical');	
-					case 3:
+					case 4:
 					FlxG.switchState(new Visuals());
 					updateGroupControls("Visuals", 12, 'Vertical');	
-					case 4:
+					case 5:
 					FlxG.switchState(new Optimization());
 					updateGroupControls("Optimization", 12, 'Vertical');	
 			}

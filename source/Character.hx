@@ -1208,9 +1208,9 @@ class Character extends FlxSprite
 					if (FileSystem.exists(TitleState.modFolder + '/data/characters/${curCharacter}.json')) {
                    customPath = TitleState.modFolder + '/data/characters/${curCharacter}.json';
 				   customPath2 = TitleState.modFolder + '/images/characters/' + curCharacter;
-					} else if (FileSystem.exists('mods/global characters/characters/${curCharacter}.json')) {
-						customPath = 'mods/global characters/characters/${curCharacter}.json';
-						customPath2 = 'mods/global characters/images/' + curCharacter;
+					} else if (FileSystem.exists('mods/global/characters/${curCharacter}.json')) {
+						customPath = 'mods/global/characters/${curCharacter}.json';
+						customPath2 = 'mods/global/images/' + curCharacter;
 					}
 
                  if (customPath != '' && customPath2 != '') {
@@ -1393,8 +1393,8 @@ class Character extends FlxSprite
 			{
 				var offsetStuffs:Array<String>;
 
-				if (FileSystem.exists('mods/global characters/offsets/' + character + '.txt')) {
-					offsetStuffs = CoolUtil.coolTextFile('mods/global characters/offsets/' + character + '.txt');
+				if (FileSystem.exists('mods/global/offsets/' + character + '.txt')) {
+					offsetStuffs = CoolUtil.coolTextFile('mods/global/offsets/' + character + '.txt');
 					} else {
 					offsetStuffs = CoolUtil.coolTextFile(Paths.offsetFile('bf'));
 					}

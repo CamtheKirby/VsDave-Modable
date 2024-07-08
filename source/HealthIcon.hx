@@ -50,8 +50,8 @@ class HealthIcon extends FlxSprite
 				} else {
 					file = FlxGraphic.fromBitmapData(BitmapData.fromFile(Paths.image('ui/iconGrid/' + char, 'preload')));
 				}
-				} else if (FileSystem.exists('mods/global characters/images/icons/' + char + '.png')) {
-				file = Paths.customImage('mods/global characters/images/icons/' + char);
+				} else if (FileSystem.exists('mods/global/images/icons/' + char + '.png')) {
+				file = Paths.customImage('mods/global/images/icons/' + char);
 				} else if  (FileSystem.exists(TitleState.modFolder + '/images/icons/' + char + '.png')) {
 				file = Paths.customImage(TitleState.modFolder + '/images/icons/' + char);
 				} else {
@@ -128,7 +128,7 @@ class HealthIcon extends FlxSprite
 
 	public static function iconExists(check:String):Bool
 	{
-if (FileSystem.exists('assets/images/ui/iconGrid/' + check + '.png') || FileSystem.exists('mods/global characters/images/icons/' + check + '.png') || (FileSystem.exists(TitleState.modFolder + '/images/icons/' + check + '.png'))) {
+if (FileSystem.exists('assets/images/ui/iconGrid/' + check + '.png') || FileSystem.exists('mods/global/images/icons/' + check + '.png') || (FileSystem.exists(TitleState.modFolder + '/images/icons/' + check + '.png'))) {
 	return true;
 } else {
 	return false;

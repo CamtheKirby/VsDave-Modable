@@ -61,10 +61,12 @@ class Song
 		if (FileSystem.exists(TitleState.modFolder + '/' + Paths.chart(jsonInput.toLowerCase())))
 		{
 		PlayState.cantSaveScore = true;
+		PlayState.isaReplacedSong = true;
 		rawJson = File.getContent(TitleState.modFolder + '/' + Paths.chart(jsonInput.toLowerCase())).trim();
 		}
 		else 
 		{
+		PlayState.isaReplacedSong = false;
 		rawJson = Assets.getText(Paths.chart(jsonInput.toLowerCase())).trim();
 		}
 
@@ -78,6 +80,7 @@ class Song
 
 	public static function loadFromCustomJson(jsonInput:String):SwagSong
 		{
+			PlayState.isaReplacedSong = false;
 			#if sys
 			var rawJson = File.getContent(Paths.customChart(jsonInput.toLowerCase())).trim();
 			#else
