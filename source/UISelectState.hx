@@ -18,6 +18,21 @@ import flixel.util.FlxColor;
 import flixel.addons.display.FlxBackdrop;
 import lime.app.Application;
 import options.OptionsMenu;
+import haxe.Json;
+import sys.io.File;
+
+typedef UIReplace =
+{
+	var replacements:Array<ReplaceJson>;
+}
+
+typedef ReplaceJson =
+{
+	var name:String;
+	var ui:String;
+	var image:String;
+	var maxNotes:Int;
+}
 
 class UISelectState extends MusicBeatSubstate
 {
@@ -26,16 +41,17 @@ class UISelectState extends MusicBeatSubstate
 	var bga:FlxSprite;
 
 var menuItems:Array<UIOption> = [];
-
+var menuType:Array<String> = [];
 	var curSelected:Int = 0;
 
 	var expungedSelectWaitTime:Float = 0;
 	var timeElapsed:Float = 0;
 	var patienceTime:Float = 0;
+	public var rawJsonUI:String;
+    public var jsonUI:UIReplace;
 
     var funnyTexts:FlxTypedGroup<FlxText> = new FlxTypedGroup<FlxText>();
-	public static var inMods:Bool = false;
-
+    
 	public function new()
 	{
 		super();
@@ -45,10 +61,11 @@ var menuItems:Array<UIOption> = [];
 		{
 			super.create();
 
-			menuItems.push(new UIOption('test'));
-			menuItems.push(new UIOption('test2'));
-			menuItems.push(new UIOption('test3'));
-			menuItems.push(new UIOption('test4'));
+			rawJsonUI = File.getContent('mods/global/UI.json');
+			jsonUI = cast Json.parse(rawJsonUI);
+			for (i in jsonUI.replacements) {
+			menuItems.push(new UIOption(i.name));
+			}
 
 		bga = new FlxSprite(-80).loadGraphic(MainMenuState.randomizeBG());
 		bga.scrollFactor.set();
@@ -86,6 +103,9 @@ var menuItems:Array<UIOption> = [];
 			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, LanguageManager.getTextString('${menuItems[i].optionName}'), true, false);
 			songText.isMenuItem = true;
 			songText.targetY = i;
+			if (FlxG.save.data.curRS == menuItems[i].optionName) {
+			songText.color = 0xFF2FFF18;
+			}
 			grpMenuShit.add(songText);
 		}
 
@@ -136,6 +156,18 @@ var menuItems:Array<UIOption> = [];
 		{
 
 			default:
+				for (item in grpMenuShit.members)
+					{
+				item.color = 0xFFFFFFFF;
+					}
+					if (FlxG.save.data.curRS == daSelected) {
+						grpMenuShit.members[curSelected].color = 0xFFFFFFFF;
+						FlxG.save.data.curRS = '';
+					} else {
+						grpMenuShit.members[curSelected].color = 0xFF2FFF18;
+						FlxG.save.data.curRS = daSelected;
+					}
+					trace(FlxG.save.data.curRS);
 		}
 	}
 
@@ -159,7 +191,7 @@ var menuItems:Array<UIOption> = [];
 		{
 			item.targetY = bullShit - curSelected;
 			bullShit++;
-
+         
 			item.alpha = 0.6;
 			// item.setGraphicSize(Std.int(item.width * 0.8));
 

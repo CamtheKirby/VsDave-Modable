@@ -416,7 +416,7 @@ class DialogueBox extends FlxSpriteGroup
 					portraitRight.setPosition(570, 220);
 				default:
 				if (FileSystem.exists(TitleState.modFolder + '/data/characters/dialogue/${curCharacter}.json')) {
-					trace(TitleState.modFolder + '/data/characters/dialogue/${curCharacter}.json');
+				//	trace(TitleState.modFolder + '/data/characters/dialogue/${curCharacter}.json');
 			    rawJsonDial = File.getContent((TitleState.modFolder + '/data/characters/dialogue/${curCharacter}.json'));
 			    jsonDial = cast Json.parse(rawJsonDial);
 				if (jsonDial.right) {

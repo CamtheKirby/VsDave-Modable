@@ -162,5 +162,8 @@ class SaveDataHandler
 
 			if (FlxG.save.data.lowQ == null)
 				FlxG.save.data.lowQ = false;
+
+			if (FlxG.save.data.curRS == null)
+				FlxG.save.data.curRS = '';
     }
 }

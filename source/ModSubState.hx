@@ -111,6 +111,12 @@ menuItems.push(new ModOption('Exit'));
 		{
 			selectOption();
 		}
+
+		if (controls.BACK)
+			{
+			close();
+			inMods = false;
+			}
 	}
 	function selectOption()
 	{

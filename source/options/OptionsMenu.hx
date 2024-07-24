@@ -1,5 +1,6 @@
 package options;
 
+import sys.FileSystem;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 import Controls.KeyboardScheme;
@@ -165,7 +166,9 @@ class OptionsMenu extends MusicBeatState
 						});
 						updateGroupControls(LanguageManager.getTextString('option_change_keybinds'), 0, 'Vertical');
 					case 2:
+						if (FileSystem.exists('mods/global/UI.json')) {
 					FlxG.switchState(new UISelectState());
+						}
 					updateGroupControls("UI Selecter", 12, 'Vertical');
 					case 3:
 					FlxG.switchState(new GamePlay());

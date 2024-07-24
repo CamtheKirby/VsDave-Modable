@@ -2449,8 +2449,10 @@ class PlayState extends MusicBeatState
 
 					if (jsonStage.type == 'dark') {
 						darkLevels.push(bgName);
+						sunsetLevels.remove(bgName);
 						} else if (jsonStage.type == 'sunset') {
 						sunsetLevels.push(bgName);
+						darkLevels.remove(bgName);
 						} else {
 						darkLevels.remove(bgName);
 						sunsetLevels.remove(bgName);

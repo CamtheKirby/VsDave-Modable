@@ -1,0 +1,10 @@
+{
+  "replacements": [
+    {
+      "name": "wowtesting",
+      "ui": "rating",
+      "image": "wow",
+      "maxNotes": 1
+    }
+  ]
+}
