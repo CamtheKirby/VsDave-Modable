@@ -1,3 +1,16 @@
+# ABOUT DEVELOPMENT 
+I feel like working on this again!
+stuff im planning to add:
+version checker
+UI Selector
+More Freeplay Options
+Events (play animations, change characters, etc)
+Compatibility with other engines
+alots of bug fixes
+maybe more things (I can't think of anything else right now)
+
+btw suggest me stuff (btw im not that good of a coder) to add to this engine by going to the issues tab
+
 <img src="KadeEngineWitBackground.png">
 
 # VS DAVE (DAVE ENGINE)
