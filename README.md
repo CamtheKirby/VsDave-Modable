@@ -7,11 +7,14 @@
 - Events (play animations, change characters, etc)
 - Compatibility with other engines
 - option pack saver (saving all the options into a json that you can put back into the game)
+- changing camera postin for characters
 - alots of bug fixes
 - base game deleter (deletes stuff from the base game that is not needed so you have space for mods)h
 - maybe more things (I can't think of anything else right now)
 
 btw suggest me stuff (btw im not that good of a coder) to add to this engine by going to the issues tab
+
+there might be a early release with the smaller plans
 
 <img src="KadeEngineWitBackground.png">
 
