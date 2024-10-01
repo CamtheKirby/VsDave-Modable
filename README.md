@@ -6,6 +6,7 @@
 - More Freeplay Options
 - Events (play animations, change characters, etc)
 - Compatibility with other engines
+- option pack saver (saving all the options into a json that you can put back into the game)
 - alots of bug fixes
 - maybe more things (I can't think of anything else right now)
 
