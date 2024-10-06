@@ -6,7 +6,7 @@
 - More Freeplay Options
 - Events (play animations, change characters, etc)
 - Compatibility with other engines
-- option pack saver (saving all the options into a json that you can put back into the game)
+- [DONE] option pack saver (saving all the options into a json that you can put back into the game) 
 - changing camera position for characters
 - alots of bug fixes
 - base game deleter (deletes stuff from the base game that is not needed so you have space for mods)h

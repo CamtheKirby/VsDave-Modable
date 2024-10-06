@@ -32,12 +32,12 @@ class Visuals extends MusicBeatState
 	private var grpControls:FlxTypedGroup<Alphabet>;
 	var versionShit:FlxText;
 	var numberOption:String = "";
-	var songBarOptions = [
+	public static var songBarOptions = [
 		'ShowTime',
 		'ShowTimeOld',
 		'SongName',
 	];
-	var curSongBarOptionSelected:Int;
+	public static var curSongBarOptionSelected:Int;
 	
 	override function create()
 	{
@@ -185,7 +185,7 @@ class Visuals extends MusicBeatState
 					numberOption = 'Note Splash Transparency: ' + FlxG.save.data.noteSplashTransparent;
 					versionShit.text = numberOption + "\nOffset (Left, Right): " + FlxG.save.data.offset;		
 					*/
-					case 11:
+					        case 11:
 							FlxG.save.data.flashing = !FlxG.save.data.flashing;
 							updateGroupControls(FlxG.save.data.flashing ? 'Flashing Lights ON' : 'Flashing Lights OFF', 12, 'Vertical');
 							case 12:
