@@ -405,7 +405,7 @@ class OptionsMenu extends MusicBeatState
 				FlxG.switchState(new StartStateSelector());
 			}
 				#else
-				trace("File couldn't be loaded! You aren't on Desktop, are you?");
+				trace("You aren't on Desktop, are you?");
 				#end
 			}
 		}

@@ -14,7 +14,7 @@
 
 btw suggest me stuff (btw im not that good of a coder) to add to this engine by going to the issues tab
 
-there might be a early release with the smaller plans
+there might be a finsished 2.5.0 release with the smaller plans
 
 <img src="KadeEngineWitBackground.png">
 

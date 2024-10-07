@@ -300,7 +300,7 @@ class MainMenuState extends MusicBeatState
 		versionShit.setFormat("Comic Sans MS Bold", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
 
-		var pressR:FlxText = new FlxText(225, 10, 0, LanguageManager.getTextString("main_resetdata"), 12);
+		var pressR:FlxText = new FlxText(245, 0, 0, '${LanguageManager.getTextString("main_resetdata")}\nPress T to delete base game', 12);
 		pressR.setFormat("Comic Sans MS Bold", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		pressR.x -= versionShit.textField.textWidth;
 		pressR.antialiasing = FlxG.save.data.antialiasing;
@@ -346,6 +346,12 @@ class MainMenuState extends MusicBeatState
 				
 				FlxG.camera.shake(0.05, 0.1);
 			}
+			if (FlxG.keys.justPressed.T)
+				{
+					FlxG.sound.play(Paths.sound('scrollMenu'));
+					FlxG.switchState(new BaseGameDeleter());
+					
+				}
 			if (FlxG.keys.justPressed.R)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
