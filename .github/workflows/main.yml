@@ -31,11 +31,11 @@ jobs:
         run: |
           haxelib setup C:/haxelib
           haxelib install hxcpp > nul
+          haxelib install openfl
+          haxelib install flixel 4.11.0  
+          haxelib install lime 8.0.0
           haxelib run lime setup flixel
           haxelib run lime setup
-          haxelib install lime 8.0.0
-          haxelib install openfl
-          haxelib install flixel 4.11.0       
           haxelib remove flixel-addons
           haxelib remove flixel-tools
           haxelib remove flixel-ui
