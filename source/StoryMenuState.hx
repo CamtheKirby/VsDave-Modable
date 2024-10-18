@@ -92,6 +92,13 @@ class StoryMenuState extends MusicBeatState
 				['Supernovae', 'Glitch', 'Master'], weekName, 0xFF116E1C, 
 				FlxG.save.data.hasPlayedMasterWeek ? 'masterweek' : 'masterweekquestion', false));  // MASTERA BAMBI
 		}
+
+		if (TitleState.baseGameDeleted.deletedCharts || TitleState.baseGameDeleted.deletedSongs) {
+	
+			weeks = [
+				new Week(['Warmup'], LanguageManager.getTextString('story_tutorial'), 0xFF8A42B7, 'warmup', false),  // WARMUP
+			];
+		}
 		
 		if (FileSystem.exists(TitleState.modFolder + '/data/Weeks.json'))
         {
@@ -146,9 +153,17 @@ class StoryMenuState extends MusicBeatState
 		grpLocks = new FlxTypedGroup<FlxSprite>();
 		add(grpLocks);
 
+		var reali;
+
 		for (i in 0...weeks.length)
 		{
-			var weekThing:MenuItem = new MenuItem(0, yellowBG.y + yellowBG.height + 80, i);
+			reali = i;
+			if (TitleState.baseGameDeleted.deletedCharts || TitleState.baseGameDeleted.deletedSongs) {
+				if (reali > 0) {
+            reali = i + 5;
+				}
+			}
+			var weekThing:MenuItem = new MenuItem(0, yellowBG.y + yellowBG.height + 80, reali);
 			weekThing.x += ((weekThing.width + 20) * i);
 			weekThing.targetX = i;
 			weekThing.antialiasing = FlxG.save.data.antialiasing;

@@ -342,6 +342,13 @@ class Paths
 		}
 	}
 
+	inline static public function getSparrowAtlasPath(key:String, ?library:String)
+		{
+		
+			return file('images/$key', library);	
+			
+		}
+
 	inline static public function getCustomSparrowAtlas(key:String)
 		{
 			return FlxAtlasFrames.fromSparrow(customImage(key), customFile('$key.xml'));	

@@ -246,6 +246,13 @@ class FreeplayState extends MusicBeatState
 			'Extra songs for you to play',
 			'cmd.exe'];
 		}
+		if (TitleState.baseGameDeleted.deletedCharts || TitleState.baseGameDeleted.deletedSongs) {
+			Catagories = ['dave', 'mod'];
+			translatedCatagory = [
+			LanguageManager.getTextString('freeplay_dave'),
+		    TitleState.currentMod];
+			descriptions = ['See the Story'];
+		}
 
 		if (FileSystem.exists(TitleState.modFolder + '/desc.txt')) {
 			descriptions.push(Paths.customFile(TitleState.modFolder + '/desc.txt'));
@@ -394,10 +401,12 @@ class FreeplayState extends MusicBeatState
 			case 'dave':
 				addWeek(['Random'], 0, ['dave']);
 				addWeek(['Warmup'], 0, ['dave']);
+				if (!TitleState.baseGameDeleted.deletedCharts || !TitleState.baseGameDeleted.deletedSongs) {
 				addWeek(['House', 'Insanity', 'Polygonized'], 1, ['dave', 'dave-annoyed', 'dave-angey']);
 				addWeek(['Blocked', 'Corn-Theft', 'Maze'], 2, ['bambi-new', 'bambi-new', 'bambi-new']);
 				addWeek(['Splitathon'], 3, ['the-duo']);
 				addWeek(['Shredder', 'Greetings', 'Interdimensional', 'Rano'], 4, ['bambi-new', 'tristan-festival', 'dave-festival-3d', 'dave-festival']);
+				}
 			case 'joke':
 				addWeek(['Random'], 0, ['dave']);
 				if (FlxG.save.data.hasPlayedMasterWeek)

@@ -63,12 +63,20 @@ class MusicPlayerState extends MusicBeatState
         for (i in 0...initSonglist.length)
         {
             var splitstring:Array<String> = initSonglist[i].split(",");
-
+        
+            
+           
             songs.push(new PlaySongMetadata(splitstring[1], splitstring[0] == "external", splitstring[2],splitstring[3] == "bad",splitstring[1] != 'vs-dave-rap'));
 
             if (splitstring[0] != "external" && splitstring[1] != 'vs-dave-rap') //remove this later
             {
                 songs.push(new PlaySongMetadata(splitstring[1], splitstring[0] == "external", splitstring[2],splitstring[3] == "bad",false));
+            }
+            if (TitleState.baseGameDeleted.deletedSongs) {
+                songs = [new PlaySongMetadata('warmup', false, 'dave',false,true)];
+
+                songs.push(new PlaySongMetadata('warmup', false, 'dave',false,false));
+                    
             }
         }
         var secretSongs:Array<Dynamic> = [
@@ -81,6 +89,7 @@ class MusicPlayerState extends MusicBeatState
         ];
         for (i in 0...secretSongs.length)
         {
+            if (!TitleState.baseGameDeleted.deletedSongs) {
             var unlockSong = false;
             unlockSong = switch (secretSongs[i][0].toLowerCase())
             {
@@ -96,13 +105,16 @@ class MusicPlayerState extends MusicBeatState
             }
             if (unlockSong)
             {
+                
                 var bad = secretSongs[i][2] != null ? secretSongs[i][2] : false;
                 songs.push(new PlaySongMetadata(secretSongs[i][0], false, secretSongs[i][1], bad, secretSongs[i][0] != 'vs-dave-rap-two'));
                 if (secretSongs[i][0] != 'vs-dave-rap-two')
                 {
                     songs.push(new PlaySongMetadata(secretSongs[i][0], false, secretSongs[i][1], bad, false));
                 }
+            
             }
+        }
         }
 
         for (i in 0...customList.length)

@@ -55,6 +55,7 @@ class BaseGameDeleter extends FlxState
 	var bga:FlxSprite;
 	var deleteData:Bool = false;
 	var deleteSongs:Bool = false;
+	var deleteCharacterImages:Bool = false;
 	
 	public function new() 
 	{
@@ -85,15 +86,14 @@ class BaseGameDeleter extends FlxState
 	function addUI():Void
 		{
 			//var box = new FlxUITabMenu(null, [{name: "S", label: 'Song Data'}], true);
-			var deldata = new FlxUICheckBox(300, 300, null, null, "Delete Charts (assets/data/charts)", 100);
+			var deldata = new FlxUICheckBox(430, 300, null, null, "Delete Charts (assets/data/charts)", 100);
 			deldata.checked = false;
 			deldata.callback = function()
 			{
 				deleteData = deldata.checked;
 			};
 			add(deldata);
-
-			//var box = new FlxUITabMenu(null, [{name: "S", label: 'Song Data'}], true);
+			
 			var delsongs = new FlxUICheckBox(deldata.x + 300, 300, null, null, "Delete Songs (assets/songs)", 100);
 			delsongs.checked = false;
 			delsongs.callback = function()
@@ -101,6 +101,14 @@ class BaseGameDeleter extends FlxState
 				deleteSongs = delsongs.checked;
 			};
 			add(delsongs);
+
+			var delcharimg = new FlxUICheckBox(deldata.x, deldata.y + 150, null, null, "Delete Character Images", 100);
+			delcharimg.checked = false;
+			delcharimg.callback = function()
+			{
+				deleteCharacterImages = delcharimg.checked;
+			};
+			add(delcharimg);
 
 			var del = new FlxButton(570, deldata.y + 250, "Delete Base Game Stuff", function()
 				{
@@ -113,26 +121,46 @@ class BaseGameDeleter extends FlxState
 		function dBGS():Void
 			{		
 				var json = {
-					"DeletedCharts": deleteData,
-					"DeletedSongs": deleteSongs,
+					"deletedCharts": deleteData,
+					"deletedSongs": deleteSongs,
+					"deletedCharacterImages": deleteCharacterImages,
 				}
 				var jon:String = Json.stringify(json);
 				File.saveContent(Paths.json('BaseGameDeleter'), jon.trim());
 				if (deleteData && FileSystem.exists('assets/data/charts')) {
 					for (file in FileSystem.readDirectory('assets/data/charts')) {
-                      FileSystem.deleteFile('assets/data/charts/' + file);
+					if (!file.startsWith('warmup'))
+                    FileSystem.deleteFile('assets/data/charts/' + file);
 					}
-					FileSystem.deleteDirectory('assets/data/charts');
+				//	FileSystem.deleteDirectory('assets/data/charts');
 				}
 
 				if (deleteSongs && FileSystem.exists('assets/songs')) {
 					for (folder in FileSystem.readDirectory('assets/songs')) {
+						if (!folder.startsWith('warmup')) {
                       for (file in FileSystem.readDirectory('assets/songs/' + folder)) {
 						FileSystem.deleteFile('assets/songs/${folder}/${file}');
 					  }
 					  FileSystem.deleteDirectory('assets/songs/${folder}');
 					}
-					FileSystem.deleteDirectory('assets/songs');
+				}
+					//FileSystem.deleteDirectory('assets/songs');
+				}
+
+				if (deleteCharacterImages) {
+					var charimg = [Paths.getSparrowAtlasPath('dave/characters/Dave_insanity_lol', 'shared'), Paths.getSparrowAtlasPath('dave/characters/davefriend', 'shared'), Paths.getSparrowAtlasPath('dave/characters/thecoolerdave', 'shared'), Paths.getSparrowAtlasPath('dave/characters/Dave_3D', 'shared'), Paths.getSparrowAtlasPath('fiveNights/dave_fnaf', 'shared'), Paths.getSparrowAtlasPath('splitathon/Splitathon_Dave', 'shared'), Paths.getSparrowAtlasPath('recursed/characters/Dave_Recursed', 'shared'), Paths.getSparrowAtlasPath('recursed/characters/Dave_3D_Recursed', 'shared'), Paths.getSparrowAtlasPath('festival/dave_festival', 'shared'), Paths.getSparrowAtlasPath('festival/dave_festival_3d', 'shared'), Paths.getSparrowAtlasPath('bambi/bambiRemake', 'shared'), Paths.getSparrowAtlasPath('bambi/fuckbi', 'shared'), Paths.getSparrowAtlasPath('bambi/im_gonna_break_me_phone', 'shared'), Paths.getSparrowAtlasPath('recursed/characters/Bambi_Recursed', 'shared'), Paths.getSparrowAtlasPath('characters/BaldiInRoof', 'shared'), Paths.getSparrowAtlasPath('splitathon/Splitathon_Bambi', 'shared'), Paths.getSparrowAtlasPath('bambi/Angry_Bambi', 'shared'), Paths.getSparrowAtlasPath('bambi/bambimaddddd', 'shared'), Paths.getSparrowAtlasPath('expunged/Cheating', 'shared'), Paths.getSparrowAtlasPath('expunged/unfair_bambi', 'shared'), Paths.getSparrowAtlasPath('expunged/ExpungedFinal', 'shared'), Paths.getSparrowAtlasPath('joke/bambi-joke', 'shared'), Paths.getSparrowAtlasPath('joke/bambi-joke-mad', 'shared'), Paths.getSparrowAtlasPath('festival/bambi_shredder', 'shared'), Paths.getSparrowAtlasPath('dave/TRISTAN', 'shared'), Paths.getSparrowAtlasPath('dave/TristanHairFlipped', 'shared'), Paths.getSparrowAtlasPath('dave/tristan_golden', 'shared'), Paths.getSparrowAtlasPath('dave/tristan_golden_glowing', 'shared'), Paths.getSparrowAtlasPath('festival/tristan_festival', 'shared'), Paths.getSparrowAtlasPath('festival/tristan_festival_playable', 'shared'), Paths.getSparrowAtlasPath('characters/exbungo', 'shared'), Paths.getSparrowAtlasPath('recursed/Recurser', "shared"), Paths.getSparrowAtlasPath('recursed/characters/TristanRecursed', 'shared'), Paths.getSparrowAtlasPath('characters/DONT_GO_SNOOPING_WHERE_YOURE_NOT_SUPPOSED_TO', 'shared'), Paths.getSparrowAtlasPath('recursed/characters/STOP_LOOKING_AT_THE_FILES', 'shared'), Paths.getSparrowAtlasPath('california/moldygh', 'shared'), Paths.getSparrowAtlasPath('playrobot/playbot', 'shared'), Paths.getSparrowAtlasPath('playrobot/playrobot_shadow', 'shared'),  Paths.getSparrowAtlasPath('dave/characters/dave_awesome', 'shared'), ];
+					for (img in charimg) {
+						//var charimagepath = img;
+					//	if (folder.startsWith('shared:')) {
+						var	charimagepath = StringTools.replace(img, 'shared:', '');
+					//	}
+					if (FileSystem.exists(charimagepath + '.png')) {
+						FileSystem.deleteFile(charimagepath + '.png');
+					}
+					if (FileSystem.exists(charimagepath + '.xml')) {
+						FileSystem.deleteFile(charimagepath + '.xml');
+					}
+					}
 				}
 				
 		var versionShit:FlxText = new FlxText(300, 0, 0, 'CLOSING BOOT UP ENGINE AFTER', 12);

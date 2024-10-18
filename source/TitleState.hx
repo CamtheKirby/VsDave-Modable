@@ -1,5 +1,7 @@
 package;
 
+import haxe.Json;
+import sys.io.File;
 import flixel.FlxSubState;
 import sys.FileSystem;
 import haxe.Http;
@@ -34,6 +36,13 @@ import haxe.Json;
 
 using StringTools;
 
+typedef BGDJson =
+{
+	var deletedCharts:Bool;
+	var deletedSongs:Bool;
+	var deletedCharacterImages:Bool;
+}
+
 class TitleState extends MusicBeatState
 {
 	public static var initialized:Bool = false;
@@ -51,6 +60,7 @@ class TitleState extends MusicBeatState
 	var awaitingExploitation:Bool;
 	var eye:FlxSprite;
 	var loopEyeTween:FlxTween;
+	public static var baseGameDeleted:BGDJson;
 	public static var mods:Array<String> = [];
 	public static var currentMod:String = 'test';
 	public static var modFolder:String = '';
@@ -133,6 +143,21 @@ class TitleState extends MusicBeatState
 			}
 			}
 			trace(mods + ' ' + currentMod);
+			var rawBGDJson:String;
+			
+			if (FileSystem.exists(Paths.json('BaseGameDeleter'))) {
+			 rawBGDJson = File.getContent(Paths.json('BaseGameDeleter'));
+			if(rawBGDJson != null) {
+				baseGameDeleted = cast Json.parse(rawBGDJson);
+			}
+			trace('${baseGameDeleted.deletedCharts} ${baseGameDeleted.deletedSongs} ${baseGameDeleted.deletedCharacterImages}');
+		} else {
+			 rawBGDJson = '{"deletedCharts":false,"deletedCharacterImages":false,"deletedSongs":false}';
+			if(rawBGDJson != null) {
+				baseGameDeleted = cast Json.parse(rawBGDJson);
+			}
+		}
+		
 
 		new FlxTimer().start(1, function(tmr:FlxTimer)
 		{

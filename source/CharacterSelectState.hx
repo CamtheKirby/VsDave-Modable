@@ -184,7 +184,9 @@ class CharacterSelectState extends MusicBeatState
 		}
 
 		var characterInSelectArray:Array<CharacterInSelect> = [];
-
+trace(!TitleState.baseGameDeleted.deletedCharacterImages);
+		if (!TitleState.baseGameDeleted.deletedCharacterImages) {
+			trace('y');
 		for (character in json.characters) { // Normal
 			var mainName:String = character.mainName;
 			var thehotemsithink:Array<Float> = character.mainnotems;
@@ -197,6 +199,22 @@ class CharacterSelectState extends MusicBeatState
 			
 			characters.push(new CharacterInSelect(mainName, thehotemsithink, newCharacterForms));
 		}
+	} else {
+		trace('n');
+			var newCharacterFormsbf:Array<CharacterForm> = [];
+			var newCharacterFormsdave:Array<CharacterForm> = [];
+			
+			newCharacterFormsbf.push(new CharacterForm('bf', 'Boyfriend', [1, 1, 1, 1], ''));
+			newCharacterFormsbf.push(new CharacterForm('bf-pixel', 'Pixel Boyfriend', [1, 1, 1, 1], ''));
+			
+			
+			characters.push(new CharacterInSelect('bf', [1, 1, 1, 1], newCharacterFormsbf));
+
+			newCharacterFormsdave.push(new CharacterForm('dave', 'Dave', [0.25, 0.25, 2, 2], ''));
+			
+			
+			characters.push(new CharacterInSelect('dave', [0.25, 0.25, 2, 2], newCharacterFormsdave));
+	}
 		if (FileSystem.exists('mods/global/characterSelect.json')) {
 		for (character in jsonCustom.characters) { // For Globle Characters
 			var mainName:String = character.mainName;
@@ -205,6 +223,7 @@ class CharacterSelectState extends MusicBeatState
 			var newCharacterForms:Array<CharacterForm> = [];
 			for (newChar in character.newCharacter) {
 				newCharacterForms.push(new CharacterForm(newChar.playername, newChar.thecharactername, newChar.thenotems, newChar.notestyle));
+				unlockCharacter(newChar.playername);
 			}
 			
 			characters.push(new CharacterInSelect(mainName, thehotemsithink, newCharacterForms));
@@ -219,6 +238,7 @@ class CharacterSelectState extends MusicBeatState
 			var newCharacterForms:Array<CharacterForm> = [];
 			for (newChar in character.newCharacter) {
 				newCharacterForms.push(new CharacterForm(newChar.playername, newChar.thecharactername, newChar.thenotems, newChar.notestyle));
+				unlockCharacter(newChar.playername);
 			}
 			
 			characters.push(new CharacterInSelect(mainName, thehotemsithink, newCharacterForms));

@@ -124,8 +124,7 @@ class CreditsPopUp extends FlxSpriteGroup
 				if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.json') && !FileSystem.exists(TitleState.modFolder + '/images/songHeadings/' + jsonSettings.songHeadings + '.xml')) {
 			headingPath = {path: 'songHeadings/' + jsonSettings.songHeadings, antiAliasing: false, iconOffset: 0};
 				} else {
-				headingPath = {path: 'songHeadings/' + jsonSettings.songHeadings, antiAliasing: false,
-				animation: new Animation('custom', 'Custom', 24, true, [false, false]), iconOffset: 0};
+					headingPath = {path: 'songHeadings/daveHeading', antiAliasing: false, iconOffset: 0};
 				}
 				
 		}
@@ -141,8 +140,7 @@ class CreditsPopUp extends FlxSpriteGroup
 				if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.json') && !FileSystem.exists(TitleState.modFolder + '/images/songHeadings/' + jsonSettings.songHeadings + '.xml')) {
 					headingPath = {path: 'songHeadings/' + jsonSettings.songHeadings, antiAliasing: false, iconOffset: 0};
 						} else {
-						headingPath = {path: 'songHeadings/' + jsonSettings.songHeadings, antiAliasing: false,
-						animation: new Animation('custom', 'Custom', 24, true, [false, false]), iconOffset: 0};
+							headingPath = {path: 'songHeadings/daveHeading', antiAliasing: false, iconOffset: 0};
 						}
 			}
 		}
