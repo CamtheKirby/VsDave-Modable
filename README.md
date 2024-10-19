@@ -2,7 +2,6 @@
 - I feel like working on this again!
 - stuff im planning to add:
 - version checker
-- UI Selector
 - More Freeplay Options
 - Events (play animations, change characters, etc)
 - Compatibility with other engines
