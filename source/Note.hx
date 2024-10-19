@@ -137,9 +137,14 @@ class Note extends FlxSprite
 			random = new FlxRandom().int(1, 2);
 		  }
 		}
-
-		if ((((CharactersWith3D.contains(PlayState.SONG.player2) && !musthit) || ((CharactersWith3D.contains(PlayState.SONG.player1)
-				|| CharactersWith3D.contains(PlayState.characteroverride) || CharactersWith3D.contains(PlayState.formoverride)) && musthit))
+		var qwe = !musthit;
+		var asd = musthit;
+if (FlxG.save.data.oppM) {
+qwe = musthit;
+asd = !musthit;
+}
+		if ((((CharactersWith3D.contains(PlayState.SONG.player2) && qwe) || ((CharactersWith3D.contains(PlayState.SONG.player1)
+				|| CharactersWith3D.contains(PlayState.characteroverride) || CharactersWith3D.contains(PlayState.formoverride)) && asd))
 				|| ((CharactersWith3D.contains(PlayState.SONG.player2) || CharactersWith3D.contains(PlayState.SONG.player1)) && ((this.strumTime / 50) % 20 > 10))) 
 				|| random == 1
 				&& this.noteStyle == 'normal')

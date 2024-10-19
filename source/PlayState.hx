@@ -1600,13 +1600,13 @@ class PlayState extends MusicBeatState
 		{
 			case "exploitation":
 				funkyText = SONG.song;
-				funkyText2 = 'FDE v' + MainMenuState.fanmadeEngineVer + ' (DE v' + MainMenuState.engineVer + '/KE v1.2)';
+				funkyText2 = 'FDE v' + MainMenuState.fanmadeEngineVer;
 			case 'overdrive':
 				funkyText = '';
 				funkyText2 = '';
 			default:
 				funkyText = SONG.song;
-				funkyText2 = 'FDE v' + MainMenuState.fanmadeEngineVer + ' (DE v' + MainMenuState.engineVer + '/KE v1.2)';
+				funkyText2 = 'FDE v' + MainMenuState.fanmadeEngineVer;
 		}
 
 		if (!isGreetingsCutscene)
@@ -2823,6 +2823,11 @@ class PlayState extends MusicBeatState
 
 					set.antialiasing = FlxG.save.data.antialiasing;
 					add(set);
+
+					if (oppM && SONG.song.toLowerCase() != "five-nights") {
+						switchNoteSide();
+					}
+					
 					FlxTween.tween(set, {y: set.y += 100, alpha: 0}, Conductor.crochet / 1000, {
 						ease: FlxEase.cubeInOut,
 						onComplete: function(twn:FlxTween)
@@ -3304,8 +3309,16 @@ class PlayState extends MusicBeatState
 		{
 			var arrowType:Int = note_order[i];
 			var strumType:String = '';
-			if (((funnyFloatyBoys.contains(dad.curCharacter) || threedBoysMod.contains(dad.curCharacter)) && player == 0) ||
-				((funnyFloatyBoys.contains(boyfriend.curCharacter) || threedBoysMod.contains(boyfriend.curCharacter)) && player == 1))
+			var playername0:Int = 0;
+			var playername1:Int = 1;
+
+			if (oppM) {
+				playername0 = 1;
+				playername1 = 0;
+			}
+			
+			if (((funnyFloatyBoys.contains(dad.curCharacter) || threedBoysMod.contains(dad.curCharacter)) && player == playername0) ||
+				((funnyFloatyBoys.contains(boyfriend.curCharacter) || threedBoysMod.contains(boyfriend.curCharacter)) && player == playername1))
 			{
 				strumType = '3D';
 			}
@@ -6731,7 +6744,14 @@ if (oppM) {
 
 	function noteMiss(direction:Int = 1, note:Note):Void
 	{
-		if (!FlxG.save.data.vanMissSys || !note.isSustainNote)
+		var uhhbro:Bool;
+		if (theFunne) {
+			uhhbro = note.isSustainNote;
+		} else {
+     uhhbro = false;
+		}
+
+		if (!FlxG.save.data.vanMissSys || !uhhbro)
 		{
 			misses++;	
 			if (inFiveNights)
@@ -6762,7 +6782,7 @@ if (oppM) {
 					case 'phone':
 						if  (!oppM) {
 						var hitAnimation:Bool = boyfriend.animation.getByName("hit") != null;
-						if (!note.isSustainNote || !FlxG.save.data.ogHold) {
+						if (!uhhbro || !FlxG.save.data.ogHold) {
 						boyfriend.playAnim(hitAnimation ? 'hit' : (isShaggy ? 'singDOWNmiss' : 'singRIGHTmiss'), true);
 						}
 						if (isShaggy) boyfriend.color = 0xFF000084;
@@ -6772,19 +6792,19 @@ if (oppM) {
 						pauseTweens.push(noteTween);
 					} else {
 						var hitAnimation:Bool = dad.animation.getByName("hit") != null;
-						if (!note.isSustainNote || !FlxG.save.data.ogHold) {
+						if (!uhhbro || !FlxG.save.data.ogHold) {
 						dad.playAnim(hitAnimation ? 'hit' : (isShaggy ? 'singDOWNmiss' : 'singRIGHTmiss'), true);
 						}
 						if (dad.animation.getByName(isShaggy ? 'singDOWNmiss' : 'singRIGHTmiss') != null)
 							{
-								if (!note.isSustainNote || !FlxG.save.data.ogHold) {
+								if (!uhhbro || !FlxG.save.data.ogHold) {
 								dad.playAnim(isShaggy ? 'singDOWNmiss' : 'singRIGHTmiss', true);
 								}
 							}
 							else
 							{
 								dad.color = 0xFF000084;
-								if (!note.isSustainNote || !FlxG.save.data.ogHold) {
+								if (!uhhbro || !FlxG.save.data.ogHold) {
 								dad.playAnim(isShaggy ? 'singDOWN' : 'singRIGHT', true);
 								}
 							}
@@ -6830,14 +6850,14 @@ if (oppM) {
 					}
 					if (dad.animation.getByName('sing${noteToPlay}miss') != null)
 					{
-						if (!note.isSustainNote || !FlxG.save.data.ogHold) {
+						if (!uhhbro || !FlxG.save.data.ogHold) {
 						dad.playAnim('sing' + noteToPlay + "miss", true);
 						}
 					}
 					else
 					{
 						dad.color = 0xFF000084;
-						if (!note.isSustainNote || !FlxG.save.data.ogHold) {
+						if (!uhhbro || !FlxG.save.data.ogHold) {
 						dad.playAnim('sing' + noteToPlay, true);
 						}
 					}
@@ -6854,14 +6874,14 @@ if (oppM) {
 			}
 			if (boyfriend.animation.getByName('sing${noteToPlay}miss') != null)
 			{
-				if (!note.isSustainNote || !FlxG.save.data.ogHold) {
+				if (!uhhbro || !FlxG.save.data.ogHold) {
 				boyfriend.playAnim('sing' + noteToPlay + "miss", true);
 				}
 			}
 			else
 			{
 				boyfriend.color = 0xFF000084;
-				if (!note.isSustainNote || !FlxG.save.data.ogHold) {
+				if (!uhhbro || !FlxG.save.data.ogHold) {
 				boyfriend.playAnim('sing' + noteToPlay, true);
 				}
 			}
