@@ -2,7 +2,6 @@
 - I feel like working on this again!
 - stuff im planning to add:
 - version checker
-- More Freeplay Options
 - Events (play animations, change characters, etc)
 - Compatibility with other engines
 - [DONE] option pack saver (saving all the options into a json that you can put back into the game) 
