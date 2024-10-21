@@ -5265,6 +5265,13 @@ class PlayState extends MusicBeatState
 					case 'bambi-3d':
 						camFollow.x = dad.getMidpoint().x;
 						camFollow.y -= 50;
+					default:
+						var dadCamPosX = dad.cameraPos[0];
+						var dadCamPosY = dad.cameraPos[1];
+
+						if (dad.isCustom && dadCamPosX != 0 || dadCamPosY != 0) {
+							camFollow.setPosition(dad.getMidpoint().x + dad.cameraPos[0],dad.getMidpoint().y + dad.cameraPos[1]);
+						}
 				}
 
 				if (SONG.song.toLowerCase() == 'warmup')
@@ -5300,6 +5307,13 @@ class PlayState extends MusicBeatState
 						camFollow.x -= 100;
 						camFollow.y += 30;
 						if (SONG.song.toLowerCase() == 'rano') camFollow.y += 100;
+						default:
+							var bfCamPosX = boyfriend.cameraPos[0];
+							var bfCamPosY = boyfriend.cameraPos[1];
+
+						if (boyfriend.isCustom && bfCamPosX != 0 || bfCamPosY != 0) {
+							camFollow.setPosition(boyfriend.getMidpoint().x + boyfriend.cameraPos[0], boyfriend.getMidpoint().y + boyfriend.cameraPos[1]);
+						}
 				}
 				dadNoteCamOffset[0] = 0;
 				dadNoteCamOffset[1] = 0;

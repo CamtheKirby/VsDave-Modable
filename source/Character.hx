@@ -28,6 +28,7 @@ typedef CharacterFile =
 	var updateHitbox:Bool;
 	var setGraphicSize:String;
 	var effect:String;
+	var cameraPosition:Array<Float>;
 }
 
 typedef Anim = 
@@ -69,6 +70,9 @@ class Character extends FlxSprite
 	public var offsetScale:Float = 1;
 	
 	public var barColor:FlxColor;
+
+	public var isCustom:Bool = false;
+	public var cameraPos:Array<Float> = [0,0];
 	
 	public var canSing:Bool = true;
 	public var skins:Map<String, String> = new Map<String, String>();
@@ -1218,7 +1222,23 @@ class Character extends FlxSprite
 			    jsonCustom = cast Json.parse(rawJsonCustom);
 
 				frames = Paths.getCustomSparrowAtlas(customPath2);
+
+				isCustom = true;
+
+				//trace('BEFORE BEFORE json: ${jsonCustom.cameraPosition} camPos: ${cameraPos}');
+
+				if (jsonCustom.cameraPosition != null) {
+				cameraPos = jsonCustom.cameraPosition;
+				}
+
+				//trace('BEFORE json: ${jsonCustom.cameraPosition} camPos: ${cameraPos}');
 				
+				if (cameraPos == null) {
+          cameraPos = [0,0];
+				}
+
+				//trace('AFTER json: ${jsonCustom.cameraPosition} camPos: ${cameraPos}');
+
 				for (i in jsonCustom.animations) {
 				animation.addByPrefix(i.animName, i.anim, i.fps, i.loop);
 				}
@@ -1237,7 +1257,7 @@ class Character extends FlxSprite
 
 				barColor = FlxColor.fromRGB(jsonCustom.barcolor.red, jsonCustom.barcolor.green, jsonCustom.barcolor.blue);
 
-				if (jsonCustom.setGraphicSize != '') 
+				if (jsonCustom.setGraphicSize != null && jsonCustom.setGraphicSize != '') 
 					{
 						var thing = jsonCustom.setGraphicSize;
 						if (thing == 'furiosityScale') {
@@ -1249,7 +1269,7 @@ class Character extends FlxSprite
 						}
 					}
 
-					if (jsonCustom.effect != '') 
+					if (jsonCustom.effect != null && jsonCustom.effect != '') 
 						{
 							var funnyeffect = jsonCustom.effect;
 							if (funnyeffect == '3dfloat' && !PlayState.funnyFloatyBoys.contains(curCharacter) && !Note.CharactersWith3D.contains(curCharacter)) {

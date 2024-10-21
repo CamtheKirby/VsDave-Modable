@@ -47,5 +47,6 @@
     "flipX": true,
     "updateHitbox": true,
     "setGraphicSize": "",
-    "effect": "3dfloat"
+    "effect": "3dfloat",
+    "cameraPosition": [0,100]
 }
