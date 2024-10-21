@@ -3018,11 +3018,13 @@ class PlayState extends MusicBeatState
 					dad.canSing = true;
 					dad.canDance = true;
 				}
+				if (FlxG.save.data.stage) {
 				FlxTween.num(0, 30, 2, {}, function(newValue:Float)
 				{
 					trainSpeed = newValue;
 					train.animation.curAnim.frameRate = Std.int(FlxMath.lerp(0, 24, (trainSpeed / 30)));
 				});
+			}
 			case 'supernovae' | 'glitch' | 'master':
 				Application.current.window.title = banbiWindowNames[new FlxRandom().int(0, banbiWindowNames.length - 1)];
 			case 'exploitation':
@@ -3874,7 +3876,7 @@ class PlayState extends MusicBeatState
 		var tox = -330 -Math.cos((curStep / 9.5)) * 100;
 
 		//welcome to 3d sinning avenue
-      if (stageCheck == 'exbungo-land') {
+      if (stageCheck == 'exbungo-land' && FlxG.save.data.stage) {
 			place.y -= (Math.sin(elapsedtime) * 0.4);
 		}
 		if (dad.curCharacter == 'recurser')
