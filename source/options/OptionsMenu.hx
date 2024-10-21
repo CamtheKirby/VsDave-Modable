@@ -402,6 +402,7 @@ class OptionsMenu extends MusicBeatState
 					FlxG.sound.music.stop();
 				TitleState.initialized = false;
 				TitleState.onlyforabug = false;
+				onPlayState = false;
 				FlxG.switchState(new StartStateSelector());
 			}
 				#else

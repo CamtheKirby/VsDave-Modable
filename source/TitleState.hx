@@ -41,6 +41,8 @@ typedef BGDJson =
 	var deletedCharts:Bool;
 	var deletedSongs:Bool;
 	var deletedCharacterImages:Bool;
+	var deletedIcons:Bool;
+	var deletedStoryMenu:Bool;
 }
 
 class TitleState extends MusicBeatState
@@ -150,9 +152,9 @@ class TitleState extends MusicBeatState
 			if(rawBGDJson != null) {
 				baseGameDeleted = cast Json.parse(rawBGDJson);
 			}
-			trace('${baseGameDeleted.deletedCharts} ${baseGameDeleted.deletedSongs} ${baseGameDeleted.deletedCharacterImages}');
+
 		} else {
-			 rawBGDJson = '{"deletedCharts":false,"deletedCharacterImages":false,"deletedSongs":false}';
+			 rawBGDJson = '{"deletedCharts":false,"deletedCharacterImages":false,"deletedSongs":false,"deletedIcons":false,"deletedStoryMenu":false}';
 			if(rawBGDJson != null) {
 				baseGameDeleted = cast Json.parse(rawBGDJson);
 			}

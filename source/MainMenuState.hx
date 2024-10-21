@@ -577,6 +577,10 @@ class MainMenuState extends MusicBeatState
 		{
 			return Paths.image('backgrounds/ramzgaming');
 		}
+		else if (FlxG.random.bool(0.05))
+		{
+			return Paths.image('backgrounds/nostalgia/' + FlxG.random.int(0,8));
+		}
 		else
 		{
 			return Paths.image('backgrounds/${bgPaths[chance]}');

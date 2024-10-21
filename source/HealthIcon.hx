@@ -26,7 +26,6 @@ class HealthIcon extends FlxSprite
 	var state:String;
 	public var isPlayer:Bool;
 	var winningIcon:Bool;
-	var blank:Bool = false;
 	
 	public function new(char:String = 'bf', isPlayer:Bool = false)
 	{
@@ -56,15 +55,13 @@ class HealthIcon extends FlxSprite
 				file = Paths.customImage(TitleState.modFolder + '/images/icons/' + char);
 				} else {
 					//trace('lol');
-					blank = true;
-					file = Paths.image('blank', 'shared');
+					file = FlxGraphic.fromBitmapData(BitmapData.fromFile(Paths.image('ui/iconGrid/face', 'preload')));
 				}
 			} else {
-				blank = true;
 				file = Paths.image('blank', 'shared');
 			}
 
-			if (char != "none" && !blank) {
+			if (char != "none") {
 			loadGraphic(file);	
 			if (width == 450) {
 			loadGraphic(file, true, Math.floor(width / 3), 150);	
@@ -74,7 +71,7 @@ class HealthIcon extends FlxSprite
 			}
 		}
 			
-			if (char != "none" && !blank)
+			if (char != "none")
 			{
 				antialiasing = !noAaChars.contains(char) ? FlxG.save.data.antialiasing : !noAaChars.contains(char);
 				//trace('Graphic width before setting: ' + width);
@@ -99,7 +96,7 @@ class HealthIcon extends FlxSprite
 	}
 	public function changeState(charState:String)
 	{
-		if (char != "none" && !blank) {
+		if (char != "none") {
 		switch (charState)
 		{
 			case 'normal':

@@ -191,7 +191,7 @@ asd = !musthit;
 			case 'overdrive':
 				notePathLol = 'notes/OMGtop10awesomehi';
 			case 'recursed':
-				musthit ? {
+				asd ? {
 					if ((this.strumTime / 50) % 20 > 12 && !isSustainNote)
 					{
 						this.noteStyle = 'text';
@@ -202,7 +202,7 @@ asd = !musthit;
 				}
 		}
 		if(PlayState.settingsExist && PlayState.jsonSettings.recursedEffect && FreeplayState.isaCustomSong) {
-			musthit ? { 
+			asd ? { 
 				if ((this.strumTime / 50) % 20 > 12 && !isSustainNote)
 				{
 					this.noteStyle = 'text';

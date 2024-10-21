@@ -563,6 +563,8 @@ class PlayState extends MusicBeatState
 	public static var allNotes:Int = 0;
 	public static var isHighscore:Bool = false;
 
+	
+
 	override public function create()
 	{
 		instance = this;

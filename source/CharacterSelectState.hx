@@ -186,7 +186,7 @@ class CharacterSelectState extends MusicBeatState
 		var characterInSelectArray:Array<CharacterInSelect> = [];
 trace(!TitleState.baseGameDeleted.deletedCharacterImages);
 		if (!TitleState.baseGameDeleted.deletedCharacterImages) {
-			trace('y');
+
 		for (character in json.characters) { // Normal
 			var mainName:String = character.mainName;
 			var thehotemsithink:Array<Float> = character.mainnotems;
@@ -200,9 +200,10 @@ trace(!TitleState.baseGameDeleted.deletedCharacterImages);
 			characters.push(new CharacterInSelect(mainName, thehotemsithink, newCharacterForms));
 		}
 	} else {
-		trace('n');
+
 			var newCharacterFormsbf:Array<CharacterForm> = [];
 			var newCharacterFormsdave:Array<CharacterForm> = [];
+			var newCharacterFormsshaggy:Array<CharacterForm> = [];
 			
 			newCharacterFormsbf.push(new CharacterForm('bf', 'Boyfriend', [1, 1, 1, 1], ''));
 			newCharacterFormsbf.push(new CharacterForm('bf-pixel', 'Pixel Boyfriend', [1, 1, 1, 1], ''));
@@ -214,6 +215,14 @@ trace(!TitleState.baseGameDeleted.deletedCharacterImages);
 			
 			
 			characters.push(new CharacterInSelect('dave', [0.25, 0.25, 2, 2], newCharacterFormsdave));
+
+			newCharacterFormsshaggy.push(new CharacterForm('shaggy', 'Shaggy', [1, 1, 1, 1], ''));
+			newCharacterFormsshaggy.push(new CharacterForm('supershaggy', 'Shaggy (0.001%)', [1, 1, 1, 1], ''));
+			newCharacterFormsshaggy.push(new CharacterForm('godshaggy', 'Shaggy (0.002%)', [1, 1, 1, 1], ''));
+			newCharacterFormsshaggy.push(new CharacterForm('redshaggy', 'Red Shaggy', [1, 1, 1, 1], ''));
+			
+			
+			characters.push(new CharacterInSelect('shaggy', [1, 1, 1, 1], newCharacterFormsshaggy));
 	}
 		if (FileSystem.exists('mods/global/characterSelect.json')) {
 		for (character in jsonCustom.characters) { // For Globle Characters

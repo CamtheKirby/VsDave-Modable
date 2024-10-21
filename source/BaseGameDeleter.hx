@@ -56,6 +56,8 @@ class BaseGameDeleter extends FlxState
 	var deleteData:Bool = false;
 	var deleteSongs:Bool = false;
 	var deleteCharacterImages:Bool = false;
+	var deleteIcons:Bool = false;
+	var deleteStory:Bool = false;
 	
 	public function new() 
 	{
@@ -86,7 +88,7 @@ class BaseGameDeleter extends FlxState
 	function addUI():Void
 		{
 			//var box = new FlxUITabMenu(null, [{name: "S", label: 'Song Data'}], true);
-			var deldata = new FlxUICheckBox(430, 300, null, null, "Delete Charts (assets/data/charts)", 100);
+			var deldata = new FlxUICheckBox(80, 300, null, null, "Delete Charts (assets/data/charts)", 100);
 			deldata.checked = false;
 			deldata.callback = function()
 			{
@@ -110,7 +112,23 @@ class BaseGameDeleter extends FlxState
 			};
 			add(delcharimg);
 
-			var del = new FlxButton(570, deldata.y + 250, "Delete Base Game Stuff", function()
+			var delicons = new FlxUICheckBox(delsongs.x, delsongs.y + 150, null, null, "Delete Icons", 100);
+			delicons.checked = false;
+			delicons.callback = function()
+			{
+				deleteIcons = delicons.checked;
+			};
+			add(delicons);
+
+			var delsmi = new FlxUICheckBox(delsongs.x + 300, 300, null, null, "Delete Story Menu Images", 100);
+			delsmi.checked = false;
+			delsmi.callback = function()
+			{
+				deleteStory = delsmi.checked;
+			};
+			add(delsmi);
+
+			var del = new FlxButton(570, 550, "Delete Base Game Stuff", function()
 				{
 					dBGS();
 				});
@@ -124,6 +142,8 @@ class BaseGameDeleter extends FlxState
 					"deletedCharts": deleteData,
 					"deletedSongs": deleteSongs,
 					"deletedCharacterImages": deleteCharacterImages,
+					"deletedIcons": deleteIcons,
+					"deletedStoryMenu": deleteStory,
 				}
 				var jon:String = Json.stringify(json);
 				File.saveContent(Paths.json('BaseGameDeleter'), jon.trim());
@@ -147,6 +167,14 @@ class BaseGameDeleter extends FlxState
 					//FileSystem.deleteDirectory('assets/songs');
 				}
 
+				if (deleteData || deleteSongs) {
+					for (file in FileSystem.readDirectory('assets/images/packs')) {
+						if (file != 'dave.png') {
+						FileSystem.deleteFile('assets/images/packs/${file}');
+						}
+					}
+				}
+
 				if (deleteCharacterImages) {
 					var charimg = [Paths.getSparrowAtlasPath('dave/characters/Dave_insanity_lol', 'shared'), Paths.getSparrowAtlasPath('dave/characters/davefriend', 'shared'), Paths.getSparrowAtlasPath('dave/characters/thecoolerdave', 'shared'), Paths.getSparrowAtlasPath('dave/characters/Dave_3D', 'shared'), Paths.getSparrowAtlasPath('fiveNights/dave_fnaf', 'shared'), Paths.getSparrowAtlasPath('splitathon/Splitathon_Dave', 'shared'), Paths.getSparrowAtlasPath('recursed/characters/Dave_Recursed', 'shared'), Paths.getSparrowAtlasPath('recursed/characters/Dave_3D_Recursed', 'shared'), Paths.getSparrowAtlasPath('festival/dave_festival', 'shared'), Paths.getSparrowAtlasPath('festival/dave_festival_3d', 'shared'), Paths.getSparrowAtlasPath('bambi/bambiRemake', 'shared'), Paths.getSparrowAtlasPath('bambi/fuckbi', 'shared'), Paths.getSparrowAtlasPath('bambi/im_gonna_break_me_phone', 'shared'), Paths.getSparrowAtlasPath('recursed/characters/Bambi_Recursed', 'shared'), Paths.getSparrowAtlasPath('characters/BaldiInRoof', 'shared'), Paths.getSparrowAtlasPath('splitathon/Splitathon_Bambi', 'shared'), Paths.getSparrowAtlasPath('bambi/Angry_Bambi', 'shared'), Paths.getSparrowAtlasPath('bambi/bambimaddddd', 'shared'), Paths.getSparrowAtlasPath('expunged/Cheating', 'shared'), Paths.getSparrowAtlasPath('expunged/unfair_bambi', 'shared'), Paths.getSparrowAtlasPath('expunged/ExpungedFinal', 'shared'), Paths.getSparrowAtlasPath('joke/bambi-joke', 'shared'), Paths.getSparrowAtlasPath('joke/bambi-joke-mad', 'shared'), Paths.getSparrowAtlasPath('festival/bambi_shredder', 'shared'), Paths.getSparrowAtlasPath('dave/TRISTAN', 'shared'), Paths.getSparrowAtlasPath('dave/TristanHairFlipped', 'shared'), Paths.getSparrowAtlasPath('dave/tristan_golden', 'shared'), Paths.getSparrowAtlasPath('dave/tristan_golden_glowing', 'shared'), Paths.getSparrowAtlasPath('festival/tristan_festival', 'shared'), Paths.getSparrowAtlasPath('festival/tristan_festival_playable', 'shared'), Paths.getSparrowAtlasPath('characters/exbungo', 'shared'), Paths.getSparrowAtlasPath('recursed/Recurser', "shared"), Paths.getSparrowAtlasPath('recursed/characters/TristanRecursed', 'shared'), Paths.getSparrowAtlasPath('characters/DONT_GO_SNOOPING_WHERE_YOURE_NOT_SUPPOSED_TO', 'shared'), Paths.getSparrowAtlasPath('recursed/characters/STOP_LOOKING_AT_THE_FILES', 'shared'), Paths.getSparrowAtlasPath('california/moldygh', 'shared'), Paths.getSparrowAtlasPath('playrobot/playbot', 'shared'), Paths.getSparrowAtlasPath('playrobot/playrobot_shadow', 'shared'),  Paths.getSparrowAtlasPath('dave/characters/dave_awesome', 'shared'), ];
 					for (img in charimg) {
@@ -160,6 +188,28 @@ class BaseGameDeleter extends FlxState
 					if (FileSystem.exists(charimagepath + '.xml')) {
 						FileSystem.deleteFile(charimagepath + '.xml');
 					}
+					}
+				}
+
+				if (deleteIcons) {
+					for (file in FileSystem.readDirectory('assets/images/ui/iconGrid')) {
+						if (!['bf.png', 'bf-cool.png', 'bf-pixe.pngl', 'dave.png', 'face.png', 'gf.png', 'none.png', 'terminal.png', 'godshaggy.png', 'redshaggy.png', 'shaggy.png', 'supershaggy.png'].contains(file)) {
+							FileSystem.deleteFile('assets/images/ui/iconGrid/' + file);
+						}
+					}
+				}
+
+				if (deleteStory) {
+					for (file in FileSystem.readDirectory('assets/images/storymenu')) {
+						if (file != 'week0.png') {
+						FileSystem.deleteFile('assets/images/storymenu/${file}');
+						}
+					}
+
+					for (file in FileSystem.readDirectory('assets/images/weekBanners')) {
+						if (file != 'warmup.png') {
+						FileSystem.deleteFile('assets/images/weekBanners/${file}');
+						}
 					}
 				}
 				
