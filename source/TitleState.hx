@@ -67,6 +67,7 @@ class TitleState extends MusicBeatState
 	public static var currentMod:String = 'test';
 	public static var modFolder:String = '';
 	public static var onlyforabug:Bool = false;
+	public static var checkedVersion:Bool;
 
 	
 	override public function create():Void
@@ -403,6 +404,29 @@ class TitleState extends MusicBeatState
 			/*	#if debug
 				FlxG.save.data.exploitationState = null;
 				#end */
+                if (FlxG.save.data.checkVersion) {
+				var http = new haxe.Http("https://raw.githubusercontent.com/CamtheKirby/VsDave-Modable/refs/heads/main/version.downloadMe");
+				var returnedData:Array<String> = [];
+
+				http.onData = function(data:String)
+					{
+						returnedData[0] = data.substring(0, data.indexOf(';'));
+						returnedData[1] = data.substring(data.indexOf('-'), data.length);
+						if (!MainMenuState.kadeEngineVer.contains(returnedData[0].trim()) && !checkedVersion)
+						{
+							fancyOpenURL("https://github.com/CamtheKirby/VsDave-Modable/releases/latest");
+						}
+						checkedVersion = true;
+					}
+	
+					http.onError = function(error)
+					{
+						trace('error: $error');
+					}
+	
+					http.request();
+				}
+
 				FlxG.switchState(FlxG.save.data.alreadyGoneToWarningScreen && FlxG.save.data.exploitationState != 'playing' ? new MainMenuState() : new OutdatedSubState());
 			});
 		}

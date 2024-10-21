@@ -74,6 +74,7 @@ class Visuals extends MusicBeatState
 			+ "\n" + (FlxG.save.data.comboStack ? "Combo Stacking ON" : "Combo Stacking OFF")
 			+ "\n" + (FlxG.save.data.discord ? "Discord Rich Presence ON" : "Discord Rich Presence OFF")
 			+ "\n" + ("Health Bar and Icon Transparency")
+			+ "\n" + (FlxG.save.data.checkVersion ? "Check For Updates ON" : "Check For Updates OFF")
 			);
 
 		grpControls = new FlxTypedGroup<Alphabet>();
@@ -206,6 +207,9 @@ class Visuals extends MusicBeatState
 								updateGroupControls('Health Bar and Icon Transparency', 12, 'Vertical');
 								numberOption = 'Health Bar and Icon Transparency: ' + FlxG.save.data.healthBO;
 								versionShit.text = numberOption + "\nOffset (Left, Right): " + FlxG.save.data.offset;
+							case 16:
+							FlxG.save.data.checkVersion = !FlxG.save.data.checkVersion;
+							updateGroupControls(FlxG.save.data.checkVersion ? 'Check For Updates ON' : 'Check For Updates OFF', 12, 'Vertical');
 			}
 		}
 	}

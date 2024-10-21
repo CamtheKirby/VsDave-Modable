@@ -66,6 +66,7 @@ typedef OptionsJson =
 	var playerLight:Bool;
 	var adminMode:Bool;
 	var wantShaders:Bool;
+	var checkVersion:Bool;
 }
 
 class OptionsMenu extends MusicBeatState
@@ -130,7 +131,6 @@ class OptionsMenu extends MusicBeatState
 		controlsStrings = CoolUtil.coolStringFile( 
 			LanguageManager.getTextString('option_change_langauge')
 			+ "\n" + LanguageManager.getTextString('option_change_keybinds')
-			+ "\n" + ("UI Selecter")
 			+ "\n" + ("Gameplay")
 			+ "\n" + ("Visuals")
 			+ "\n" + ("Optimization")
@@ -214,17 +214,12 @@ class OptionsMenu extends MusicBeatState
 						});
 						updateGroupControls(LanguageManager.getTextString('option_change_keybinds'), 0, 'Vertical');
 					case 2:
-						if (FileSystem.exists('mods/global/UI.json')) {
-					FlxG.switchState(new UISelectState());
-						}
-					updateGroupControls("UI Selecter", 12, 'Vertical');
-					case 3:
 					FlxG.switchState(new GamePlay());
 					updateGroupControls("Gameplay", 12, 'Vertical');	
-					case 4:
+					case 3:
 					FlxG.switchState(new Visuals());
 					updateGroupControls("Visuals", 12, 'Vertical');	
-					case 5:
+					case 4:
 					FlxG.switchState(new Optimization());
 					updateGroupControls("Optimization", 12, 'Vertical');	
 			}
@@ -289,7 +284,8 @@ class OptionsMenu extends MusicBeatState
 				"cameraZoom": FlxG.save.data.cameraZoom,
 				"comboStack": FlxG.save.data.comboStack,
 				"discord": FlxG.save.data.discord,
-				"healthBO": FlxG.save.data.healthBO
+				"healthBO": FlxG.save.data.healthBO,
+				"checkVersion": FlxG.save.data.checkVersion
 			};
 	
 			var data:String = Json.stringify(json);
@@ -395,6 +391,7 @@ class OptionsMenu extends MusicBeatState
 				FlxG.save.data.comboStack = jsonOptions.comboStack;
 				FlxG.save.data.discord = jsonOptions.discord;
 				FlxG.save.data.healthBO = jsonOptions.healthBO;
+				FlxG.save.data.checkVersion = jsonOptions.checkVersion;
 			
 				_file = null;
 

@@ -165,5 +165,8 @@ class SaveDataHandler
 
 			if (FlxG.save.data.curRS == null)
 				FlxG.save.data.curRS = '';
+
+			if (FlxG.save.data.checkVersion == null)
+				FlxG.save.data.checkVersion = true;
     }
 }

@@ -1,7 +1,7 @@
 # ABOUT DEVELOPMENT 
 - I feel like working on this again!
 - stuff im planning to add:
-- version checker
+- [DONE] version checker
 - Events (play animations, change characters, etc)
 - Compatibility with other engines
 - [DONE] option pack saver (saving all the options into a json that you can put back into the game) 
