@@ -11,7 +11,9 @@
 
 btw suggest me stuff (btw im not that good of a coder) to add to this engine by going to the issues tab
 
-there might be a finished 2.5.0 release with the smaller features
+# KNOWN BUGS
+Ok weirdest thing, on some charts some notes are completely invisible and unhittable by the player. Bad thing is I have no idea how to fix this.
+https://youtu.be/5WubHTTSAyA
 
 <img src="KadeEngineWitBackground.png">
 
