@@ -11,7 +11,10 @@
 
 btw suggest me stuff (btw im not that good of a coder) to add to this engine by going to the issues tab
 
-there might be a finished 2.5.0 release with the smaller features
+# KNOWN BUGS
+Ok weirdest thing, on some charts some notes are completely invisible and unhittable by the player. Bad thing is I have no idea how to fix this.
+I think it's caused by Psych Engine charts (0.6.3 and below) so just use later versions of psych engine for charting
+https://youtu.be/5WubHTTSAyA
 
 <img src="KadeEngineWitBackground.png">
 
