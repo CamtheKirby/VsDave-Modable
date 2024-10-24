@@ -21,7 +21,7 @@ jobs:
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4.1.7
+      - uses: actions/checkout@main
 
       - uses: krdlab/setup-haxe@master
         with:
@@ -29,16 +29,13 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Install Haxelib
         run: |
-          haxelib setup ~/haxelib
-          haxelib install hxcpp > /dev/null --quiet
+          haxelib setup C:/haxelib
+          haxelib install hxcpp > nul
           haxelib install lime 8.0.0
           haxelib install openfl
           haxelib install flixel 4.11.0
           haxelib run lime setup flixel
-          haxelib run lime setup         
-          haxelib remove flixel-addons
-          haxelib remove flixel-tools
-          haxelib remove flixel-ui
+          haxelib run lime setup
           haxelib install flixel-tools
           haxelib install flixel-ui
           haxelib install flixel-addons 2.9.0
