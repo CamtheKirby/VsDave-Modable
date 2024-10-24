@@ -835,7 +835,7 @@ class PlayState extends MusicBeatState
 					dialogue = CoolUtil.coolTextFile(TitleState.modFolder + '/' + Paths.txt('dialogue/${SONG.song.toLowerCase() + postfix}'));
 					hasDialogue = true;
 				
-				} else if (FileSystem.exists(TitleState.modFolder + '/' + Paths.txt('dialogue/${SONG.song.toLowerCase()}'))) {
+				} else if (FileSystem.exists(Paths.txt('dialogue/${SONG.song.toLowerCase()}'))) {
 		
 			var postfix:String = "";
 			if (PlayState.instance.localFunny == PlayState.CharacterFunnyEffect.Recurser)
