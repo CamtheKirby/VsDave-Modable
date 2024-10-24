@@ -532,14 +532,6 @@ class FreeplayState extends MusicBeatState
 		add(oppOption);
 		modeArray.push(oppOption);
 
-		oppOption = new FlxText(settingsBG.x, settingsBG.y, FlxG.save.data.oppM ? "Oppenent Mode: On (O)" : "Oppenent Mode: Off (O)", 20);
-		oppOption.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, RIGHT);
-		oppOption.antialiasing = FlxG.save.data.antialiasing;
-		oppOption.scrollFactor.set();
-		oppOption.alpha = 0; 
-		add(oppOption);
-		modeArray.push(oppOption);
-
 		randomOption = new FlxText(settingsBG.x, settingsBG.y + 30, FlxG.save.data.randomNotes ? "Randomize Notes: On (R)" : "Randomize Notes: Off (R)", 20);
 		randomOption.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, RIGHT);
 		randomOption.antialiasing = FlxG.save.data.antialiasing;
@@ -811,11 +803,13 @@ class FreeplayState extends MusicBeatState
 						FlxG.save.data.randomNotes = false;
 						randomOption.text = FlxG.save.data.randomNotes ? "Randomize Notes: On (R)" : "Randomize Notes: Off (R)";
 					}
+					FlxG.save.flush();
 				}
 			if (FlxG.keys.justPressed.O)
 				{
 					FlxG.save.data.oppM = !FlxG.save.data.oppM;
 					oppOption.text = FlxG.save.data.oppM ? "Oppenent Mode: On (O)" : "Oppenent Mode: Off (O)";
+					FlxG.save.flush();
 				}
 				if (FlxG.keys.justPressed.R)
 					{
@@ -825,6 +819,7 @@ class FreeplayState extends MusicBeatState
 							FlxG.save.data.maniabutyeah = 0;
 							keyOption.text = "Keys Added: " + FlxG.save.data.maniabutyeah + " (U)";
 						}
+						FlxG.save.flush();
 					}
 					if (FlxG.keys.justPressed.U)
 						{
@@ -835,6 +830,7 @@ class FreeplayState extends MusicBeatState
 						
 							keyOption.text = "Keys Added: " + FlxG.save.data.maniabutyeah + " (U)";
 						   }
+						   FlxG.save.flush();
 						}
 						if (FlxG.keys.justPressed.I)
 							{
@@ -843,17 +839,20 @@ class FreeplayState extends MusicBeatState
 								FlxG.save.data.randomNoteTypes = 0;
 							
 								rNText.text = "Randomly Place Note Types: " + rPNT[FlxG.save.data.randomNoteTypes] + " (I)";
+								FlxG.save.flush();
 							}
 
 				if (FlxG.keys.justPressed.B)
 				{
 					FlxG.save.data.botplay = !FlxG.save.data.botplay;
 					botplayOption.text = FlxG.save.data.botplay ? "Botplay: On (B)" : "Botplay: Off (B)";
+					FlxG.save.flush();
 				}
 				if (FlxG.keys.justPressed.P)
 				{
 					FlxG.save.data.practiceMode = !FlxG.save.data.practiceMode;
 					pModeOption.text = FlxG.save.data.practiceMode ? "Practice Mode: On (P)" : "Practice Mode: Off (P)";
+					FlxG.save.flush();
 				}
 			if (controls.BACK && canInteract)
 			{				

@@ -185,6 +185,8 @@ asd = !musthit;
 				notePathLol = 'notes/NOTE_assets_Shape';
 			//case 'text':
 			//	notePathLol = 'notes/NOTE_recursed';
+			default:
+				notePathLol = 'notes/NOTE_assets';
 		}
 		switch (PlayState.SONG.song.toLowerCase())
 		{
