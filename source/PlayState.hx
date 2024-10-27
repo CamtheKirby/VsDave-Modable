@@ -127,6 +127,7 @@ typedef BackgroundJson =
 	var animation:String;
 	var voidShader:Bool;
 	var showsWhenLowQuality:Bool;
+	var shade:String;
 } 
 
 typedef Settings = {
@@ -2461,7 +2462,7 @@ class PlayState extends MusicBeatState
 						}
 	
 					for (i in jsonStage.backgrounds) {
-			       createCustomBackground(i.spriteName, i.posX, i.posY, i.image, i.size, i.scrollX, i.scrollY, i.antialiasing, bgName, i.voidShader, i.updateHitBox, i.alpha, i.flying, i.animated, i.animation, i.showsWhenLowQuality);
+			       createCustomBackground(i.spriteName, i.posX, i.posY, i.image, i.size, i.scrollX, i.scrollY, i.antialiasing, bgName, i.voidShader, i.updateHitBox, i.alpha, i.flying, i.animated, i.animation, i.showsWhenLowQuality, i.shade);
 					}
 				
 				} else { 
@@ -2493,7 +2494,7 @@ class PlayState extends MusicBeatState
 
 		return sprites;
 	}
-	private function createCustomBackground(spriteName:String = 'test', posX:Float = 1, posY:Float = 1, imageName:String = 'none', size:Float = 1, scrollX:Float = 1, scrollY:Float = 1, antialiasings:Bool = true, bgName:String, isVoid:Bool = false, updateHitBox:Bool = true, alphaa:Float = 1, flying:Bool = false, animated:Bool = false, animation:String = 'idle', lQ:Bool = false):Void 
+	private function createCustomBackground(spriteName:String = 'test', posX:Float = 1, posY:Float = 1, imageName:String = 'none', size:Float = 1, scrollX:Float = 1, scrollY:Float = 1, antialiasings:Bool = true, bgName:String, isVoid:Bool = false, updateHitBox:Bool = true, alphaa:Float = 1, flying:Bool = false, animated:Bool = false, animation:String = 'idle', lQ:Bool = false, shade:String = ''):Void 
 	{
 		if (FlxG.save.data.lowQ && !lQ) {
 			return;
@@ -2508,6 +2509,11 @@ class PlayState extends MusicBeatState
 		customBG.alpha = alphaa;
 			sprites.add(customBG);
 			add(customBG);
+			if (shade == 'dark') {
+				customBG.color = nightColor;
+			} else if (shade == 'sunset') {
+				customBG.color = sunsetColor;
+			}
 			if (isVoid) {
 				voidShader(customBG);
 				 }
@@ -2524,6 +2530,11 @@ class PlayState extends MusicBeatState
 			customBG.alpha = alphaa;
 			sprites.add(customBG);
 			add(customBG);
+			if (shade == 'dark') {
+				customBG.color = nightColor;
+			} else if (shade == 'sunset') {
+				customBG.color = sunsetColor;
+			}
 			if (isVoid) {
 				voidShader(customBG);
 				 }
@@ -2537,6 +2548,11 @@ class PlayState extends MusicBeatState
 		customBG.alpha = alphaa;
 		sprites.add(customBG);
 		add(customBG);
+		if (shade == 'dark') {
+			customBG.color = nightColor;
+		} else if (shade == 'sunset') {
+			customBG.color = sunsetColor;
+		}
           if (isVoid) {
 		voidShader(customBG);
                      }
