@@ -168,5 +168,8 @@ class SaveDataHandler
 
 			if (FlxG.save.data.checkVersion == null)
 				FlxG.save.data.checkVersion = true;
+
+			if (FlxG.save.data.csAllSongs == null)
+				FlxG.save.data.csAllSongs = false;
     }
 }

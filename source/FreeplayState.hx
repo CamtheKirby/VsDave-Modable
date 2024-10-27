@@ -78,6 +78,7 @@ class FreeplayState extends MusicBeatState
 	var cantEarnText:FlxText;
 	var rNText:FlxText;
 	var bothSidesText:FlxText;
+	var csaText:FlxText;
 	var rPNT:Array<String> = ['Off', 'Low Chance', 'Medium Chance', 'High Chance', 'Unfair'];
 
 	var loadingPack:Bool = false;
@@ -540,7 +541,7 @@ class FreeplayState extends MusicBeatState
 		add(randomOption);
 		modeArray.push(randomOption);
 
-		keyOption = new FlxText(settingsBG.x, settingsBG.y + 70, "Keys Added: " + FlxG.save.data.maniabutyeah + " (U)", 20);
+		keyOption = new FlxText(settingsBG.x, settingsBG.y + 60, "Keys Added: " + FlxG.save.data.maniabutyeah + " (U)", 20);
 		keyOption.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, RIGHT);
 		keyOption.antialiasing = FlxG.save.data.antialiasing;
 		keyOption.scrollFactor.set();
@@ -548,7 +549,7 @@ class FreeplayState extends MusicBeatState
 		add(keyOption);
 		modeArray.push(keyOption);
 
-		rNText = new FlxText(settingsBG.x, settingsBG.y + 110, "Randomly Place Note Types: " + rPNT[FlxG.save.data.randomNoteTypes] + " (I)", 20);
+		rNText = new FlxText(settingsBG.x, settingsBG.y + 90, "Randomly Place Note Types: " + rPNT[FlxG.save.data.randomNoteTypes] + " (I)", 20);
 		rNText.setFormat(Paths.font("comic.ttf"), 16, FlxColor.WHITE, RIGHT);
 		rNText.antialiasing = FlxG.save.data.antialiasing;
 		rNText.scrollFactor.set();
@@ -556,13 +557,21 @@ class FreeplayState extends MusicBeatState
 		add(rNText);
 		modeArray.push(rNText);
 
-		bothSidesText = new FlxText(settingsBG.x, settingsBG.y + 150, FlxG.save.data.bothSides ? "Both Sides: On (S)" : "Both Sides: Off (S)", 20);
+		bothSidesText = new FlxText(settingsBG.x, settingsBG.y + 110, FlxG.save.data.bothSides ? "Both Sides: On (S)" : "Both Sides: Off (S)", 20);
 		bothSidesText.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, RIGHT);
 		bothSidesText.antialiasing = FlxG.save.data.antialiasing;
 		bothSidesText.scrollFactor.set();
 		bothSidesText.alpha = 0; 
 		add(bothSidesText);
 		modeArray.push(bothSidesText);
+
+		csaText = new FlxText(settingsBG.x, settingsBG.y + 140, FlxG.save.data.csAllSongs ? "Character Select on All Songs: On (Y)" : "Character Select on All Songs: Off (Y)", 20);
+		csaText.setFormat(Paths.font("comic.ttf"), 14, FlxColor.WHITE, RIGHT);
+		csaText.antialiasing = FlxG.save.data.antialiasing;
+		csaText.scrollFactor.set();
+		csaText.alpha = 0; 
+		add(csaText);
+		modeArray.push(csaText);
 
 		pModeOption = new FlxText(settingsBG.x, settingsBG.y + 230, FlxG.save.data.practiceMode ? "Practice Mode: On (P)" : "Practice Mode: Off (P)", 5);
 		pModeOption.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, RIGHT);
@@ -811,6 +820,12 @@ class FreeplayState extends MusicBeatState
 					oppOption.text = FlxG.save.data.oppM ? "Oppenent Mode: On (O)" : "Oppenent Mode: Off (O)";
 					FlxG.save.flush();
 				}
+				if (FlxG.keys.justPressed.Y)
+					{
+						FlxG.save.data.csAllSongs = !FlxG.save.data.csAllSongs;
+						csaText.text = FlxG.save.data.csAllSongs ? "Character Select on All Songs: On (Y)" : "Character Select on All Songs: Off (Y)";
+						FlxG.save.flush();
+					}
 				if (FlxG.keys.justPressed.R)
 					{
 						FlxG.save.data.randomNotes = !FlxG.save.data.randomNotes;
@@ -1006,7 +1021,7 @@ class FreeplayState extends MusicBeatState
 						PlayState.storyWeek = songs[curSelected].week;
 						
 						packTransitionDone = false;
-						if ((FlxG.keys.pressed.CONTROL || skipSelect.contains(PlayState.SONG.song.toLowerCase())) && !(PlayState.SONG.song.toLowerCase() == 'exploitation' && !FlxG.save.data.modchart))
+						if ((FlxG.keys.pressed.CONTROL || skipSelect.contains(PlayState.SONG.song.toLowerCase())) /*&& !(PlayState.SONG.song.toLowerCase() == 'exploitation'*/ && !FlxG.save.data.modchart && !FlxG.save.data.csAllSongs)
 						{
 							if (curDifficulty == 0) {
 								if (PlayState.SONG.song.toLowerCase() == 'roofs') {
