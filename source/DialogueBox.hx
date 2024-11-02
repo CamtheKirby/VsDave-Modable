@@ -61,7 +61,7 @@ class DialogueBox extends FlxSpriteGroup
 	var debug:Bool = false;
 
 	var curshader:Dynamic;
-	var custom:Array<String>;
+	var custom:String;
 
 	public var rawJsonDial:String;
     public var jsonDial:DiaCharacter;
@@ -78,8 +78,10 @@ class DialogueBox extends FlxSpriteGroup
 	{
 		super();
 
-		if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-dia.txt')) {
-			custom = CoolUtil.coolTextFile(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-dia.txt');
+		if (PlayState.settingsExist && PlayState.jsonSettings.dialogueMusic != null) {
+			custom = PlayState.jsonSettings.dialogueMusic;
+			} else {
+			custom = '';
 			}
 		
 		if (playMusic)
@@ -120,19 +122,13 @@ class DialogueBox extends FlxSpriteGroup
 				case 'rano':
 					FlxG.sound.playMusic(Paths.music('stocknightambianceforranolol'), 0);	
 				default:
-					if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-dia.txt')) {
-						for (i in 0...custom.length)
-							{
-								var data:Array<String> = custom[i].split(':');
-								if (data[0] == null) {
+					if (PlayState.settingsExist) {
+								if (custom == '') {
 								FlxG.sound.music.stop();
 								} else {
-								FlxG.sound.playMusic(Paths.music(data[0]), 0);	
+								FlxG.sound.playMusic(Paths.music(custom), 0);	
 								}
 							}
-					} else {
-					FlxG.sound.music.stop();
-					}
 			}
 			FlxG.sound.music.fadeIn(1, 0, 0.8);
 		}

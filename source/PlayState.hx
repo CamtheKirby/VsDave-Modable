@@ -134,6 +134,7 @@ typedef Settings = {
     var songCreators:String;
     var songHeadings:String;
     var creditsTxt:String;
+	var dialogueMusic:String;
     var hasNoGf:Bool;
     var intro:String;
     var windowName:String;
