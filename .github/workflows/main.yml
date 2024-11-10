@@ -46,5 +46,5 @@ jobs:
           name: ReleaseBuild
           path: |
             export/release/windows/bin
-            GIT_VERSION.txt
+            export/release/windows/bin/assets/data/GIT_VERSION.txt
           
