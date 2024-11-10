@@ -33,12 +33,18 @@ jobs:
           haxelib install hxcpp > nul
           .\"Bulid.bat"
         shell: cmd
-      - name: Create Version Tag
-        run: echo "${{github.run_id}}" > VERSION
+        
       - name: Compile
         run: haxelib run lime build windows --app-version="4.0.0-${{ github.run_id}}"
+
+      - name: Git Version File
+        run: echo "${{github.run_id}}" > GIT_VERSION.txt
+        
       - name: Publish Artifact
         uses: actions/upload-artifact@v4
         with:
           name: ReleaseBuild
-          path: export/release/windows/bin
+          path: |
+            export/release/windows/bin
+            GIT_VERSION.txt
+          
