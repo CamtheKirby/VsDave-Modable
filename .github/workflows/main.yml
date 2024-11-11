@@ -38,7 +38,10 @@ jobs:
         run: haxelib run lime build windows --app-version="4.0.0-${{ github.run_id}}"
 
       - name: Git Version File
-        run: echo "${{github.run_id}}" > GIT_VERSION.txt
+        run: |
+            echo "${{github.run_id}}" > GIT_VERSION.txt
+            mkdir -p export/release/windows/bin/assets/data
+            mv GIT_VERSION.txt export/release/windows/bin/assets/data/GIT_VERSION.txt
         
       - name: Publish Artifact
         uses: actions/upload-artifact@v4
@@ -46,5 +49,4 @@ jobs:
           name: ReleaseBuild
           path: |
             export/release/windows/bin
-            export/release/windows/bin/assets/data/GIT_VERSION.txt
           
