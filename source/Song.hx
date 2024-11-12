@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxG;
 import Section.SwagSection;
 import haxe.Json;
 import haxe.format.JsonParser;
@@ -31,6 +32,18 @@ typedef SwagSong =
 	var stage:String;
 
 	var validScore:Bool;
+
+	var songCreators:String;
+    var songHeadings:String;
+    var creditsTxt:String;
+	var dialogueMusic:String;
+    var hasNoGf:Bool;
+    var intro:String;
+    var windowName:String;
+    var healthDrain:String;
+	var healthBarBG:String;
+    var exploitationEffect:Bool;
+	var recursedEffect:Bool;
 }
 
 class Song
@@ -64,10 +77,18 @@ class Song
 		PlayState.isaReplacedSong = true;
 		rawJson = File.getContent(TitleState.modFolder + '/' + Paths.chart(jsonInput.toLowerCase())).trim();
 		}
-		else 
+		else if (FileSystem.exists(Paths.chart(jsonInput.toLowerCase())))
 		{
 		PlayState.isaReplacedSong = false;
 		rawJson = Assets.getText(Paths.chart(jsonInput.toLowerCase())).trim();
+		} else {
+			rawJson = File.getContent(Paths.chart('warmup')).trim();
+			PlatformUtil.sendFakeMsgBox("NO CHART AT " + Paths.chart(jsonInput.toLowerCase()));
+			if (PlayState.isStoryMode) {
+				FlxG.switchState(new StoryMenuState());
+				} else {
+				FlxG.switchState(new FreeplayState());
+				}
 		}
 
 		while (!rawJson.endsWith("}"))
@@ -80,17 +101,28 @@ class Song
 
 	public static function loadFromCustomJson(jsonInput:String):SwagSong
 		{
+			var rawJson = "";
 			PlayState.isaReplacedSong = false;
+			if (FileSystem.exists(Paths.customChart(jsonInput.toLowerCase()))) {
 			#if sys
-			var rawJson = File.getContent(Paths.customChart(jsonInput.toLowerCase())).trim();
+			rawJson = File.getContent(Paths.customChart(jsonInput.toLowerCase())).trim();
 			#else
-			var rawJson = Assets.getText(Paths.chart(jsonInput.toLowerCase())).trim();
+		    rawJson = Assets.getText(Paths.chart(jsonInput.toLowerCase())).trim();
 			#end
 	
 			while (!rawJson.endsWith("}"))
 			{
 				rawJson = rawJson.substr(0, rawJson.length - 1);
 			}
+		} else {
+			rawJson = File.getContent(Paths.chart('warmup')).trim();
+			PlatformUtil.sendFakeMsgBox("NO CUSTOM CHART AT " + Paths.customChart(jsonInput.toLowerCase()));
+			if (PlayState.isStoryMode) {
+				FlxG.switchState(new StoryMenuState());
+				} else {
+				FlxG.switchState(new FreeplayState());
+				}
+		}
 	
 			return parseJSONshit(rawJson);
 		}

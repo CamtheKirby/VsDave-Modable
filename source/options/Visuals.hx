@@ -20,6 +20,9 @@ import Discord.DiscordClient;
 #end
 import sys.io.Process;
 import sys.io.File;
+#if cpp
+import cpp.CPPInterface;
+#end
 
 class Visuals extends MusicBeatState
 {
@@ -75,6 +78,7 @@ class Visuals extends MusicBeatState
 			+ "\n" + (FlxG.save.data.discord ? "Discord Rich Presence ON" : "Discord Rich Presence OFF")
 			+ "\n" + ("Health Bar and Icon Transparency")
 			+ "\n" + (FlxG.save.data.checkVersion ? "Check For Updates ON" : "Check For Updates OFF")
+			+ "\n" + (FlxG.save.data.darkModeWindow ? "Window Bar Dark Mode ON" : "Window Bar Dark Mode OFF")
 			);
 
 		grpControls = new FlxTypedGroup<Alphabet>();
@@ -210,6 +214,13 @@ class Visuals extends MusicBeatState
 							case 16:
 							FlxG.save.data.checkVersion = !FlxG.save.data.checkVersion;
 							updateGroupControls(FlxG.save.data.checkVersion ? 'Check For Updates ON' : 'Check For Updates OFF', 12, 'Vertical');
+							case 17:
+								FlxG.save.data.darkModeWindow = !FlxG.save.data.darkModeWindow;
+								updateGroupControls(FlxG.save.data.darkModeWindow ? 'Window Bar Dark Mode ON' : 'Window Bar Dark Mode OFF', 12, 'Vertical');
+								if (FlxG.save.data.darkModeWindow)
+									CPPInterface.darkMode();
+								else 
+									CPPInterface.lightMode();
 			}
 		}
 	}

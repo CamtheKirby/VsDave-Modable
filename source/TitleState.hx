@@ -27,6 +27,9 @@ import lime.app.Application;
 #if desktop
 import Discord.DiscordClient;
 #end
+#if cpp
+import cpp.CPPInterface;
+#end
 
 // only load this reference if its debug because its only needed for debug??? idk it might help with the file size or something 
 #if debug
@@ -72,11 +75,13 @@ class TitleState extends MusicBeatState
 	
 	override public function create():Void
 	{	
-		//fun = FlxG.random.int(0, 999);
-		//if(fun == 1)
-		//{
-		//	LoadingState.loadAndSwitchState(new SusState());
-		//}
+		#if !debug
+		fun = FlxG.random.int(0, 999);
+		if(fun == 1)
+		{
+			LoadingState.loadAndSwitchState(new SusState());
+	    }
+		#end
 
 
 		
@@ -126,6 +131,14 @@ class TitleState extends MusicBeatState
 
 		awaitingExploitation = FlxG.save.data.exploitationState == 'awaiting';
 
+
+		#if windows
+		if (FlxG.save.data.darkModeWindow)
+			CPPInterface.darkMode();
+		else 
+			CPPInterface.lightMode();
+		#end
+
 		#if FREEPLAY
 		FlxG.switchState(new FreeplayState());
 		#elseif CHARTING
@@ -146,6 +159,12 @@ class TitleState extends MusicBeatState
 			}
 			}
 			trace(mods + ' ' + currentMod);
+
+			if (!mods.contains(currentMod)) {
+			FlxG.save.data.Mod = '';
+            currentMod = '';
+			}
+			
 			var rawBGDJson:String;
 			
 			if (FileSystem.exists(Paths.json('BaseGameDeleter'))) {

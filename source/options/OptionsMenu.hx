@@ -67,6 +67,7 @@ typedef OptionsJson =
 	var adminMode:Bool;
 	var wantShaders:Bool;
 	var checkVersion:Bool;
+	var darkModeWindow:Bool;
 }
 
 class OptionsMenu extends MusicBeatState
@@ -285,7 +286,8 @@ class OptionsMenu extends MusicBeatState
 				"comboStack": FlxG.save.data.comboStack,
 				"discord": FlxG.save.data.discord,
 				"healthBO": FlxG.save.data.healthBO,
-				"checkVersion": FlxG.save.data.checkVersion
+				"checkVersion": FlxG.save.data.checkVersion,
+				"darkModeWindow": FlxG.save.data.darkModeWindow
 			};
 	
 			var data:String = Json.stringify(json);
@@ -392,6 +394,7 @@ class OptionsMenu extends MusicBeatState
 				FlxG.save.data.discord = jsonOptions.discord;
 				FlxG.save.data.healthBO = jsonOptions.healthBO;
 				FlxG.save.data.checkVersion = jsonOptions.checkVersion;
+				FlxG.save.data.darkModeWindow = jsonOptions.darkModeWindow;
 			
 				_file = null;
 

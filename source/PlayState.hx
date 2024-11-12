@@ -130,20 +130,6 @@ typedef BackgroundJson =
 	var shade:String;
 } 
 
-typedef Settings = {
-    var songCreators:String;
-    var songHeadings:String;
-    var creditsTxt:String;
-	var dialogueMusic:String;
-    var hasNoGf:Bool;
-    var intro:String;
-    var windowName:String;
-    var healthDrain:String;
-	var healthBarBG:String;
-    var exploitationEffect:Bool;
-	var recursedEffect:Bool;
-}
-
 /*typedef EventJson =
 {
 	var events:Array<StepJson>;
@@ -423,9 +409,6 @@ class PlayState extends MusicBeatState
 	public var rawJsonStage:String;
     public var jsonStage:StageJson;
 
-	public static var rawJsonSettings:String;
-	public static var jsonSettings:Settings;
-
 	var holdCover:FlxSprite;
 
 	var tristan:BGSprite;
@@ -550,8 +533,6 @@ class PlayState extends MusicBeatState
 	var shy:Float;
 	var sh_r:Float = 60;
 
-    public static var settingsExist:Bool;
-
 	public static var rssongScore:Int = 0;
     public static var rsmisses:Int = 0;
     public static var rsaccuracy:Float = 0.00;
@@ -581,22 +562,10 @@ class PlayState extends MusicBeatState
 
 		bothS = FlxG.save.data.bothSides && SONG.song.toLowerCase() != 'shredder' && !isStoryMode;
 
-		settingsExist = FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.json');
-
 		isHighscore = false;
 
-
-
 		resetShader();
-
-		if (FreeplayState.isaCustomSong && settingsExist) {
-			rawJsonSettings = File.getContent(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.json');
-		    jsonSettings = cast Json.parse(rawJsonSettings);
-		} else if (isaReplacedSong && settingsExist) {
-			rawJsonSettings = File.getContent(TitleState.modFolder + '/' + Paths.chart(PlayState.SONG.song.toLowerCase()));
-		    jsonSettings = cast Json.parse(rawJsonSettings);
-		}
-			//trace(jsonSettings.recursedEffect && settingsExist && FreeplayState.isaCustomSong);
+			//trace(SONG.recursedEffect  && FreeplayState.isaCustomSong);
 
 		switch (SONG.song.toLowerCase())
 		{
@@ -636,12 +605,10 @@ class PlayState extends MusicBeatState
 				add(blackScreen);
 			case 'five-nights':
 				inFiveNights = true;
-			default:
-				if ((FreeplayState.isaCustomSong && settingsExist) || (isaReplacedSong && settingsExist)) {
-			if (jsonSettings.exploitationEffect) {
+			default:		
+			if (SONG.exploitationEffect) {
 			Main.toggleFuckedFPS(true);	
 				}
-			}
 		}
 		scrollType = FlxG.save.data.downscroll ? 'downscroll' : 'upscroll';
 
@@ -945,11 +912,13 @@ class PlayState extends MusicBeatState
 		}
 		
 		var noGFSongs = ['memory', 'five-nights', 'bot-trot', 'escape-from-california', 'overdrive'];
-		if ((FreeplayState.isaCustomSong && settingsExist) || (isaReplacedSong && settingsExist)) {
-		if (jsonSettings.hasNoGf) {
+
+		if (SONG.hasNoGf) {
 			noGFSongs.push(SONG.song.toLowerCase());
+		} else if (FreeplayState.isaCustomSong || isaReplacedSong) {
+			noGFSongs.remove(SONG.song.toLowerCase());
 		}
-	}
+	
 
 		if(SONG.gf != null)
 		{
@@ -1523,20 +1492,17 @@ class PlayState extends MusicBeatState
 			case 'five-nights':
 				healthBarPath = Paths.image('ui/fnafengine');
 			default:
-				if ((FreeplayState.isaCustomSong && settingsExist) || (isaReplacedSong && settingsExist)) {
-					if (FileSystem.exists(Paths.image('ui/' + jsonSettings.healthBarBG))) {
-				healthBarPath = Paths.image('ui/' + jsonSettings.healthBarBG);
+				
+					if (FileSystem.exists(Paths.image('ui/' + SONG.healthBarBG))) {
+				healthBarPath = Paths.image('ui/' + SONG.healthBarBG);
 					} else {
-						if (jsonSettings.healthBarBG != '' && jsonSettings.healthBarBG != null) {
+						if (SONG.healthBarBG != null && SONG.healthBarBG != '') {
 				customHealthBar = true;
-				healthBarPath = TitleState.modFolder + '/images/ui/' + jsonSettings.healthBarBG;
+				healthBarPath = TitleState.modFolder + '/images/ui/' + SONG.healthBarBG;
 						} else {
 						healthBarPath = Paths.image('ui/healthBar');	
 						}
 					}
-				} else {
-				healthBarPath = Paths.image('ui/healthBar');
-				}
 		}
 
 		healthBarBG = new FlxSprite(0, FlxG.height * 0.9).loadGraphic(customHealthBar ? Paths.customImage(healthBarPath) : healthBarPath); // I'm learning
@@ -1579,16 +1545,10 @@ class PlayState extends MusicBeatState
 			case 'kabunga':
 				credits = LanguageManager.getTextString('kabunga_credit');
 			default:
-				if ((FreeplayState.isaCustomSong && settingsExist) || (isaReplacedSong && settingsExist)) {
-			
-							if (jsonSettings.creditsTxt == '') {
-							credits = '';
-							} else {
-							credits = jsonSettings.creditsTxt;
-						}
-				} else {
-				credits = '';
-				}
+			if (SONG.creditsTxt != null && SONG.creditsTxt != '') {
+			credits = SONG.creditsTxt;
+			}
+				
 		}
 		var creditsText:Bool = credits != '';
 		var textYPos:Float = healthBarBG.y + 50;
@@ -1717,7 +1677,48 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		scoreTxt = new FlxText(healthBarBG.x + healthBarBG.width / 2 - 150, healthBarBG.y + 40, FlxG.width, "", 20);
+		if (inFiveNights)
+			{
+				if (FlxG.save.data.chars) {
+				iconP2 = new HealthIcon((formoverride == "none" || formoverride == "bf") ? SONG.player1 : formoverride, false);
+				iconP2.y = healthBar.y - (iconP2.height / 2);
+				add(iconP2);
+	
+				iconP1 = new HealthIcon(SONG.player2 == "bambi" ? "bambi-stupid" : SONG.player2, true);
+				iconP1.y = healthBar.y - (iconP1.height / 2);
+				add(iconP1);
+				} else {
+				iconP2 = new HealthIcon('face', false);
+				iconP2.y = healthBar.y - (iconP2.height / 2);
+				add(iconP2);
+	
+				iconP1 = new HealthIcon('face', true);
+				iconP1.y = healthBar.y - (iconP1.height / 2);
+				add(iconP1);
+				}
+			}
+			else
+			{
+				if (FlxG.save.data.chars) {
+				iconP1 = new HealthIcon((formoverride == "none" || formoverride == "bf") ? SONG.player1 : formoverride, true);
+				iconP1.y = healthBar.y - (iconP1.height / 2);
+				add(iconP1);
+	
+				iconP2 = new HealthIcon(SONG.player2 == "bambi" ? "bambi-stupid" : SONG.player2, false);
+				iconP2.y = healthBar.y - (iconP2.height / 2);
+				add(iconP2);
+				} else {
+					iconP2 = new HealthIcon('face', false);
+					iconP2.y = healthBar.y - (iconP2.height / 2);
+					add(iconP2);
+		
+					iconP1 = new HealthIcon('face', true);
+					iconP1.y = healthBar.y - (iconP1.height / 2);
+					add(iconP1);
+				}
+			}
+
+		scoreTxt = new FlxText(healthBarBG.x + healthBarBG.width / 2 - 150, healthBarBG.y + 20, FlxG.width, "", 20);
 		scoreTxt.setFormat((SONG.song.toLowerCase() == "overdrive") ? Paths.font("ariblk.ttf") : font, 20 * fontScaler, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.5 * fontScaler;
@@ -1733,46 +1734,6 @@ class PlayState extends MusicBeatState
 		botplayTxt.visible = botPlay;
 		add(botplayTxt);
 
-		if (inFiveNights)
-		{
-			if (FlxG.save.data.chars) {
-			iconP2 = new HealthIcon((formoverride == "none" || formoverride == "bf") ? SONG.player1 : formoverride, false);
-			iconP2.y = healthBar.y - (iconP2.height / 2);
-			add(iconP2);
-
-			iconP1 = new HealthIcon(SONG.player2 == "bambi" ? "bambi-stupid" : SONG.player2, true);
-			iconP1.y = healthBar.y - (iconP1.height / 2);
-			add(iconP1);
-			} else {
-			iconP2 = new HealthIcon('face', false);
-			iconP2.y = healthBar.y - (iconP2.height / 2);
-			add(iconP2);
-
-			iconP1 = new HealthIcon('face', true);
-			iconP1.y = healthBar.y - (iconP1.height / 2);
-			add(iconP1);
-			}
-		}
-		else
-		{
-			if (FlxG.save.data.chars) {
-			iconP1 = new HealthIcon((formoverride == "none" || formoverride == "bf") ? SONG.player1 : formoverride, true);
-			iconP1.y = healthBar.y - (iconP1.height / 2);
-			add(iconP1);
-
-			iconP2 = new HealthIcon(SONG.player2 == "bambi" ? "bambi-stupid" : SONG.player2, false);
-			iconP2.y = healthBar.y - (iconP2.height / 2);
-			add(iconP2);
-			} else {
-				iconP2 = new HealthIcon('face', false);
-				iconP2.y = healthBar.y - (iconP2.height / 2);
-				add(iconP2);
-	
-				iconP1 = new HealthIcon('face', true);
-				iconP1.y = healthBar.y - (iconP1.height / 2);
-				add(iconP1);
-			}
-		}
 		strumLineNotes.cameras = [camHUD];
 		notes.cameras = [camHUD];
 		healthBar.cameras = [camHUD];
@@ -2743,21 +2704,14 @@ class PlayState extends MusicBeatState
 			var introAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
 			var introSoundAssets:Map<String, Array<String>> = new Map<String, Array<String>>();
 			var soundAssetsAlt:Array<String> = new Array<String>();
-			if ((FreeplayState.isaCustomSong && settingsExist) || (isaReplacedSong && settingsExist)) {
-			if (SONG.song.toLowerCase() == "exploitation" || jsonSettings.intro == "ex")
+
+			if (SONG.intro != null && SONG.song.toLowerCase() == "exploitation" || SONG.intro == "ex")
 				introAssets.set('default', ['ui/ready', "ui/set", "ui/go_glitch"]);
-			else if (SONG.song.toLowerCase() == "overdrive" || jsonSettings.intro == "overdriving")
+			else if (SONG.intro != null && SONG.song.toLowerCase() == "overdrive" || SONG.intro == "overdriving")
 				introAssets.set('default', ['ui/spr_start_sprites_0', "ui/spr_start_sprites_1", "ui/spr_start_sprites_2"]);
 			else
 				introAssets.set('default', ['ui/ready', "ui/set", "ui/go"]);
-		} else {
-			if (SONG.song.toLowerCase() == "exploitation")
-				introAssets.set('default', ['ui/ready', "ui/set", "ui/go_glitch"]);
-			else if (SONG.song.toLowerCase() == "overdrive")
-				introAssets.set('default', ['ui/spr_start_sprites_0', "ui/spr_start_sprites_1", "ui/spr_start_sprites_2"]);
-			else
-				introAssets.set('default', ['ui/ready', "ui/set", "ui/go"]);
-		}
+		
 
 			introSoundAssets.set('default', ['default/intro3', 'default/intro2', 'default/intro1', 'default/introGo']);
 			introSoundAssets.set('pixel', ['pixel/intro3-pixel', 'pixel/intro2-pixel', 'pixel/intro1-pixel', 'pixel/introGo-pixel']);
@@ -2779,15 +2733,11 @@ class PlayState extends MusicBeatState
 				case 'overdrive':
 					soundAssetsAlt = introSoundAssets.get('overdriving');	
 				default:
-					if ((FreeplayState.isaCustomSong && settingsExist) || (isaReplacedSong && settingsExist)) {
-					if (jsonSettings.intro == '' || jsonSettings.intro == null) {
+					if (SONG.intro == null || SONG.intro == '') {
 					soundAssetsAlt = introSoundAssets.get('default');
 					} else {
-					soundAssetsAlt = introSoundAssets.get(jsonSettings.intro);	
+					soundAssetsAlt = introSoundAssets.get(SONG.intro);	
 					}
-				} else {
-					soundAssetsAlt = introSoundAssets.get('default');
-				} 
 			}
 
 			var introAlts:Array<String> = introAssets.get('default');
@@ -2990,7 +2940,16 @@ class PlayState extends MusicBeatState
 
 		if (!paused)
 		{
+			if (FileSystem.exists(Paths.instPath(PlayState.SONG.song))) {
 			FlxG.sound.playMusic(Paths.inst(PlayState.SONG.song), 1, false);
+			} else {
+				PlatformUtil.sendFakeMsgBox("NO INST AT " + Paths.instPath(PlayState.SONG.song));
+				if (isStoryMode) {
+				FlxG.switchState(new StoryMenuState());
+				} else {
+				FlxG.switchState(new FreeplayState());
+				}
+			}
 			vocals.play();
 		}
 		for (tween in tweenList)
@@ -3084,13 +3043,12 @@ class PlayState extends MusicBeatState
 				add(vignette);
 				FlxTween.tween(vignette, {alpha: 0.7}, 1);
 			default:
-				if ((FreeplayState.isaCustomSong && settingsExist) || (isaReplacedSong && settingsExist)) {
-				if (jsonSettings.windowName == "bambiWindowNames") {
+				
+				if (SONG.windowName == "bambiWindowNames") {
 				Application.current.window.title = banbiWindowNames[new FlxRandom().int(0, banbiWindowNames.length - 1)];
-				} else if (jsonSettings.windowName != "" && jsonSettings.windowName != null) {
-					Application.current.window.title = jsonSettings.windowName;
+				} else if (SONG.windowName != null && SONG.windowName != "") {
+					Application.current.window.title = SONG.windowName;
 				}
-			}
 		}
 	}
 
@@ -3103,10 +3061,11 @@ class PlayState extends MusicBeatState
 
 		curSong = songData.song;
 
-		if (SONG.needsVoices)
+		if (SONG.needsVoices && FileSystem.exists(Paths.voicesPath(PlayState.SONG.song, localFunny == CharacterFunnyEffect.Tristan ? "-Tristan" : shaggyVoice ? "Shaggy" : ""))) {
 			vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song, localFunny == CharacterFunnyEffect.Tristan ? "-Tristan" : shaggyVoice ? "Shaggy" : ""));
-		else
+			}else {
 			vocals = new FlxSound();
+			}
 
 		FlxG.sound.list.add(vocals);
 
@@ -3710,7 +3669,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (SONG.song.toLowerCase() == 'recursed' || FlxG.save.data.randomNoteTypes > 0 || (settingsExist && jsonSettings.recursedEffect && (FreeplayState.isaCustomSong || isaReplacedSong)))
+		if (SONG.song.toLowerCase() == 'recursed' || FlxG.save.data.randomNoteTypes > 0 || SONG.recursedEffect )
 		{
 			
 			var scrollSpeed = 150;
@@ -4298,8 +4257,8 @@ class PlayState extends MusicBeatState
 				" | M1ss3s: " + (misses * (modchartoption ? FlxG.random.int(1,9) : 1)) + 
 				" | Accuracy: " + (truncateFloat(accuracy, 2) * (modchartoption ? FlxG.random.int(1,9) : 1)) + "% ";
 			default:
-				if ((FreeplayState.isaCustomSong && settingsExist) || (isaReplacedSong && settingsExist)) {
-				if (jsonSettings.exploitationEffect) {
+				
+				if (SONG.exploitationEffect) {
 					scoreTxt.text = 
 					"Scor3: " + (songScore * (modchartoption ? FlxG.random.int(1,9) : 1)) + 
 					" | M1ss3s: " + (misses * (modchartoption ? FlxG.random.int(1,9) : 1)) + 
@@ -4310,12 +4269,6 @@ class PlayState extends MusicBeatState
 				LanguageManager.getTextString('play_miss') + misses +  " | " + 
 				LanguageManager.getTextString('play_accuracy') + truncateFloat(accuracy, 2) + "%";
 				}
-			} else {
-				scoreTxt.text = 
-				LanguageManager.getTextString('play_score') + Std.string(songScore) + " | " + 
-				LanguageManager.getTextString('play_miss') + misses +  " | " + 
-				LanguageManager.getTextString('play_accuracy') + truncateFloat(accuracy, 2) + "%";
-			}
 		}
 		if (noMiss)
 		{
@@ -4973,23 +4926,22 @@ class PlayState extends MusicBeatState
 								health = 0.001;
 							}
 							default:
-								if ((FreeplayState.isaCustomSong && settingsExist) || (isaReplacedSong && settingsExist)) {
-							if (jsonSettings.healthDrain == "cheating") {
+							if (SONG.healthDrain != null && SONG.healthDrain == "cheating") {
 								health -= healthtolower;
-							} else if (jsonSettings.healthDrain == "unfairness") {
+							} else if (SONG.healthDrain != null && SONG.healthDrain == "unfairness") {
 								var healthadj = 3;
 								switch (storyDifficulty) {
 									case 0: healthadj = 4;
 								}
 								health -= (healthtolower / healthadj);
-							} else if (jsonSettings.healthDrain == "exploitation") {
+							} else if (SONG.healthDrain != null && SONG.healthDrain == "exploitation") {
 								if (((health + (FlxEase.backInOut(health / 16.5)) - 0.002) >= 0))
 									{
 										health += ((FlxEase.backInOut(health / 16.5)) * (curBeat <= 160 ? 0.25 : 1)) - 0.002; //some training wheels cuz rapparep say mod too hard
 									}
-							} else if (jsonSettings.healthDrain == "mealie") {
+							} else if (SONG.healthDrain != null && SONG.healthDrain == "mealie") {
 								health -= (healthtolower / 1.5);
-							} else if (jsonSettings.healthDrain == "fn") {
+							} else if (SONG.healthDrain != null && SONG.healthDrain == "fn") {
 								if ((health - 0.023) > 0)
 									{
 										health -= 0.023;
@@ -4999,7 +4951,7 @@ class PlayState extends MusicBeatState
 										health = 0.001;
 									}
 							}
-						} 
+						
 					}
 					// boyfriend.playAnim('hit',true);
 					dad.holdTimer = 0;
@@ -5470,6 +5422,10 @@ class PlayState extends MusicBeatState
 				FlxG.mouse.visible = false;
 			case 'roofs':
 				if (storyDifficulty == 0) CharacterSelectState.unlockCharacter('redshaggy');
+		}
+
+		if (SONG.windowName != null && SONG.windowName != "") {
+			Application.current.window.title = Main.applicationName;
 		}
 
 		
@@ -9037,8 +8993,7 @@ if (oppM) {
 						makeInvisibleNotes(false);
 				}
 		}
-		if ((FreeplayState.isaCustomSong && settingsExist) || (isaReplacedSong && settingsExist)) {
-		if (SONG.song.toLowerCase() == 'exploitation' || jsonSettings.exploitationEffect && curStep % 8 == 0)
+		if (SONG.song.toLowerCase() == 'exploitation' || SONG.exploitationEffect && curStep % 8 == 0)
 		{
 			var fonts = ['arial', 'chalktastic', 'openSans', 'pkmndp', 'barcode', 'vcr'];
 			var chosenFont = fonts[FlxG.random.int(0, fonts.length)];
@@ -9052,22 +9007,7 @@ if (oppM) {
 				songName.font = Paths.font('exploit/${chosenFont}.ttf');
 			}
 		}
-	} else {
-		if (SONG.song.toLowerCase() == 'exploitation' && curStep % 8 == 0)
-			{
-				var fonts = ['arial', 'chalktastic', 'openSans', 'pkmndp', 'barcode', 'vcr'];
-				var chosenFont = fonts[FlxG.random.int(0, fonts.length)];
-				kadeEngineWatermark.font = Paths.font('exploit/${chosenFont}.ttf');
-				kadeEngineWatermark2.font = Paths.font('exploit/${chosenFont}.ttf');
-				creditsWatermark.font = Paths.font('exploit/${chosenFont}.ttf');
-				scoreTxt.font = Paths.font('exploit/${chosenFont}.ttf');
-				botplayTxt.font = Paths.font('exploit/${chosenFont}.ttf');
-				if (songName != null)
-				{
-					songName.font = Paths.font('exploit/${chosenFont}.ttf');
-				}
-			}
-	}
+	
 		#if desktop
 		if (FlxG.save.data.discord) {
 		DiscordClient.changePresence(detailsText
@@ -9779,7 +9719,7 @@ if (oppM) {
 			}
 			#end
 
-			if (SONG.song.toLowerCase() == 'recursed' || FlxG.save.data.randomNoteTypes > 0 || (settingsExist && jsonSettings.recursedEffect && (FreeplayState.isaCustomSong || isaReplacedSong)))
+			if (SONG.song.toLowerCase() == 'recursed' || FlxG.save.data.randomNoteTypes > 0 || SONG.recursedEffect)
 			{
 				cancelRecursedCamTween();
 			}

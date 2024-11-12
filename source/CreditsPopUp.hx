@@ -30,7 +30,6 @@ class CreditsPopUp extends FlxSpriteGroup
 	var curHeading:SongHeading;
 	public static var songCreator:String = '';
 	var rawJsonSettings:String;
-    var jsonSettings:PlayState.Settings;
 
 	public function new(x:Float, y:Float)
 	{
@@ -39,12 +38,6 @@ class CreditsPopUp extends FlxSpriteGroup
 		add(bg);
 		var songCreatorIcon:String = '';
 		var headingPath:SongHeading = null;
-        if (FreeplayState.isaCustomSong) {
-			if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.json')) {
-				rawJsonSettings = File.getContent(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.json');
-				jsonSettings = cast Json.parse(rawJsonSettings);
-			}
-		}
 
 		switch (PlayState.SONG.song.toLowerCase())
 		{
@@ -74,10 +67,8 @@ class CreditsPopUp extends FlxSpriteGroup
 			case 'roofs':
 				songCreator = 'sibottle';
 			default:
-				if (FreeplayState.isaCustomSong) {
-					if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.json')) {			
-						songCreator = jsonSettings.songCreators;
-					}
+				if (PlayState.SONG.songCreators != null) {
+         songCreator = PlayState.SONG.songCreators;
 				}
 		}
 		switch (PlayState.storyWeek)
@@ -120,14 +111,13 @@ class CreditsPopUp extends FlxSpriteGroup
 				headingPath = {path: 'songHeadings/expungedHeading', antiAliasing: FlxG.save.data.antialiasing,
 				animation: new Animation('expunged', 'Expunged', 24, true, [false, false]), iconOffset: 0};
 			default:
-			if (FreeplayState.isaCustomSong) {
-				if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.json') && !FileSystem.exists(TitleState.modFolder + '/images/songHeadings/' + jsonSettings.songHeadings + '.xml')) {
-			headingPath = {path: 'songHeadings/' + jsonSettings.songHeadings, antiAliasing: false, iconOffset: 0};
+				if (!FileSystem.exists(TitleState.modFolder + '/images/songHeadings/' + PlayState.SONG.songHeadings + '.xml')) {
+			headingPath = {path: 'songHeadings/' + PlayState.SONG.songHeadings, antiAliasing: false, iconOffset: 0};
 				} else {
 					headingPath = {path: 'songHeadings/daveHeading', antiAliasing: false, iconOffset: 0};
 				}
 				
-		}
+		
 	}
 		switch (PlayState.SONG.song.toLowerCase())
 		{
@@ -136,13 +126,12 @@ class CreditsPopUp extends FlxSpriteGroup
 			case 'interdimensional':
 				headingPath = {path: 'songHeadings/interdimensionalHeading', antiAliasing: false, iconOffset: 0};
 			default:
-			if (FreeplayState.isaCustomSong) {
-				if (FileSystem.exists(TitleState.modFolder + '/data/charts/' + PlayState.SONG.song.toLowerCase() + '-settings.json') && !FileSystem.exists(TitleState.modFolder + '/images/songHeadings/' + jsonSettings.songHeadings + '.xml')) {
-					headingPath = {path: 'songHeadings/' + jsonSettings.songHeadings, antiAliasing: false, iconOffset: 0};
+
+				if (!FileSystem.exists(TitleState.modFolder + '/images/songHeadings/' + PlayState.SONG.songHeadings + '.xml')) {
+					headingPath = {path: 'songHeadings/' + PlayState.SONG.songHeadings, antiAliasing: false, iconOffset: 0};
 						} else {
 							headingPath = {path: 'songHeadings/daveHeading', antiAliasing: false, iconOffset: 0};
 						}
-			}
 		}
 		if (PlayState.recursedStaticWeek)
 		{
@@ -167,7 +156,7 @@ class CreditsPopUp extends FlxSpriteGroup
 			else
 			{
 				var info = headingPath.animation;
-				if (FileSystem.exists('assets/shared/images/' + headingPath.path + '.png')) {
+				if (FileSystem.exists('assets/shared/images/' + headingPath.path + '.png') ) {
 				bg.frames = Paths.getSparrowAtlas(headingPath.path);
 				bg.animation.addByPrefix(info.name, info.prefixName, info.frames, info.looped, info.flip[0], info.flip[1]);
 				bg.animation.play(info.name);

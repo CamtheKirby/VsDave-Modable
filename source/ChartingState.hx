@@ -68,6 +68,15 @@ class ChartingState extends MusicBeatState
 	var bullshitUI:FlxGroup;
 	var writingNotesText:FlxText;
 	var highlight:FlxSprite;
+	var UI_songTitle:FlxUIInputText;
+	var UI_songCreators:FlxUIInputText;
+	var UI_songHeadings:FlxUIInputText;
+	var UI_creditsTxt:FlxUIInputText;
+	var UI_dialogueMusic:FlxUIInputText;
+	var UI_intro:FlxUIInputText;
+	var UI_windowName:FlxUIInputText;
+	var UI_healthDrain:FlxUIInputText;
+	var UI_healthBarBG:FlxUIInputText;
 
 	var GRID_SIZE:Int = 40;
 
@@ -81,6 +90,7 @@ class ChartingState extends MusicBeatState
 	var _song:SwagSong;
 
 	var typingShit:FlxInputText;
+	var whosTypingShit:String;
 	/*
 	 * WILL BE THE CURRENT / LAST PLACED NOTE
 	**/
@@ -142,7 +152,18 @@ class ChartingState extends MusicBeatState
 				speed: 1,
 				mania: 0,
 				gf: "gf",
-				validScore: false
+				validScore: false,
+				songCreators: "MoldyGH",
+				songHeadings: "daveHeading",
+				creditsTxt: "The testiest song on the planet",
+				dialogueMusic: "DaveDialogue",
+				hasNoGf: false,
+				intro: "",
+				windowName: "",
+				healthDrain: "",
+				healthBarBG: "",
+				exploitationEffect: false,
+				recursedEffect: false
 			};
 		}
 
@@ -153,6 +174,7 @@ class ChartingState extends MusicBeatState
 
 		snapText = new FlxText(60,10,0,"", 14);
 		snapText.scrollFactor.set();
+		
 
 		gridBlackLine = new FlxSprite(gridBG.x + gridBG.width / 2).makeGraphic(2, Std.int(gridBG.height), FlxColor.BLACK);
 		add(gridBlackLine);
@@ -203,7 +225,8 @@ class ChartingState extends MusicBeatState
 			{name: "Song", label: 'Song Data'},
 			{name: "Section", label: 'Section Data'},
 			{name: "Note", label: 'Note Data'},
-			{name: "Assets", label: 'Assets'}
+			{name: "Assets", label: 'Assets'},
+			{name: "Settings", label: 'Settings'}
 		];
 
 		UI_box = new FlxUITabMenu(null, tabs, true);
@@ -228,8 +251,10 @@ class ChartingState extends MusicBeatState
 
 	function addSongUI():Void
 	{
-		var UI_songTitle = new FlxUIInputText(10, 10, 70, _song.song, 8);
+		UI_songTitle = new FlxUIInputText(10, 10, 70, _song.song, 8);
 		typingShit = UI_songTitle;
+		
+		
 
 		var check_voices = new FlxUICheckBox(10, 25, null, null, "Has voice track", 100);
 		check_voices.checked = _song.needsVoices;
@@ -379,6 +404,59 @@ cStage = CoolUtil.coolTextFile(Paths.txt('stageList'));
 		
 		var stageLabel = new FlxText(140,180,64,'Stage');
 
+		UI_songCreators = new FlxUIInputText(5, 30, 70, _song.songCreators, 8);
+		typingShit = UI_songCreators;
+
+		UI_songHeadings = new FlxUIInputText(UI_songCreators.x + 80, 30, 70, _song.songHeadings, 8);
+		typingShit = UI_songHeadings;
+
+		UI_creditsTxt = new FlxUIInputText(UI_songHeadings.x + 80, 30, 70, _song.creditsTxt, 8);
+		typingShit = UI_creditsTxt;
+
+		UI_dialogueMusic = new FlxUIInputText(UI_creditsTxt.x + 80, 30, 70, _song.dialogueMusic, 8);
+		typingShit = UI_dialogueMusic;
+
+		var hasNoGf = new FlxUICheckBox(5, UI_songCreators.y + 40, null, null, "Has No GF?", 100);
+		hasNoGf.checked = false;
+		hasNoGf.callback = function()
+		{
+			_song.hasNoGf = hasNoGf.checked;
+		};
+
+		UI_intro = new FlxUIInputText(hasNoGf.x + 80, UI_songCreators.y + 40, 70, _song.intro, 8);
+		typingShit = UI_intro;
+
+		UI_windowName = new FlxUIInputText(UI_intro.x + 80, UI_songCreators.y + 40, 70, _song.windowName, 8);
+		typingShit = UI_windowName;
+
+		UI_healthDrain = new FlxUIInputText(UI_windowName.x + 80, UI_songCreators.y + 40, 70, _song.healthDrain, 8);
+		typingShit = UI_healthDrain;
+
+		UI_healthBarBG = new FlxUIInputText(5, hasNoGf.y + 40, 70, _song.healthBarBG, 8);
+		typingShit = UI_healthBarBG;
+
+		var exploitationEffect = new FlxUICheckBox(UI_healthBarBG.x + 90,  hasNoGf.y + 40, null, null, "Exploitation Effect?", 100);
+		exploitationEffect.checked = false;
+		exploitationEffect.callback = function()
+		{
+			_song.exploitationEffect = exploitationEffect.checked;
+		};
+
+		var recursedEffect = new FlxUICheckBox(exploitationEffect.x + 100,  hasNoGf.y + 40, null, null, "Recursed Effect?", 100);
+		recursedEffect.checked = false;
+		recursedEffect.callback = function()
+		{
+			_song.recursedEffect = recursedEffect.checked;
+		};
+
+		var songCreatorsTxt = new FlxText(5,10,'songCreators');
+		var songHeadingsTxt = new FlxText(UI_songCreators.x + 80,10,'songHeadings');
+		var creditsTxtTxt = new FlxText(UI_songHeadings.x + 80,10,'creditsTxt');
+		var dialogueMusicTxt = new FlxText(UI_creditsTxt.x + 80,10,'dialogueMusic');
+		var introTxt = new FlxText(hasNoGf.x + 80,UI_songCreators.y + 20,'Intro');
+		var windowNameTxt = new FlxText(introTxt.x + 80,UI_songCreators.y + 20,'windowName');
+		var healthDrainTxt = new FlxText(windowNameTxt.x + 80,UI_songCreators.y + 20,'healthDrain');
+		var healthBarBGTxt = new FlxText(5,hasNoGf.y + 20,'healthBarBG');
 
 		var tab_group_song = new FlxUI(null, UI_box);
 		tab_group_song.name = "Song";
@@ -418,8 +496,31 @@ cStage = CoolUtil.coolTextFile(Paths.txt('stageList'));
 		tab_group_assets.add(player1Label);
 		tab_group_assets.add(player2Label);
 
+		var tab_group_settings = new FlxUI(null, UI_box);
+		tab_group_settings.name = "Settings";
+		tab_group_settings.add(UI_songCreators);
+		tab_group_settings.add(UI_songHeadings);
+		tab_group_settings.add(UI_creditsTxt);
+		tab_group_settings.add(UI_dialogueMusic);
+		tab_group_settings.add(hasNoGf);
+		tab_group_settings.add(UI_intro);
+		tab_group_settings.add(UI_windowName);
+		tab_group_settings.add(UI_healthDrain);
+		tab_group_settings.add(UI_healthBarBG);
+		tab_group_settings.add(exploitationEffect);
+		tab_group_settings.add(recursedEffect);
+		tab_group_settings.add(songCreatorsTxt);
+		tab_group_settings.add(songHeadingsTxt);
+		tab_group_settings.add(creditsTxtTxt);
+		tab_group_settings.add(dialogueMusicTxt);
+		tab_group_settings.add(introTxt);
+		tab_group_settings.add(windowNameTxt);
+		tab_group_settings.add(healthDrainTxt);
+		tab_group_settings.add(healthBarBGTxt);
+
 		UI_box.addGroup(tab_group_song);
 		UI_box.addGroup(tab_group_assets);
+		UI_box.addGroup(tab_group_settings);
 		UI_box.scrollFactor.set();
 
 		FlxG.camera.follow(strumLine);
@@ -539,7 +640,12 @@ cStage = CoolUtil.coolTextFile(Paths.txt('stageList'));
 		FlxG.sound.playMusic(Paths.inst(daSong), 0.6);
 
 		// WONT WORK FOR TUTORIAL OR TEST SONG!!! REDO LATER
+		if (FileSystem.exists(Paths.voicesPath(daSong, shagVoice ? "Shaggy" : ""))) {
 		vocals = new FlxSound().loadEmbedded(Paths.voices(daSong, shagVoice ? "Shaggy" : ""));
+		} else {
+		vocals = new FlxSound();
+		}
+
 		FlxG.sound.list.add(vocals);
 
 		FlxG.sound.music.pause();
@@ -727,7 +833,17 @@ cStage = CoolUtil.coolTextFile(Paths.txt('stageList'));
 			doSnapShit = !doSnapShit;
 
 		Conductor.songPosition = FlxG.sound.music.time;
-		_song.song = typingShit.text;
+
+		_song.song = UI_songTitle.text;
+		_song.songCreators = UI_songCreators.text;
+		_song.songHeadings = UI_songHeadings.text;
+		_song.creditsTxt = UI_creditsTxt.text;
+		_song.dialogueMusic = UI_dialogueMusic.text;
+		_song.intro = UI_intro.text;
+		_song.windowName = UI_windowName.text;
+		_song.healthDrain = UI_healthDrain.text;
+		_song.healthBarBG = UI_healthBarBG.text;
+		
 
 		/* var left = FlxG.keys.justPressed.ONE;
 		var down = FlxG.keys.justPressed.TWO;

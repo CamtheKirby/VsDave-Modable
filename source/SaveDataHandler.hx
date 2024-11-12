@@ -171,5 +171,8 @@ class SaveDataHandler
 
 			if (FlxG.save.data.csAllSongs == null)
 				FlxG.save.data.csAllSongs = false;
+
+			if (FlxG.save.data.darkModeWindow == null)
+				FlxG.save.data.darkModeWindow = true;
     }
 }

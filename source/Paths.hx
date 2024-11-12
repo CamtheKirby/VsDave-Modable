@@ -205,6 +205,20 @@ class Paths
 		}
 	}
 
+	inline static public function voicesPath(song:String, addon:String = "")
+		{
+			if (!FreeplayState.isaCustomSong) {
+					
+				if (FileSystem.exists(TitleState.modFolder + '/' + 'assets/songs/${(song.toLowerCase())}/Voices${(addon)}' + '.ogg')) {
+					return TitleState.modFolder + '/' + 'assets/songs/${(song.toLowerCase())}/Voices${(addon)}' + '.ogg';
+					} else {
+				return 'assets/songs/${song.toLowerCase()}/Voices${addon}.$SOUND_EXT';
+					}
+					} else {
+				return 'mods/' + TitleState.currentMod + '/songs/${(song)}/Voices${(addon)}.ogg';
+					}
+		}
+
 	inline static public function inst(song:String)
 	{
 		replaceSong = false;
@@ -225,6 +239,20 @@ class Paths
 		return inst;
 			}
 	}
+
+	inline static public function instPath(song:String, addon:String = "")
+		{
+			if (!FreeplayState.isaCustomSong) {
+					
+				if (FileSystem.exists(TitleState.modFolder + '/' + 'assets/songs/${(song.toLowerCase())}/Inst${(addon)}' + '.ogg')) {
+					return TitleState.modFolder + '/' + 'assets/songs/${(song.toLowerCase())}/Inst${(addon)}' + '.ogg';
+					} else {
+				return 'assets/songs/${song.toLowerCase()}/Inst${addon}.$SOUND_EXT';
+					}
+					} else {
+				return 'mods/' + TitleState.currentMod + '/songs/${(song)}/Inst${(addon)}.ogg';
+					}
+		}
 
 	inline static public function externmusic(song:String)
 	{

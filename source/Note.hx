@@ -201,7 +201,7 @@ asd = !musthit;
 					notePathLol = 'notes/NOTE_recursed';
 				}
 		}
-		if(PlayState.settingsExist && PlayState.jsonSettings.recursedEffect && FreeplayState.isaCustomSong) {
+		if(PlayState.SONG.recursedEffect) {
 			asd ? { 
 				if ((this.strumTime / 50) % 20 > 12 && !isSustainNote)
 				{

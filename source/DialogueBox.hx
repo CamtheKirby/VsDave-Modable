@@ -78,8 +78,8 @@ class DialogueBox extends FlxSpriteGroup
 	{
 		super();
 
-		if (PlayState.settingsExist && PlayState.jsonSettings.dialogueMusic != null) {
-			custom = PlayState.jsonSettings.dialogueMusic;
+		if ( PlayState.SONG.dialogueMusic != null) {
+			custom = PlayState.SONG.dialogueMusic;
 			} else {
 			custom = '';
 			}
@@ -122,7 +122,7 @@ class DialogueBox extends FlxSpriteGroup
 				case 'rano':
 					FlxG.sound.playMusic(Paths.music('stocknightambianceforranolol'), 0);	
 				default:
-					if (PlayState.settingsExist) {
+					if (PlayState.SONG.dialogueMusic != null && PlayState.SONG.dialogueMusic != '') {
 								if (custom == '') {
 								FlxG.sound.music.stop();
 								} else {
